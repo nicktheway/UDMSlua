@@ -5,6 +5,7 @@ using XLua;
 
 public class SimpleTest : MonoBehaviour
 {
+    private static readonly string ScriptsPath = Application.streamingAssetsPath + "/Scripts";
     private static readonly LuaEnv LuaEnv = new XLua.LuaEnv();
 
     public int ObjectId = 0;
@@ -77,7 +78,7 @@ public class SimpleTest : MonoBehaviour
 
     private void DoScript(string chunkName = "chunk")
     {
-        var filePath = Path.Combine(Application.streamingAssetsPath, ScriptPath);
+        var filePath = Path.Combine(ScriptsPath, ScriptPath);
 
         if (File.Exists(filePath))
         {
