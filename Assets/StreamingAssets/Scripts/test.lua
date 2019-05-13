@@ -20,13 +20,13 @@ function start()
 end
 
 function update()
-	local r1 = UE.Vector3.right * UE.Time.deltaTime * speed
-	local r2 = UE.Vector3.up * UE.Time.deltaTime * speedBlue
-	
+	local r = UE.Vector3.zero
 	
 	if self.ObjectId == 0 then
-		self.transform:Rotate(r1)
+		r = UE.Vector3.right * UE.Time.deltaTime * speed
 	elseif self.ObjectId == 1 then
-		self.transform:Rotate(r2)
+		r = UE.Vector3.up * UE.Time.deltaTime * speedBlue
 	end
+	
+	self.transform:Rotate(r)
 end

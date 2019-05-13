@@ -22,6 +22,7 @@ public class SimpleTest : MonoBehaviour
     private Action _luaStart;
     private Action _luaUpdate;
     private Action _luaOnDestroy;
+    private Action _luaOnAnimatorIK;
 
     // Input Callbacks
     private Action _onSpaceButtonDown;
@@ -106,6 +107,7 @@ public class SimpleTest : MonoBehaviour
         _scriptEnv.Get("start", out _luaStart);
         _scriptEnv.Get("update", out _luaUpdate);
         _scriptEnv.Get("onDestroy", out _luaOnDestroy);
+        _scriptEnv.Get("onAnimatorIK", out _luaOnAnimatorIK);
 
         _scriptEnv.Get("onSpaceButtonDown", out _onSpaceButtonDown);
     }
@@ -116,5 +118,10 @@ public class SimpleTest : MonoBehaviour
         _luaStart  = null;
         _luaUpdate = null;
         _luaOnDestroy = null;
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        _luaOnAnimatorIK?.Invoke();
     }
 }

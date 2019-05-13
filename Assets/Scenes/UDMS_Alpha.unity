@@ -558,12 +558,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1464783876 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9157767941103965259, guid: 85473c69c1b31ab4abb6edcdb522ab01,
+    type: 3}
+  m_PrefabInstance: {fileID: 6987978909089636736}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1464783878 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5282076626507572824, guid: 85473c69c1b31ab4abb6edcdb522ab01,
     type: 3}
   m_PrefabInstance: {fileID: 6987978909089636736}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1464783879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464783876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b977bd30c85b14a4b808e28f2195d677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectId: 0
+  ScriptPath: agent.lua
 --- !u!1 &1769078057
 GameObject:
   m_ObjectHideFlags: 0
