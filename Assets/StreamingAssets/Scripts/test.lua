@@ -26,6 +26,8 @@ function update()
 		r = UE.Vector3.right * UE.Time.deltaTime * speed
 	elseif self.ObjectId == 1 then
 		r = UE.Vector3.up * UE.Time.deltaTime * speedBlue
+	else
+		r = UE.Vector3.up * UE.Time.deltaTime * speedBlue
 	end
 	
 	self.transform:Rotate(r)
