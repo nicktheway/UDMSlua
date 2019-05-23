@@ -12,4 +12,6 @@ function onAnimatorIK()
 	local ikwP = wPos * (1 + math.cos(ww * frame))
 	anim:SetIKPositionWeight(UE.AvatarIKGoal.LeftHand,ikwP);
 	anim:SetIKPosition(UE.AvatarIKGoal.LeftHand, anim:GetIKPosition(UE.AvatarIKGoal.RightHand));
+	
+	ikwP = wPos * (1 + math.sin(ww * frame));
 end

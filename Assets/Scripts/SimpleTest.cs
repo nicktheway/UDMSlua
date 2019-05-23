@@ -1,12 +1,11 @@
 ﻿using System;
-using System.IO;
+using LuaScripting;
 using UnityEngine;
 using XLua;
 
 public class SimpleTest : MonoBehaviour
 {
     private static readonly string ScriptsPath = Application.streamingAssetsPath + "/Scripts";
-    private static readonly LuaEnv LuaEnv = new XLua.LuaEnv();
 
     public int ObjectId = 0;
 
@@ -15,7 +14,7 @@ public class SimpleTest : MonoBehaviour
     /// </summary>
     public string ScriptPath = "test.lua";
 
-    private readonly LuaTable _scriptEnv = LuaEnv.NewTable();
+    private readonly LuaTable _scriptEnv = LuaManager.LuaEnv.NewTable();
 
     // Unity Callbacks
     private Action _luaAwake;
@@ -29,11 +28,12 @@ public class SimpleTest : MonoBehaviour
 
     private void Awake()
     {
-        
+        LuaManager.AttachGlobalTableAsDefault(_scriptEnv);
 
         SetScriptSymbols();
 
-        DoScript();
+        //DoScript();
+        LuaManager.DoScript(ScriptPath, _scriptEnv, "LUL");
 
         LoadScriptMethods();
 
@@ -63,7 +63,7 @@ public class SimpleTest : MonoBehaviour
     private void RedoScript()
     {
         UnloadScriptMethods();
-        DoScript();
+        LuaManager.DoScript(ScriptPath, _scriptEnv, "LUL");
         LoadScriptMethods();
     }
 
@@ -72,31 +72,11 @@ public class SimpleTest : MonoBehaviour
         _luaOnDestroy?.Invoke();
 
         UnloadScriptMethods();
-
-        //LuaEnv.Dispose();
     }
 
-
-    private void DoScript(string chunkName = "chunk")
-    {
-        var filePath = Path.Combine(ScriptsPath, ScriptPath);
-
-        if (File.Exists(filePath))
-        {
-            var text = File.ReadAllText(filePath);
-
-            LuaEnv.DoString(text, chunkName, _scriptEnv);
-        }
-    }
 
     private void SetScriptSymbols()
     {
-        // Set a separate Lua environment for each script to prevent global variables and function conflicts to some extent.
-        var meta = LuaEnv.NewTable();
-        meta.Set("__index", LuaEnv.Global);
-        _scriptEnv.SetMetaTable(meta);
-        meta.Dispose();
-
         // self <-> this, like in python.
         _scriptEnv.Set("self", this);
     }
