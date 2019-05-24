@@ -15,6 +15,14 @@ function onSpaceButtonDown()
 	UE.Object.Destroy(go, 3)
 end
 
+function onAButtonDown()
+	local go = UE.GameObject.CreatePrimitive(UE.PrimitiveType.Cube)
+	go.transform.position = Members[0].transform.position + 2 * UE.Vector3.up
+	
+	Group:AddMember(go)
+	UE.Object.Destroy(go, math.random(5))
+end
+
 function start()
 	print('Lua start')
 end
@@ -30,5 +38,9 @@ function update()
 	
 	if UE.Input.GetKeyDown(UE.KeyCode.Space) then
 		onSpaceButtonDown()
+	end
+	
+	if UE.Input.GetKeyDown(UE.KeyCode.A) then
+		onAButtonDown()
 	end
 end
