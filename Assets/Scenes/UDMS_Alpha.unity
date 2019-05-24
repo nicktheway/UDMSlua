@@ -129,8 +129,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 50141810}
-  - component: {fileID: 50141809}
   - component: {fileID: 50141811}
+  - component: {fileID: 50141812}
+  - component: {fileID: 50141809}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -147,11 +148,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 50141808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b977bd30c85b14a4b808e28f2195d677, type: 3}
+  m_Script: {fileID: 11500000, guid: dd61a6eb622a66748942452c2a7dd5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectId: 0
-  ScriptPath: settings.lua
+  _managedBehaviourList: []
 --- !u!4 &50141810
 Transform:
   m_ObjectHideFlags: 0
@@ -262,6 +262,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &50141812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50141808}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e82cbe6514c0d9a47b90b5a25431e765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptPath: settings.lua
 --- !u!1 &363343506
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,20 +583,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6987978909089636736}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1464783879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1464783876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b977bd30c85b14a4b808e28f2195d677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectId: 0
-  ScriptPath: agent.lua
 --- !u!1 &1769078057
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,6 +592,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1769078058}
+  - component: {fileID: 1769078059}
   m_Layer: 0
   m_Name: Agents
   m_TagString: Untagged
@@ -620,6 +620,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1769078059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769078057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8395c2728aa8ba94c81c6564ff2263ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptPath: agent.lua
+  Members:
+  - {fileID: 1464783876}
+  - {fileID: 1920270336}
+--- !u!1 &1920270336 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 789969628041249593, guid: d90cfdcb6480e0f4e901fea1bed7de28,
+    type: 3}
+  m_PrefabInstance: {fileID: 7034765068913428016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1506097311015309 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 111414350105283865, guid: d4bd040f0494d024a8fed27b806f9643,
@@ -1049,12 +1071,12 @@ PrefabInstance:
     - target: {fileID: 789969628041249593, guid: d90cfdcb6480e0f4e901fea1bed7de28,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4372380508519788842, guid: d90cfdcb6480e0f4e901fea1bed7de28,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.719519
+      value: -2.67
       objectReference: {fileID: 0}
     - target: {fileID: 4372380508519788842, guid: d90cfdcb6480e0f4e901fea1bed7de28,
         type: 3}

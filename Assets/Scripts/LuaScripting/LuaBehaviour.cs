@@ -28,15 +28,16 @@ namespace LuaScripting
         private Action _luaOnDestroy;
         private Action _luaOnEnable;
         private Action _luaOnDisable;
-        private Action<int> _luaOnAnimatorIK;
+        
+        private IntAction _luaOnAnimatorIK;
         private Action _luaOnAnimatorMove;
         private Action _luaOnApplicationQuit;
-        private Action<Collision> _luaOnCollisionEnter;
-        private Action<Collision> _luaOnCollisionExit;
-        private Action<Collision> _luaOnCollisionStay;
-        private Action<Collider> _luaOnTriggerEnter;
-        private Action<Collider> _luaOnTriggerExit;
-        private Action<Collider> _luaOnTriggerStay;
+        private CollisionAction _luaOnCollisionEnter;
+        private CollisionAction _luaOnCollisionExit;
+        private CollisionAction _luaOnCollisionStay;
+        private ColliderAction _luaOnTriggerEnter;
+        private ColliderAction _luaOnTriggerExit;
+        private ColliderAction _luaOnTriggerStay;
 
         /// <summary>
         /// The id of the behaviour in the manager's list. Should only be set by the manager.

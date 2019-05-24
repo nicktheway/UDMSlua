@@ -1,10 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using XLua;
 
 namespace LuaScripting
 {
+    [CSharpCallLua]
+    public delegate void IntAction(int obj);
+
+    [CSharpCallLua]
+    public delegate void IntIntAction(int obj, int obj2);
+
+    [CSharpCallLua]
+    public delegate void CollisionAction(Collision collision);
+
+    [CSharpCallLua]
+    public delegate void CollisionIntAction(Collision collision, int obj);
+
+    [CSharpCallLua]
+    public delegate void ColliderAction(Collider collider);
+
+    [CSharpCallLua]
+    public delegate void ColliderIntAction(Collider collider, int obj);
+
     /// <summary>
     /// A static class managing the Lua environment of the project.
     /// </summary>
