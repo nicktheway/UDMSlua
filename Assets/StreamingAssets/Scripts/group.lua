@@ -7,7 +7,7 @@ local speedBlue = 100;
 
 function onSpaceButtonDown()
 	local go = UE.GameObject.CreatePrimitive(UE.PrimitiveType.Sphere) 
-	go.transform.position = Members[0].transform.position + UE.Vector3.up
+	go.transform.position = Members[1].transform.position + UE.Vector3.up
 	
 	local rb = go:AddComponent(typeof(UE.Rigidbody))
 	

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using XLua;
 
@@ -15,9 +16,53 @@ namespace LuaScripting
         public static readonly string ScriptsBasePath = Application.streamingAssetsPath + "/Scripts";
 
         /// <summary>
+        /// The period of the LuaEnv garbage collection in seconds.
+        /// </summary>
+        public const float GarbageCollectionInterval = 1f;
+
+        /// <summary>
         /// The project's Lua environment.
         /// </summary>
         public static readonly LuaEnv LuaEnv = new LuaEnv();
+
+        /// <summary>
+        /// A list that contains the LuaBehaviour components of the scene and calls their Update functions.
+        /// </summary>
+        public static readonly List<LuaBehaviour> RegisteredBehaviourList = new List<LuaBehaviour>();
+
+        /// <summary>
+        /// Registers a LuaBehaviour to the manager.
+        /// </summary>
+        /// <param name="behaviour">The lua behaviour.</param>
+        /// <returns>The id of the newly registered behaviour.</returns>
+        public static int RegisterBehaviour(LuaBehaviour behaviour)
+        {
+            RegisteredBehaviourList.Add(behaviour);
+
+            return RegisteredBehaviourList.Count - 1;
+        }
+
+        /// <summary>
+        /// Unregisters a LuaBehaviour from the manager.
+        /// </summary>
+        /// <param name="behaviour">The lua behaviour.</param>
+        public static void UnregisterBehaviour(LuaBehaviour behaviour)
+        {
+            // Where is the last element?
+            var lastId = RegisteredBehaviourList.Count - 1;
+
+            // If there is not only one element in the list.
+            if (lastId > 0)
+            {
+                // Overwrite the element to be removed by the last.
+                RegisteredBehaviourList[behaviour.UniqueBehaviourId] = RegisteredBehaviourList[lastId];
+                // Update its id.
+                RegisteredBehaviourList[behaviour.UniqueBehaviourId].UniqueBehaviourId = behaviour.UniqueBehaviourId;
+            }
+                
+            // Remove the last element which will be either the only element or a duplicate element.
+            RegisteredBehaviourList.RemoveAt(lastId);
+        }
 
         /// <summary>
         /// Attaches a metatable to the argument with LuaEnv.Global as the __index metamethod.

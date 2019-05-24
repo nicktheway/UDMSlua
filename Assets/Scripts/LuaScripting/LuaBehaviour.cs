@@ -19,7 +19,6 @@ namespace LuaScripting
         /// </summary>
         public readonly LuaTable LuaEnvironment = LuaManager.LuaEnv.NewTable();
 
-
         // Unity Basic Callbacks
         private Action _luaAwake;
         private Action _luaStart;
@@ -38,6 +37,11 @@ namespace LuaScripting
         private Action<Collider> _luaOnTriggerEnter;
         private Action<Collider> _luaOnTriggerExit;
         private Action<Collider> _luaOnTriggerStay;
+
+        /// <summary>
+        /// The id of the behaviour in the manager's list. Should only be set by the manager.
+        /// </summary>
+        public int UniqueBehaviourId { get; set; } = -1;
 
         /// <summary>
         /// Makes symbols available to the lua script.
@@ -140,17 +144,17 @@ namespace LuaScripting
             _luaStart?.Invoke();
         }
 
-        protected virtual void Update()
+        public virtual void OnUpdate()
         {
             _luaUpdate?.Invoke();
         }
 
-        protected virtual void FixedUpdate()
+        public virtual void OnFixedUpdate()
         {
             _luaFixedUpdate?.Invoke();
         }
 
-        protected virtual void LateUpdate()
+        public virtual void OnLateUpdate()
         {
             _luaLateUpdate?.Invoke();
         }
@@ -194,11 +198,17 @@ namespace LuaScripting
 
         protected virtual void OnDisable()
         {
+            // Unregister the LuaBehaviour to the manager.
+            LuaManager.UnregisterBehaviour(this);
+
             _luaOnDisable?.Invoke();
         }
 
         protected virtual void OnEnable()
         {
+            // Register the LuaBehaviour to the manager.
+            UniqueBehaviourId = LuaManager.RegisterBehaviour(this);
+
             _luaOnEnable?.Invoke();
         }
 
