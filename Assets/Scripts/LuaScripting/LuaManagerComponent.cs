@@ -41,9 +41,17 @@ namespace LuaScripting
         {
             Assert.AreEqual(_activeInstances, 1, "There must be only one LuaManagerComponent in the scene.");
 
+            // TODO: Separate settings to run before everything and register there/or a settings c# class singleton and binding.
+            LuaManager.SettingsLuaEnvironment = GetComponent<LuaIndividualObject>().LuaDomain.LuaEnvironment;
+            foreach (var luaBehaviour in LuaManager.RegisteredBehaviourList)
+            {
+                luaBehaviour.LuaEnvironment.Set("Settings", LuaManager.SettingsLuaEnvironment);
+            }
+
             foreach (var group in _groups)
             {
                 group.LuaStart?.Invoke();
+                group.LuaEnvironment.Set("Settings", LuaManager.SettingsLuaEnvironment);
             }
         }
 

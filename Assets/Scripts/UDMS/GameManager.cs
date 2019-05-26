@@ -1,15 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using LuaScripting;
 using SFB;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Windows;
+using XLua;
 
 namespace UDMS
 {
     public class GameManager : MonoBehaviour
     {
         public List<LuaDomain> SelectedObjects = new List<LuaDomain>();
+        
+
+        public static readonly string MusicBasePath = Application.streamingAssetsPath + "/Music";
+
+        private AudioSource _audioSource;
+
+        private void Awake()
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
 
 
         // Update is called once per frame
@@ -78,5 +91,40 @@ namespace UDMS
                 
             }
         }
+
+        public void ChooseSong()
+        {
+            var paths = StandaloneFileBrowser.OpenFilePanel("Choose a song.", MusicBasePath, "ogg", false);
+
+            if (paths.Length > 0)
+            {
+                StartCoroutine(StartSong(paths[0]));
+            }
+        }
+
+        public IEnumerator StartSong(string path)
+        {
+            using (var www = UnityWebRequestMultimedia.GetAudioClip("file://" + path, AudioType.OGGVORBIS))
+            {
+                yield return www.SendWebRequest();
+                
+                if (www.error != null)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    _audioSource.clip = DownloadHandlerAudioClip.GetContent(www);
+                    
+                    while (_audioSource.clip.loadState != AudioDataLoadState.Loaded)
+                        yield return new WaitForSeconds(0.1f);
+
+                    _audioSource.Play();
+                }
+            }
+        }
+
+   
+
     }
 }

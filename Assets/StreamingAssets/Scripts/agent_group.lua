@@ -68,5 +68,4 @@ function onElementAnimatorIK(layerIndex, id)
 	anim:SetIKPosition(UE.AvatarIKGoal.RightFoot, rightFootTarget.position);
 	anim:SetIKRotation(UE.AvatarIKGoal.RightFoot, rightFootTarget.rotation);
 	--]]
-
 end

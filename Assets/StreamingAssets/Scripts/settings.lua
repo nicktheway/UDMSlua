@@ -3,10 +3,13 @@ local UE = CS.UnityEngine
 
 -- vars --
 local qualityLevel = 5
-local volumeScale = 0.8
+local volumeScale = 0.4
 local fullScreen = false
 local resolutionWidth = 640
 local resolutionHeight = 480
+
+-- global vars, used in other scripts
+autoCamera = 1
 
 --[[ Shadows
  - UE.ShadowQuality.All

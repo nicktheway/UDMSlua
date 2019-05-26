@@ -22,6 +22,11 @@ namespace LuaScripting
 
         public abstract LuaDomain LuaDomain { get; set; }
 
+        public void RerunDomain()
+        {
+            LuaDomain.RedoLuaScript(true, true);
+        }
+
         protected abstract void OnCollisionEnter(Collision collision);
 
         protected abstract void OnCollisionExit(Collision collision);

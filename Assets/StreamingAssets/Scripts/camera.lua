@@ -2,7 +2,8 @@
 local UE = CS.UnityEngine
 
 -- vars --
-local speed = 0.5;
+local autoSpeed = 0.3
+local manualSpeed = 0.9
 local vcameras = {}
 local initialCameraId = 0
 
@@ -19,16 +20,22 @@ function awake()
 end
 
 function update()
-
+	
 	if UE.Input.GetKeyDown(UE.KeyCode.Alpha1) then
 		setActiveCamera(0)
 	elseif UE.Input.GetKeyDown(UE.KeyCode.Alpha2) then
 		setActiveCamera(1)
 	end
 	
+	
 	if activeCameraId == 0 then
-		dolly.m_PathPosition = dolly.m_PathPosition + UE.Input.GetAxis('Horizontal') * speed * UE.Time.deltaTime
+		if Settings.autoCamera == 0 then
+			dolly.m_PathPosition = dolly.m_PathPosition + UE.Input.GetAxis('Horizontal') * manualSpeed * UE.Time.deltaTime
+		else
+			dolly.m_PathPosition = dolly.m_PathPosition + autoSpeed * UE.Time.deltaTime
+		end
 	end
+	
 	
 end
 

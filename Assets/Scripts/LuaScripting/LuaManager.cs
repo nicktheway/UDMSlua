@@ -43,6 +43,8 @@ namespace LuaScripting
         /// </summary>
         public static readonly LuaEnv LuaEnv = new LuaEnv();
 
+        public static LuaTable SettingsLuaEnvironment;
+
         /// <summary>
         /// A list that contains the enabled LuaDomain components of the scene and calls their Update functions.
         /// </summary>
