@@ -40,6 +40,7 @@ function onElementAnimatorIK(layerIndex, id)
 	anim:SetIKRotationWeight(UE.AvatarIKGoal.LeftHand,ikwR);
 	anim:SetIKPosition(UE.AvatarIKGoal.LeftHand, leftHandTarget.position);
 	anim:SetIKRotation(UE.AvatarIKGoal.LeftHand, leftHandTarget.rotation);
+
 	
 	-- Right hand
 	local rightHandTarget = leftShoulders[otherId]
