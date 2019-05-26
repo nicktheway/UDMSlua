@@ -38,7 +38,7 @@ function onAnimatorIK(layerIndex)
 	
 	ikwP = wPos * (1 + math.sin(ww * UE.Time.frameCount));
 	
-	--[
+	--[[
 	-- Left foot
 	anim:SetIKPositionWeight(UE.AvatarIKGoal.LeftFoot,ikwP);
 	anim:SetIKRotationWeight(UE.AvatarIKGoal.LeftFoot,ikwR);

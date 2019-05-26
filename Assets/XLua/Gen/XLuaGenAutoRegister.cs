@@ -160,6 +160,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(XLuaTest.FooExtension), XLuaTestFooExtensionWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(LuaScripting.ClassExtensions.CinemachineExtensions), LuaScriptingClassExtensionsCinemachineExtensionsWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(Tutorial.DerivedClass.TestEnumInner), TutorialDerivedClassTestEnumInnerWrap.__Register);
         
         
@@ -202,11 +205,24 @@ namespace XLua
 	internal partial class InternalGlobals
     {
 	    
+		delegate Cinemachine.CinemachineTrackedDolly __GEN_DELEGATE0( Cinemachine.CinemachineVirtualCamera virtualCamera);
+		
 	    static InternalGlobals()
 		{
 		    extensionMethodMap = new Dictionary<Type, IEnumerable<MethodInfo>>()
 			{
 			    
+				{typeof(Cinemachine.CinemachineVirtualCamera), new List<MethodInfo>(){
+				
+				  new __GEN_DELEGATE0(LuaScripting.ClassExtensions.CinemachineExtensions.GetCinemachineTrackedDollyComponent)
+#if UNITY_WSA && !UNITY_EDITOR
+                                      .GetMethodInfo(),
+#else
+                                      .Method,
+#endif
+				
+				}},
+				
 			};
 			
 			genTryArrayGetPtr = StaticLuaCallbacks.__tryArrayGet;

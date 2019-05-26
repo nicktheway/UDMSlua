@@ -3,7 +3,6 @@ local UE = CS.UnityEngine
 
 -- vars --
 local speed = 100;
-local speedBlue = 100;
 
 function onSpaceButtonDown()
 	local go = UE.GameObject.CreatePrimitive(UE.PrimitiveType.Sphere) 
@@ -15,21 +14,18 @@ function onSpaceButtonDown()
 	UE.Object.Destroy(go, 3)
 end
 
+function awake()
+	print('test - awake')
+end
+
 function start()
-	print('Lua start')
+	print('test - start')
 end
 
 function update()
 	local r = UE.Vector3.zero
-	--[[
-	if self.ObjectId == 0 then
-		r = UE.Vector3.right * UE.Time.deltaTime * speed
-	elseif self.ObjectId == 1 then
-		r = UE.Vector3.up * UE.Time.deltaTime * speedBlue
-	else
-		r = UE.Vector3.up * UE.Time.deltaTime * speedBlue
-	end
-	]]--
-	r = UE.Vector3.right * UE.Time.deltaTime * speed
+	
+	r = UE.Vector3.up * UE.Time.deltaTime * speed
+	
 	self.transform:Rotate(r)
 end

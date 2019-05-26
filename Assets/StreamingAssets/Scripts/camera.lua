@@ -2,10 +2,41 @@
 local UE = CS.UnityEngine
 
 -- vars --
-local speed = 10;
+local speed = 0.5;
+local vcameras = {}
+local initialCameraId = 0
+
+local activeCameraId = initialCamera;
+
+local dolly = {}
+
+function awake()
+	vcameras = self:GetComponentsInChildren(typeof(CS.Cinemachine.CinemachineVirtualCamera))
+	
+	setActiveCamera(initialCameraId)
+	
+	dolly = vcameras[0]:GetCinemachineTrackedDollyComponent()
+end
 
 function update()
-	local offset = UE.Input.GetAxis('Vertical') * speed * UE.Time.deltaTime * UE.Vector3.up;
+
+	if UE.Input.GetKeyDown(UE.KeyCode.Alpha1) then
+		setActiveCamera(0)
+	elseif UE.Input.GetKeyDown(UE.KeyCode.Alpha2) then
+		setActiveCamera(1)
+	end
 	
-	self.transform.position = self.transform.position + offset;
+	if activeCameraId == 0 then
+		dolly.m_PathPosition = dolly.m_PathPosition + UE.Input.GetAxis('Horizontal') * speed * UE.Time.deltaTime
+	end
+	
+end
+
+function setActiveCamera(index)
+	for i=0, vcameras.Length - 1 do
+		vcameras[i].Priority = 10
+	end
+	
+	vcameras[index].Priority = 100
+	activeCameraId = index
 end

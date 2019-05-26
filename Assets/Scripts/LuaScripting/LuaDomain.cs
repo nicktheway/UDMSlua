@@ -18,7 +18,7 @@ namespace LuaScripting
         /// <summary>
         /// The lua table which is the environment of this LuaBehaviour. Each LuaBehaviour has a different environment.
         /// </summary>
-        public readonly LuaTable LuaEnvironment = LuaManager.LuaEnv.NewTable();
+        public LuaTable LuaEnvironment = LuaManager.LuaEnv.NewTable();
 
         /// <summary>
         /// The id of the behaviour in the manager's list. Should only be set by the manager.
@@ -106,6 +106,31 @@ namespace LuaScripting
                 LuaStart?.Invoke();
         }
 
+        /// <summary>
+        /// Runs a new lua script.
+        /// </summary>
+        /// <param name="newScriptPath">The path of the new script.</param>
+        /// <param name="combine">Should the new script run in the same environment?</param>
+        /// <param name="executeAwake">Should the awake() be executed, if there is one?</param>
+        /// <param name="executeStart">Should the start() be executed, if there is one?</param>
+        public void RunNewScript(string newScriptPath, bool combine = false,  bool executeAwake = false, bool executeStart = false)
+        {
+            ScriptPath = newScriptPath;
+            UnloadScriptSymbols();
+            if (!combine)
+            {
+                LuaEnvironment.Dispose(true);
+                LuaEnvironment = LuaManager.LuaEnv.NewTable();
+                SetEnvironmentSymbols();
+            }
+            RedoLuaScript(executeAwake, executeStart);
+        }
+
+
+        /// <summary>
+        /// Select/Deselect the objects that use this proxy.
+        /// </summary>
+        /// <param name="select"></param>
         public virtual void Select(bool select)
         {
 

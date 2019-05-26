@@ -10,6 +10,7 @@ local anims = {}
 local rightShoulders = {}
 local leftShoulders = {}
 local rightUpperLegs = {}
+local leftUpperLegs = {}
 
 function start()
 	for i=0,Members.Count - 1 do
@@ -17,6 +18,7 @@ function start()
 		rightShoulders[i] = anims[i]:GetBoneTransform(UE.HumanBodyBones.RightShoulder)
 		leftShoulders[i] = anims[i]:GetBoneTransform(UE.HumanBodyBones.LeftShoulder)
 		rightUpperLegs[i] = anims[i]:GetBoneTransform(UE.HumanBodyBones.RightUpperLeg)
+		leftUpperLegs[i] = anims[i]:GetBoneTransform(UE.HumanBodyBones.LeftUpperLeg)
 	end
 end
 
@@ -50,12 +52,21 @@ function onElementAnimatorIK(layerIndex, id)
 	anim:SetIKRotation(UE.AvatarIKGoal.RightHand, leftHandTarget.rotation);
 	
 	ikwP = wPos * (1 + math.sin(ww * UE.Time.frameCount));
-	
+	--[
 	-- Left foot
 	local leftFootTarget = rightUpperLegs[otherId]
 	anim:SetIKPositionWeight(UE.AvatarIKGoal.LeftFoot,ikwP);
 	anim:SetIKRotationWeight(UE.AvatarIKGoal.LeftFoot,ikwR);
 	anim:SetIKPosition(UE.AvatarIKGoal.LeftFoot, leftFootTarget.position);
 	anim:SetIKRotation(UE.AvatarIKGoal.LeftFoot, leftFootTarget.rotation);
+	--]]
+	--[[
+	-- Right foot
+	local rightFootTarget = leftUpperLegs[otherId]
+	anim:SetIKPositionWeight(UE.AvatarIKGoal.RightFoot,ikwP);
+	anim:SetIKRotationWeight(UE.AvatarIKGoal.RightFoot,ikwR);
+	anim:SetIKPosition(UE.AvatarIKGoal.RightFoot, rightFootTarget.position);
+	anim:SetIKRotation(UE.AvatarIKGoal.RightFoot, rightFootTarget.rotation);
+	--]]
 
 end
