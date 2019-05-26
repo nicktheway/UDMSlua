@@ -9,7 +9,7 @@ local resolutionWidth = 640
 local resolutionHeight = 480
 
 -- global vars, used in other scripts
-autoCamera = 1
+autoCamera = 0
 
 --[[ Shadows
  - UE.ShadowQuality.All

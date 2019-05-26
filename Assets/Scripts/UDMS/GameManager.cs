@@ -13,7 +13,7 @@ namespace UDMS
     public class GameManager : MonoBehaviour
     {
         public List<LuaDomain> SelectedObjects = new List<LuaDomain>();
-        
+        public GameObject UI;
 
         public static readonly string MusicBasePath = Application.streamingAssetsPath + "/Music";
 
@@ -70,6 +70,10 @@ namespace UDMS
                 ChangeScriptOnSelectedDomains(true);
             }
 
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                UI.SetActive(!UI.activeSelf);
+            }
         }
 
         private void ChangeScriptOnSelectedDomains(bool combineScripts = false)
