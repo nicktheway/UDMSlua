@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using XLua;
@@ -45,16 +44,21 @@ namespace LuaScripting
         public static readonly LuaEnv LuaEnv = new LuaEnv();
 
         /// <summary>
-        /// A list that contains the LuaBehaviour components of the scene and calls their Update functions.
+        /// A list that contains the enabled LuaDomain components of the scene and calls their Update functions.
         /// </summary>
-        public static readonly List<LuaBehaviour> RegisteredBehaviourList = new List<LuaBehaviour>();
+        public static readonly List<LuaDomain> RegisteredBehaviourList = new List<LuaDomain>();
 
         /// <summary>
-        /// Registers a LuaBehaviour to the manager.
+        /// The available lua groups.
+        /// </summary>
+        public static readonly Dictionary<string, LuaGroupDomain> LuaGroups = new Dictionary<string, LuaGroupDomain>();
+
+        /// <summary>
+        /// Registers a LuaDomain to the manager.
         /// </summary>
         /// <param name="behaviour">The lua behaviour.</param>
         /// <returns>The id of the newly registered behaviour.</returns>
-        public static int RegisterBehaviour(LuaBehaviour behaviour)
+        public static int RegisterBehaviour(LuaDomain behaviour)
         {
             RegisteredBehaviourList.Add(behaviour);
 
@@ -62,10 +66,10 @@ namespace LuaScripting
         }
 
         /// <summary>
-        /// Unregisters a LuaBehaviour from the manager.
+        /// Unregisters a LuaDomain from the manager.
         /// </summary>
         /// <param name="behaviour">The lua behaviour.</param>
-        public static void UnregisterBehaviour(LuaBehaviour behaviour)
+        public static void UnregisterBehaviour(LuaDomain behaviour)
         {
             // Where is the last element?
             var lastId = RegisteredBehaviourList.Count - 1;
@@ -81,6 +85,34 @@ namespace LuaScripting
                 
             // Remove the last element which will be either the only element or a duplicate element.
             RegisteredBehaviourList.RemoveAt(lastId);
+        }
+
+
+        /// <summary>
+        /// Adds a group domain to the group domain dictionary. Does not run the domain.
+        /// </summary>
+        /// <param name="group">The group domain to be added.</param>
+        public static void AddGroupDomain(LuaGroupDomain group)
+        {
+            if (LuaGroups.ContainsKey(group.GroupName))
+            {
+                Debug.LogError($"A group with the name {group.GroupName} already exists.");
+            }
+
+            LuaGroups.Add(group.GroupName, group);
+        }
+
+        /// <summary>
+        /// Runs a group domain.
+        /// </summary>
+        /// <param name="groupDomainName"></param>
+        public static void RunGroupDomain(string groupDomainName)
+        {
+            var luaGroup = LuaGroups[groupDomainName];
+
+            luaGroup.InitializeMemberIds();
+            luaGroup.DoScript();
+            RegisterBehaviour(luaGroup);
         }
 
         /// <summary>

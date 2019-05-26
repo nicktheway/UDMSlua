@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -7,6 +8,7 @@ namespace LuaScripting
     /// <summary>
     /// This class act like a bridge to the LuaManager class and unity callbacks.
     /// </summary>
+    [DefaultExecutionOrder(-9999)]
     public class LuaManagerComponent : MonoBehaviour
     {
         /// <summary>
@@ -16,19 +18,33 @@ namespace LuaScripting
 
         private static int _activeInstances;
 
+
+        [SerializeField] private List<LuaGroupDomain> _groups = new List<LuaGroupDomain>();
 #if UNITY_EDITOR
         // To be able to see the list on the inspector.
-        [SerializeField] private List<LuaBehaviour> _managedBehaviourList;
+        [SerializeField] private List<LuaDomain> _managedBehaviourList;
 #endif
 
         private void Awake()
         {
             _activeInstances++;
+            foreach (var group in _groups)
+            {
+                LuaManager.AddGroupDomain(group);
+                
+                LuaManager.RunGroupDomain(group.GroupName);
+                group.LuaAwake?.Invoke();
+            }
         }
 
         private void Start()
         {
             Assert.AreEqual(_activeInstances, 1, "There must be only one LuaManagerComponent in the scene.");
+
+            foreach (var group in _groups)
+            {
+                group.LuaStart?.Invoke();
+            }
         }
 
         private void Update()
@@ -36,7 +52,7 @@ namespace LuaScripting
             // Run the OnUpdate function for every LuaBehaviour in the scene.
             foreach (var luaBehaviour in LuaManager.RegisteredBehaviourList)
             {
-                luaBehaviour.OnUpdate();
+                luaBehaviour.LuaUpdate?.Invoke();
             }
 
             // Run the Lua garbage collector if needed.
@@ -57,7 +73,7 @@ namespace LuaScripting
             // Run the OnFixedUpdate function for every LuaBehaviour in the scene.
             foreach (var luaBehaviour in LuaManager.RegisteredBehaviourList)
             {
-                luaBehaviour.OnFixedUpdate();
+                luaBehaviour.LuaFixedUpdate?.Invoke();
             }
         }
 
@@ -66,7 +82,7 @@ namespace LuaScripting
             // Run the OnLateUpdate function for every LuaBehaviour in the scene.
             foreach (var luaBehaviour in LuaManager.RegisteredBehaviourList)
             {
-                luaBehaviour.OnLateUpdate();
+                luaBehaviour.LuaLateUpdate?.Invoke();
             }
         }
     }

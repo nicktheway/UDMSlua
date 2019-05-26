@@ -6,7 +6,12 @@ ModelImporter:
   - first:
       74: 1827226128182048838
     second: Take 001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: YELLOW-SAND
+    second: {fileID: 2100000, guid: 19489176865c83245a37f6206e1e9732, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

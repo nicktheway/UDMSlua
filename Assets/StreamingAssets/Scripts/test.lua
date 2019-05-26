@@ -21,7 +21,7 @@ end
 
 function update()
 	local r = UE.Vector3.zero
-	
+	--[[
 	if self.ObjectId == 0 then
 		r = UE.Vector3.right * UE.Time.deltaTime * speed
 	elseif self.ObjectId == 1 then
@@ -29,6 +29,7 @@ function update()
 	else
 		r = UE.Vector3.up * UE.Time.deltaTime * speedBlue
 	end
-	
+	]]--
+	r = UE.Vector3.right * UE.Time.deltaTime * speed
 	self.transform:Rotate(r)
 end
