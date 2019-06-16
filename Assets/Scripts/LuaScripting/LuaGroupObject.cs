@@ -5,7 +5,6 @@ namespace LuaScripting
 {
     public class LuaGroupObject : LuaGameObject
     {
-        public string GroupName = string.Empty;
         public int GroupMemberId { get; set; } = -1;
 
         private LuaGroupDomain _luaGroupScript;
@@ -13,9 +12,7 @@ namespace LuaScripting
 
         protected virtual void Awake()
         {
-            _luaGroupScript = LuaManager.LuaGroups[GroupName];
-
-            Assert.IsNotNull(_luaGroupScript, $"The is no group named {GroupName}");
+            Assert.IsNotNull(_luaGroupScript);
         }
 
         protected virtual void OnDestroy()

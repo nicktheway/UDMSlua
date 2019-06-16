@@ -1,11 +1,11 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace LuaScripting
 {
     public class LuaIndividualObject : LuaGameObject
     {
-        [SerializeField] private string _scriptPath = string.Empty;
+        [SerializeField] public string ScriptPath = string.Empty;
 
         private LuaIndividualDomain _luaIndividualScript;
 
@@ -13,8 +13,7 @@ namespace LuaScripting
 
         protected virtual void Awake()
         {
-            _luaIndividualScript = LuaIndividualDomain.NewIndividualDomain(_scriptPath, this);
-
+            Assert.IsNotNull(_luaIndividualScript);
             _luaIndividualScript.LuaAwake?.Invoke();
         }
 
@@ -25,22 +24,20 @@ namespace LuaScripting
 
         protected virtual void OnEnable()
         {
-            if (_luaIndividualScript == null)
-                _luaIndividualScript = LuaIndividualDomain.NewIndividualDomain(_scriptPath, this);
-
-            _luaIndividualScript.UniqueBehaviourId = LuaManager.RegisterBehaviour(LuaDomain);
+            _luaIndividualScript.Enabled = true;
             _luaIndividualScript.LuaOnEnable?.Invoke();
         }
 
         protected virtual void OnDisable()
         {
-            LuaManager.UnregisterBehaviour(LuaDomain);
+            _luaIndividualScript.Enabled = false;
             _luaIndividualScript.LuaOnDisable?.Invoke();
         }
 
         protected virtual void OnDestroy()
         {
             _luaIndividualScript.LuaOnDestroy?.Invoke();
+            _luaIndividualScript.Dispose();
         }
 
         protected override void OnCollisionEnter(Collision collision)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 using XLua;
 
 namespace LuaScripting
@@ -21,9 +22,19 @@ namespace LuaScripting
         public LuaTable LuaEnvironment = LuaManager.LuaEnv.NewTable();
 
         /// <summary>
-        /// The id of the behaviour in the manager's list. Should only be set by the manager.
+        /// The room this domain is assigned to.
         /// </summary>
-        public int UniqueBehaviourId { get; set; } = -1;
+        public LuaRoom DomainRoom;
+
+        /// <summary>
+        /// The id of the domain in the room's list. Should only be set by the room.
+        /// </summary>
+        public int UniqueDomainId { get; set; } = -1;
+
+        /// <summary>
+        /// The status of the domain. If true: the update functions are supposed to run.
+        /// </summary>
+        public bool Enabled { get; set; } = true;
 
         // Unity Basic Callbacks
         public Action LuaAwake;
@@ -33,6 +44,34 @@ namespace LuaScripting
         public Action LuaLateUpdate;
         public Action LuaOnDestroy;
         public Action LuaOnApplicationQuit;
+
+        /// <summary>
+        /// Make sure a domain can only be created with: NewLuaDomain function.
+        /// </summary>
+        protected LuaDomain(){}
+
+        /// <summary>
+        /// Creates a simple lua domain. Example usage: settings.
+        /// </summary>
+        /// <param name="scriptPath">The path of the domain's script.</param>
+        /// <param name="domainRoom">The room of the new domain.</param>
+        /// <returns>The created domain.</returns>
+        public static LuaDomain NewLuaDomain(string scriptPath, LuaRoom domainRoom)
+        {
+            Assert.IsNotNull(domainRoom);
+
+            var newDomain = new LuaDomain{ScriptPath = scriptPath};
+            newDomain.AssignRoom(domainRoom);
+
+            return newDomain;
+        }
+
+        public void AssignRoom(LuaRoom domainRoom)
+        {
+            DomainRoom = domainRoom;
+            LuaEnvironment.Set("Settings", domainRoom.RoomSettings.LuaEnvironment);
+            UniqueDomainId = domainRoom.RegisterDomain(this);
+        }
 
         /// <summary>
         /// Loads symbols from the lua script. Override to load more symbols. Don't forget to call the base function too.
@@ -135,6 +174,14 @@ namespace LuaScripting
         {
 
         }
+
+        /// <summary>
+        /// Disposes this lua domain.
+        /// </summary>
+        public virtual void Dispose()
+        {
+            LuaEnvironment.Dispose();
+        }
     }
 
     /// <summary>
@@ -159,15 +206,24 @@ namespace LuaScripting
         public ColliderAction LuaOnTriggerStay;
 
         /// <summary>
+        /// Make sure a new individual domain can only be created by the NewIndividualDomain function.
+        /// </summary>
+        protected LuaIndividualDomain(){}
+
+        /// <summary>
         /// Creates a new individual domain.
         /// </summary>
         /// <param name="scriptPath">The script's path of the domain.</param>
         /// <param name="attachedObject">The game object inside the domain.</param>
+        /// <param name="domainRoom">The room of this domain.</param>
         /// <returns></returns>
-        public static LuaIndividualDomain NewIndividualDomain(string scriptPath, LuaIndividualObject attachedObject)
+        public static LuaIndividualDomain NewIndividualDomain(string scriptPath, LuaIndividualObject attachedObject, LuaRoom domainRoom)
         {
+            Assert.IsNotNull(domainRoom);
+
             var luaIndividualScript = new LuaIndividualDomain {ScriptPath = scriptPath , LuaIndividualObject = attachedObject};
 
+            luaIndividualScript.AssignRoom(domainRoom);
             luaIndividualScript.DoScript();
 
             return luaIndividualScript;
@@ -230,6 +286,17 @@ namespace LuaScripting
         {
             LuaIndividualObject.Select(select);
         }
+
+        /// <summary>
+        /// Disposes this lua domain. Destroys the managed object.
+        /// </summary>
+        public override void Dispose()
+        {
+            // TODO: test this.
+            LuaIndividualObject?.Destroy();
+
+            base.Dispose();
+        }
     }
 
     /// <summary>
@@ -288,14 +355,25 @@ namespace LuaScripting
         }
 
         /// <summary>
+        /// Make sure a new group domain can only be created by the NewGroupDomain function.
+        /// </summary>
+        protected LuaGroupDomain(){}
+
+        /// <summary>
         /// Creates a new group domain. Does not run the domain.
         /// </summary>
         /// <param name="groupName">A name for the group.</param>
         /// <param name="scriptPath">Group's script path in ScriptsBasePath folder.</param>
-        /// <param name="members">The group domain's members.</param>
-        public static void NewGroupDomain(string groupName, string scriptPath, List<LuaGroupObject> members)
+        /// <param name="domainRoom">The room of this domain.</param>
+        /// <returns>A new group domain with the name and the script specified.</returns>
+        public static LuaGroupDomain NewGroupDomain(string groupName, string scriptPath, LuaRoom domainRoom)
         {
-            var luaGroupScript = new LuaGroupDomain {ScriptPath = scriptPath, Members = members};
+            Assert.IsNotNull(domainRoom);
+
+            var newDomain = new LuaGroupDomain {GroupName = groupName, ScriptPath = scriptPath};
+            newDomain.AssignRoom(domainRoom);
+
+            return newDomain;
         }
 
         /// <summary>
@@ -305,8 +383,11 @@ namespace LuaScripting
         /// <returns>The member's id of the new member.</returns>
         public int AddMember(LuaGroupObject newMember)
         {
-            Members.Add(newMember);
+            newMember.LuaDomain = this;
+            newMember.GroupMemberId = Members.Count;
 
+            Members.Add(newMember);
+            
             return Members.Count - 1;
         }
 
@@ -344,11 +425,15 @@ namespace LuaScripting
             return Members.IndexOf(luaGroupMember);
         }
 
-        public void InitializeMemberIds()
+        /// <summary>
+        /// Initializes members that are already in the group. (eg. assigned through the Unity's inspector)
+        /// </summary>
+        public void InitializeMembers()
         {
             for (var i = 0; i < Members.Count; i++)
             {
                 Members[i].GroupMemberId = i;
+                Members[i].LuaDomain = this;
             }
         }
 
@@ -362,6 +447,19 @@ namespace LuaScripting
             {
                 member.Select(select);
             }
+        }
+
+        /// <summary>
+        /// Disposes this lua domain. Destroys the managed objects.
+        /// </summary>
+        public override void Dispose()
+        {
+            foreach (var luaGroupObject in Members)
+            {
+                luaGroupObject.Destroy();
+            }
+
+            base.Dispose();
         }
     }
 }

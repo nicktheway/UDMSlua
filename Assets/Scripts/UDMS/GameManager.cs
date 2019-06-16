@@ -1,12 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using LuaScripting;
 using SFB;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Windows;
-using XLua;
 
 namespace UDMS
 {
@@ -61,6 +58,15 @@ namespace UDMS
                 }
             }
 
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                foreach (var selectedDomain in SelectedObjects)
+                {
+                    selectedDomain.Dispose();
+                }
+                SelectedObjects.Clear();
+            }
+
             if (Input.GetKeyDown(KeyCode.S) && SelectedObjects.Count > 0)
             {
                 ChangeScriptOnSelectedDomains();
@@ -73,6 +79,11 @@ namespace UDMS
             if (Input.GetKeyDown(KeyCode.M))
             {
                 UI.SetActive(!UI.activeSelf);
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                LuaManager.DisposeTheLuaEnv();
             }
         }
 

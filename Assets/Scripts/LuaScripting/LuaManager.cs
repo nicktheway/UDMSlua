@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using XLua;
 
@@ -43,80 +42,6 @@ namespace LuaScripting
         /// </summary>
         public static readonly LuaEnv LuaEnv = new LuaEnv();
 
-        public static LuaTable SettingsLuaEnvironment;
-
-        /// <summary>
-        /// A list that contains the enabled LuaDomain components of the scene and calls their Update functions.
-        /// </summary>
-        public static readonly List<LuaDomain> RegisteredBehaviourList = new List<LuaDomain>();
-
-        /// <summary>
-        /// The available lua groups.
-        /// </summary>
-        public static readonly Dictionary<string, LuaGroupDomain> LuaGroups = new Dictionary<string, LuaGroupDomain>();
-
-        /// <summary>
-        /// Registers a LuaDomain to the manager.
-        /// </summary>
-        /// <param name="behaviour">The lua behaviour.</param>
-        /// <returns>The id of the newly registered behaviour.</returns>
-        public static int RegisterBehaviour(LuaDomain behaviour)
-        {
-            RegisteredBehaviourList.Add(behaviour);
-
-            return RegisteredBehaviourList.Count - 1;
-        }
-
-        /// <summary>
-        /// Unregisters a LuaDomain from the manager.
-        /// </summary>
-        /// <param name="behaviour">The lua behaviour.</param>
-        public static void UnregisterBehaviour(LuaDomain behaviour)
-        {
-            // Where is the last element?
-            var lastId = RegisteredBehaviourList.Count - 1;
-
-            // If there is not only one element in the list.
-            if (lastId > 0)
-            {
-                // Overwrite the element to be removed by the last.
-                RegisteredBehaviourList[behaviour.UniqueBehaviourId] = RegisteredBehaviourList[lastId];
-                // Update its id.
-                RegisteredBehaviourList[behaviour.UniqueBehaviourId].UniqueBehaviourId = behaviour.UniqueBehaviourId;
-            }
-                
-            // Remove the last element which will be either the only element or a duplicate element.
-            RegisteredBehaviourList.RemoveAt(lastId);
-        }
-
-
-        /// <summary>
-        /// Adds a group domain to the group domain dictionary. Does not run the domain.
-        /// </summary>
-        /// <param name="group">The group domain to be added.</param>
-        public static void AddGroupDomain(LuaGroupDomain group)
-        {
-            if (LuaGroups.ContainsKey(group.GroupName))
-            {
-                Debug.LogError($"A group with the name {group.GroupName} already exists.");
-            }
-
-            LuaGroups.Add(group.GroupName, group);
-        }
-
-        /// <summary>
-        /// Runs a group domain.
-        /// </summary>
-        /// <param name="groupDomainName"></param>
-        public static void RunGroupDomain(string groupDomainName)
-        {
-            var luaGroup = LuaGroups[groupDomainName];
-
-            luaGroup.InitializeMemberIds();
-            luaGroup.DoScript();
-            RegisterBehaviour(luaGroup);
-        }
-
         /// <summary>
         /// Attaches a metatable to the argument with LuaEnv.Global as the __index metamethod.
         /// </summary>
@@ -125,7 +50,7 @@ namespace LuaScripting
         /// 
         /// The __index metamethod's table provides default keys that are used when accessing a key that is not in the table.
         ///
-        /// Therefore, by defining this metatable is something like setting the all the keys that are inside LuaEnv.Global.
+        /// Therefore, by defining this metatable is something like setting all the keys that are inside LuaEnv.Global.
         /// Alternatively, you can set only the keys you want without the metatable as it is shown bellow:
         /// 
         /// LuaEnv.Global.Get("CS", out LuaTable cs);
@@ -180,6 +105,8 @@ namespace LuaScripting
         /// </summary>
         public static void DisposeTheLuaEnv()
         {
+            // TODO: Dispose the rooms.
+            
             LuaEnv.Dispose();
         }
     }

@@ -27,6 +27,11 @@ namespace LuaScripting
             LuaDomain.RedoLuaScript(true, true);
         }
 
+        public void Destroy()
+        {
+            Destroy(gameObject);
+        }
+
         protected abstract void OnCollisionEnter(Collision collision);
 
         protected abstract void OnCollisionExit(Collision collision);
@@ -42,6 +47,5 @@ namespace LuaScripting
         protected abstract void OnAnimatorIK(int layerIndex);
 
         protected abstract void OnAnimatorMove();
-
     }
 }
