@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ namespace LuaScripting
     /// <summary>
     /// A class to use for loading/unloading assets.
     /// </summary>
-    public class AssetManager : MonoBehaviour
+    public static class AssetManager
     {
         public static readonly string AssetBundlesPath = Path.Combine(Application.streamingAssetsPath, "AssetBundles");
 
@@ -24,7 +23,7 @@ namespace LuaScripting
         /// <param name="assetName">The name of the asset inside the asset bundle.</param>
         /// <param name="assetBundle">The name of the asset bundle inside the AssetBundlePath.</param>
         /// <returns></returns>
-        public T LoadAsset<T>(string assetName, string assetBundle) where T : Object
+        public static T LoadAsset<T>(string assetName, string assetBundle) where T : Object
         {
             if (!LoadedAssetBundles.ContainsKey(assetBundle))
             {
@@ -38,7 +37,7 @@ namespace LuaScripting
         /// Loads an asset bundle.
         /// </summary>
         /// <param name="assetBundleName">The name of the asset bundle inside the AssetBundlePath.</param>
-        public void LoadAssetBundle(string assetBundleName)
+        public static void LoadAssetBundle(string assetBundleName)
         {
             var myLoadedAssetBundle = AssetBundle.LoadFromFile(Path.Combine(AssetBundlesPath, assetBundleName));
 
@@ -56,7 +55,7 @@ namespace LuaScripting
         /// </summary>
         /// <param name="assetBundleName">The name of the asset bundle inside the AssetBundlePath.</param>
         /// <param name="unloadAllLoadedObjects"></param>
-        public void UnloadAssetBundle(string assetBundleName, bool unloadAllLoadedObjects = true)
+        public static void UnloadAssetBundle(string assetBundleName, bool unloadAllLoadedObjects = true)
         {
             if (LoadedAssetBundles.TryGetValue(assetBundleName, out var assetBundle))
             {
@@ -73,7 +72,7 @@ namespace LuaScripting
         /// Unloads all loaded asset bundles.
         /// </summary>
         /// <param name="unloadAllLoadedObjects"></param>
-        public void UnloadAllAssetBundles(bool unloadAllLoadedObjects = true)
+        public static void UnloadAllAssetBundles(bool unloadAllLoadedObjects = true)
         {
             foreach (var keyValuePair in LoadedAssetBundles)
             {
@@ -83,6 +82,8 @@ namespace LuaScripting
             LoadedAssetBundles.Clear();
         }
 
+
+#if false
         /// <summary>
         /// NOT TESTED YET.
         /// </summary>
@@ -90,7 +91,7 @@ namespace LuaScripting
         /// <param name="assetName">The name of the asset inside the asset bundle.</param>
         /// <param name="assetBundle">The name of the asset bundle inside the AssetBundlePath.</param>
         /// <returns></returns>
-        public IEnumerator InstantiateObjectAsync<T>(string assetName, string assetBundle) where T : Object
+        public static IEnumerator InstantiateObjectAsync<T>(string assetName, string assetBundle) where T : Object
         {
             if (!LoadedAssetBundles.ContainsKey(assetBundle))
             {
@@ -125,5 +126,6 @@ namespace LuaScripting
             
             LoadedAssetBundles.Add(assetBundleName, myLoadedAssetBundle);
         }
+#endif
     }
 }

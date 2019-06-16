@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine.Assertions;
 using XLua;
 
@@ -53,23 +54,30 @@ namespace LuaScripting
         /// <summary>
         /// Creates a simple lua domain. Example usage: settings.
         /// </summary>
-        /// <param name="scriptPath">The path of the domain's script.</param>
+        /// <param name="scriptPath">The path of the domain's script inside the room.</param>
         /// <param name="domainRoom">The room of the new domain.</param>
+        /// <param name="passSettings">Should the room settings be available in the domain's script?</param>
         /// <returns>The created domain.</returns>
-        public static LuaDomain NewLuaDomain(string scriptPath, LuaRoom domainRoom)
+        public static LuaDomain NewLuaDomain(string scriptPath, LuaRoom domainRoom, bool passSettings = true)
         {
             Assert.IsNotNull(domainRoom);
 
-            var newDomain = new LuaDomain{ScriptPath = scriptPath};
-            newDomain.AssignRoom(domainRoom);
+            var newDomain = new LuaDomain{ScriptPath = Path.Combine(domainRoom.RoomName, scriptPath)};
+            newDomain.AssignRoom(domainRoom, passSettings);
 
             return newDomain;
         }
 
-        public void AssignRoom(LuaRoom domainRoom)
+        /// <summary>
+        /// Assigns a room to the domain.
+        /// </summary>
+        /// <param name="domainRoom">The room.</param>
+        /// <param name="passSettings">Should the room settings be available in the domain's script?</param>
+        public void AssignRoom(LuaRoom domainRoom, bool passSettings = true)
         {
             DomainRoom = domainRoom;
-            LuaEnvironment.Set("Settings", domainRoom.RoomSettings.LuaEnvironment);
+            if (passSettings)
+                LuaEnvironment.Set("Settings", domainRoom.RoomSettings.LuaEnvironment);
             UniqueDomainId = domainRoom.RegisterDomain(this);
         }
 
@@ -113,11 +121,15 @@ namespace LuaScripting
         /// <summary>
         /// Executes the Lua script inside the environment and loads the script's symbols.
         /// </summary>
-        public virtual void DoScript()
+        /// <param name="insideTheRoom">Should the script be run inside the room's path?</param>
+        public virtual void DoScript(bool insideTheRoom = true)
         {
             SetEnvironmentSymbols();
 
-            LuaManager.DoScript(ScriptPath, LuaEnvironment, ScriptPath);
+            if (insideTheRoom) 
+                DomainRoom.RunScriptInRoom(ScriptPath, LuaEnvironment, ScriptPath);
+            else
+                LuaManager.DoScript(ScriptPath, LuaEnvironment, ScriptPath);
 
             LoadScriptSymbols();
         }
@@ -128,12 +140,16 @@ namespace LuaScripting
         /// </summary>
         /// <param name="executeAwake">Should the awake() be executed, if there is one?</param>
         /// <param name="executeStart">Should the start() be executed, if there is one?</param>
-        public void RedoLuaScript(bool executeAwake = false, bool executeStart = false)
+        /// <param name="insideTheRoom">Should the script be run inside the room's path?</param>
+        public void RedoLuaScript(bool executeAwake = false, bool executeStart = false, bool insideTheRoom = true)
         {
             UnloadScriptSymbols();
 
             // Runs the script within the LuaEnvironment.
-            LuaManager.DoScript(ScriptPath, LuaEnvironment, ScriptPath);
+            if (insideTheRoom) 
+                DomainRoom.RunScriptInRoom(ScriptPath, LuaEnvironment, ScriptPath);
+            else
+                LuaManager.DoScript(ScriptPath, LuaEnvironment, ScriptPath);
 
             // Gets the script's symbols.
             LoadScriptSymbols();
@@ -152,7 +168,8 @@ namespace LuaScripting
         /// <param name="combine">Should the new script run in the same environment?</param>
         /// <param name="executeAwake">Should the awake() be executed, if there is one?</param>
         /// <param name="executeStart">Should the start() be executed, if there is one?</param>
-        public void RunNewScript(string newScriptPath, bool combine = false,  bool executeAwake = false, bool executeStart = false)
+        /// <param name="insideTheRoom">Should the script be run inside the room's path?</param>
+        public void RunNewScript(string newScriptPath, bool combine = false,  bool executeAwake = false, bool executeStart = false, bool insideTheRoom = true)
         {
             ScriptPath = newScriptPath;
             UnloadScriptSymbols();
@@ -162,7 +179,7 @@ namespace LuaScripting
                 LuaEnvironment = LuaManager.LuaEnv.NewTable();
                 SetEnvironmentSymbols();
             }
-            RedoLuaScript(executeAwake, executeStart);
+            RedoLuaScript(executeAwake, executeStart, insideTheRoom);
         }
 
 
@@ -213,7 +230,7 @@ namespace LuaScripting
         /// <summary>
         /// Creates a new individual domain.
         /// </summary>
-        /// <param name="scriptPath">The script's path of the domain.</param>
+        /// <param name="scriptPath">The script's path of the domain in the room's folder.</param>
         /// <param name="attachedObject">The game object inside the domain.</param>
         /// <param name="domainRoom">The room of this domain.</param>
         /// <returns></returns>
@@ -221,7 +238,7 @@ namespace LuaScripting
         {
             Assert.IsNotNull(domainRoom);
 
-            var luaIndividualScript = new LuaIndividualDomain {ScriptPath = scriptPath , LuaIndividualObject = attachedObject};
+            var luaIndividualScript = new LuaIndividualDomain {ScriptPath = scriptPath, LuaIndividualObject = attachedObject};
 
             luaIndividualScript.AssignRoom(domainRoom);
             luaIndividualScript.DoScript();
@@ -363,7 +380,7 @@ namespace LuaScripting
         /// Creates a new group domain. Does not run the domain.
         /// </summary>
         /// <param name="groupName">A name for the group.</param>
-        /// <param name="scriptPath">Group's script path in ScriptsBasePath folder.</param>
+        /// <param name="scriptPath">Group's script path in the room's folder.</param>
         /// <param name="domainRoom">The room of this domain.</param>
         /// <returns>A new group domain with the name and the script specified.</returns>
         public static LuaGroupDomain NewGroupDomain(string groupName, string scriptPath, LuaRoom domainRoom)

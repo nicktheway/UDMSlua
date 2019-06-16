@@ -3,13 +3,10 @@ local UE = CS.UnityEngine
 
 -- vars --
 local qualityLevel = 5
-local volumeScale = 0.4
+local volumeScale = 0.2
 local fullScreen = false
 local resolutionWidth = 640
 local resolutionHeight = 480
-
--- global vars, used in other scripts
-autoCamera = 0
 
 --[[ Shadows
  - UE.ShadowQuality.All
@@ -23,7 +20,7 @@ local preferredRefreshRate = 20
 
 function applySettings()
 	-- Sound
-	self:GetComponent(typeof(UE.AudioSource)).volume = volumeScale
+	Audio.volume = volumeScale
 	
 	-- Graphics
 	UE.Screen.SetResolution(resolutionWidth, resolutionHeight, fullScreen, preferredRefreshRate)

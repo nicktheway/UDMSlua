@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using LuaScripting;
 using SFB;
 using UnityEngine;
 using UnityEngine.Networking;
+using XLua;
 
 namespace UDMS
 {
+    [DefaultExecutionOrder(-99999)]
     public class GameManager : MonoBehaviour
     {
         public List<LuaDomain> SelectedObjects = new List<LuaDomain>();
@@ -16,11 +19,33 @@ namespace UDMS
 
         private AudioSource _audioSource;
 
+        /// <summary>
+        /// The table with the game's global settings.
+        /// </summary>
+        public LuaTable GameSettings = LuaManager.LuaEnv.NewTable();
+
+        public LuaRoom ActiveLuaRoom;
+
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
+            DontDestroyOnLoad(gameObject);
+
+            PrepareGameSettingsSymbols();
+            ApplyGameSettings();
         }
 
+        private void PrepareGameSettingsSymbols()
+        {
+            LuaManager.AttachGlobalTableAsDefault(GameSettings);
+            GameSettings.Set("self", gameObject);
+            GameSettings.Set("Audio", _audioSource);
+        }
+
+        public void ApplyGameSettings()
+        {
+            LuaManager.DoScript("gameSettings.lua", GameSettings, "gameSettings.lua");
+        }
 
         // Update is called once per frame
         private void Update()
@@ -85,6 +110,11 @@ namespace UDMS
             {
                 LuaManager.DisposeTheLuaEnv();
             }
+
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                GetComponent<LuaRoom>().InstantiateIndividualGameObject("grandpa Variant", "models/lpfamily", "agent_alone.lua");
+            }
         }
 
         private void ChangeScriptOnSelectedDomains(bool combineScripts = false)
@@ -100,7 +130,7 @@ namespace UDMS
 
                     foreach (var selectedDomain in SelectedObjects)
                     {
-                        selectedDomain.RunNewScript(shortPath, combineScripts, !combineScripts, true);
+                        selectedDomain.RunNewScript(shortPath, combineScripts, !combineScripts, true, false);
                     }
                 }
                 

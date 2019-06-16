@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using XLua;
@@ -31,11 +32,6 @@ namespace LuaScripting
         /// </summary>
         public readonly List<LuaDomain> RegisteredDomains = new List<LuaDomain>();
 
-#if UNITY_EDITOR
-        // For inspector debugging.
-        public List<LuaDomain> _registeredDomains;
-#endif
-
         /// <summary>
         /// The available lua groups in the room.
         /// </summary>
@@ -46,54 +42,56 @@ namespace LuaScripting
         /// </summary>
         [SerializeField] private List<LuaGroupDomain> _groups = new List<LuaGroupDomain>();
 
-        public void CreateLuaGameObject()
-        {
+#if UNITY_EDITOR
+        // For inspector debugging.
+        public List<LuaDomain> _registeredDomains;
+#endif
 
-        }
+        private bool _roomSetUp;
 
-        public void RerunRoomSettings()
-        {
-            RoomSettings.RedoLuaScript(true, true);
-        }
-
-        private void Awake()
+        /// <summary>
+        /// Used to set up a new room.
+        /// </summary>
+        public void SetUpRoom()
         {
             // Set the room's script path.
             RoomScriptPath = Path.Combine(LuaManager.ScriptsBasePath, RoomName);
 
             // Create the settings domain and run the script.
-            RoomSettings = LuaDomain.NewLuaDomain(Path.Combine(RoomScriptPath, "settings.lua"), this);
-            RoomSettings.LuaEnvironment.Set("self", gameObject);
+            LoadRoomSettings();
+
+            // Run the setUpRoom function to set up the scene.
+            RoomSettings.LuaEnvironment.Get("setUp", out Action setUpRoom);
+            setUpRoom?.Invoke();
+
+            _roomSetUp = true;
+        }
+
+        private void Awake()
+        {
+            // The room might be already set up if instantiated by the GameManager.
+            if (!_roomSetUp)
+                SetUpRoom();
+
+            InitializeInspectorDefinedObjects();
+        }
+
+        /// <summary>
+        /// Creates the room's settings domain and runs the settings.lua script.
+        /// </summary>
+        private void LoadRoomSettings()
+        {
+            RoomSettings = LuaDomain.NewLuaDomain(Path.Combine(RoomScriptPath, "settings.lua"), this, false);
+            RoomSettings.LuaEnvironment.Set("room", this);
             RoomSettings.DoScript();
+        }
 
-            // Create the group domains specified in the inspector.
-            foreach (var group in _groups)
-            {
-                group.AssignRoom(this);
-                AddGroupDomain(group);
-                RunGroupDomain(group.GroupName);
-            }
-
-            // Create/Assign the domain of each individual lua object.
-            // TODO: remove find, do it with a pattern.
-            foreach (var luaGameObject in FindObjectsOfType<LuaGameObject>())
-            {
-                if (luaGameObject is LuaIndividualObject luaIndividualObject)
-                {
-                    luaIndividualObject.LuaDomain =
-                        LuaIndividualDomain.NewIndividualDomain(luaIndividualObject.ScriptPath, luaIndividualObject, this);
-
-                    luaIndividualObject.LuaDomain.Enabled = luaIndividualObject.enabled;
-
-                    luaIndividualObject.LuaDomain.AssignRoom(this);
-                }
-            }
-
-            // Add, run and call the awake() for all the groups.
-            foreach (var groupKeyValuePair in Groups)
-            {
-                groupKeyValuePair.Value.LuaAwake?.Invoke();
-            }
+        /// <summary>
+        /// Reruns the room's settings.
+        /// </summary>
+        public void RerunRoomSettings()
+        {
+            RoomSettings.RedoLuaScript(true, true);
         }
 
         private void Start()
@@ -226,5 +224,83 @@ namespace LuaScripting
         {
             LuaManager.DoScript(Path.Combine(RoomScriptPath, path), environment, debugName);
         }
+
+                /// <summary>
+        /// Instantiates a prefab from an AssetBundle with and individual domain inside this room.
+        /// </summary>
+        /// <param name="objectName">The prefab's name inside the asset bundle.</param>
+        /// <param name="bundleName">The Asset Bundle's name.</param>
+        /// <param name="scriptPath">The script that will drive this object.</param>
+        /// <returns>The instantiated game object.</returns>
+        public GameObject InstantiateIndividualGameObject(string objectName, string bundleName, string scriptPath)
+        {
+            var go = AssetManager.LoadAsset<GameObject>(objectName, bundleName);
+
+            return go ? InstantiateIndividualGameObject(go, scriptPath) : null;
+        }
+
+        /// <summary>
+        /// Instantiates a prefab with an individual domain inside this room.
+        /// </summary>
+        /// <param name="prefab">The prefab to instantiate.</param>
+        /// <param name="scriptPath">The script that will drive this object.</param>
+        /// <returns>Tne instantiated object.</returns>
+        public GameObject InstantiateIndividualGameObject(GameObject prefab, string scriptPath)
+        {
+            // Set the prefab inactive so that Instantiate function won't call Awake()/OnEnable()
+            prefab.SetActive(false);
+
+            // Instantiate.
+            var instantiatedGameObject = Instantiate(prefab);
+
+            // Add the individual lua object component.
+            var luaIndividualObject = instantiatedGameObject.AddComponent<LuaIndividualObject>();
+            
+            // Create a domain for it.
+            luaIndividualObject.LuaDomain = LuaIndividualDomain.NewIndividualDomain(scriptPath, luaIndividualObject, this);
+
+            // Set the script path to view in the inspector.
+            luaIndividualObject.ScriptPath = scriptPath;
+
+            // Set the instantiated object active.
+            instantiatedGameObject.SetActive(true);
+
+            return instantiatedGameObject;
+        }
+
+        /// <summary>
+        /// This method is needed in order to properly initialize all the lua domains and game objects that are
+        /// defined in the inspector and not through scripting.
+        /// </summary>
+        private void InitializeInspectorDefinedObjects()
+        {
+            // Create the group domains specified in the inspector.
+            foreach (var group in _groups)
+            {
+                group.AssignRoom(this);
+                AddGroupDomain(group);
+                RunGroupDomain(group.GroupName);
+            }
+
+            // Create/Assign the domain of each individual lua object.
+            // TODO: remove find, do it with a pattern.
+            foreach (var luaGameObject in FindObjectsOfType<LuaGameObject>())
+            {
+                if (luaGameObject is LuaIndividualObject luaIndividualObject)
+                {
+                    luaIndividualObject.LuaDomain =
+                        LuaIndividualDomain.NewIndividualDomain(luaIndividualObject.ScriptPath, luaIndividualObject, this);
+
+                    luaIndividualObject.LuaDomain.Enabled = luaIndividualObject.enabled;
+                }
+            }
+
+            // Add, run and call the awake() for all the groups.
+            foreach (var groupKeyValuePair in Groups)
+            {
+                groupKeyValuePair.Value.LuaAwake?.Invoke();
+            }
+        }
+
     }
 }
