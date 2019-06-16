@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using TMPro;
 using UnityEngine;
 using XLua;
 
@@ -9,6 +8,7 @@ namespace LuaScripting
     /// <summary>
     /// LuaRoom is a class that sets up a Scene and manages LuaDomains inside the scene.
     /// </summary>
+    [DefaultExecutionOrder(-1000)]
     public class LuaRoom : MonoBehaviour
     {
         public string RoomName = string.Empty;
