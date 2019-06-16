@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using XLua;
 
 namespace LuaScripting
 {
@@ -51,7 +52,6 @@ namespace LuaScripting
             foreach (var group in _groups)
             {
                 group.LuaStart?.Invoke();
-                group.LuaEnvironment.Set("Settings", LuaManager.SettingsLuaEnvironment);
             }
         }
 
