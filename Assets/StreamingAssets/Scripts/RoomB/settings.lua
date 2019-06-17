@@ -34,8 +34,8 @@ function setUp()
 	print('Room set up')
 	--UE.SceneManager:LoadScene(scene, UE.LoadSceneMode.Additive)
 	--UE.SceneManagement.MoveGameObjectToScene	
-	local grandpa = room:InstantiateIndividualGameObject('grandpa Variant', 'models/lpfamily', 'agent_alone.lua')
-	grandpa.transform.position = UE.Vector3.zero
+	local grandma = room:InstantiateIndividualGameObject('grandma Variant', 'models/lpfamily', 'agent_alone.lua')
+	grandma.transform.position = UE.Vector3.zero
 end
 
 -- Everytime the script is reloaded the settings are applied.

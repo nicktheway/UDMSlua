@@ -8,8 +8,8 @@ local resolutionWidth = 640
 local resolutionHeight = 480
 
 -- global vars, used in other scripts
-autoCamera = 0
-scene = 'RoomA'
+autoCamera = 1
+scene = 'SampleScene'
 
 --[[ Shadows
  - UE.ShadowQuality.All
@@ -31,11 +31,7 @@ function applySettings()
 end
 
 function setUp()
-	print('Room set up')
-	--UE.SceneManager:LoadScene(scene, UE.LoadSceneMode.Additive)
-	--UE.SceneManagement.MoveGameObjectToScene	
-	local grandpa = room:InstantiateIndividualGameObject('grandpa Variant', 'models/lpfamily', 'agent_alone.lua')
-	grandpa.transform.position = UE.Vector3.zero
+
 end
 
 -- Everytime the script is reloaded the settings are applied.

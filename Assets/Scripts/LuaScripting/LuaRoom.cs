@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using XLua;
 
 namespace LuaScripting
@@ -37,10 +39,7 @@ namespace LuaScripting
         /// </summary>
         public readonly Dictionary<string, LuaGroupDomain> Groups = new Dictionary<string, LuaGroupDomain>();
 
-        /// <summary>
-        /// List for adding groups via the inspector.
-        /// </summary>
-        [SerializeField] private List<LuaGroupDomain> _groups = new List<LuaGroupDomain>();
+
 
 #if UNITY_EDITOR
         // For inspector debugging.
@@ -60,11 +59,25 @@ namespace LuaScripting
             // Create the settings domain and run the script.
             LoadRoomSettings();
 
+            // Load room's scene.
+            SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
+            SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetSceneByName(SceneName));
+
             // Run the setUpRoom function to set up the scene.
             RoomSettings.LuaEnvironment.Get("setUp", out Action setUpRoom);
             setUpRoom?.Invoke();
 
             _roomSetUp = true;
+        }
+
+        public IEnumerator Activate()
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            if (this == null || gameObject == null)
+                yield break;
+
+            gameObject.SetActive(true);
         }
 
         private void Awake()
@@ -74,6 +87,12 @@ namespace LuaScripting
                 SetUpRoom();
 
             InitializeInspectorDefinedObjects();
+
+            // Add, run and call the awake() for all the groups.
+            foreach (var groupKeyValuePair in Groups)
+            {
+                groupKeyValuePair.Value.LuaAwake?.Invoke();
+            }
         }
 
         /// <summary>
@@ -84,6 +103,8 @@ namespace LuaScripting
             RoomSettings = LuaDomain.NewLuaDomain(Path.Combine(RoomScriptPath, "settings.lua"), this, false);
             RoomSettings.LuaEnvironment.Set("room", this);
             RoomSettings.DoScript();
+
+            RoomSettings.LuaEnvironment.Get("scene", out SceneName);
         }
 
         /// <summary>
@@ -251,7 +272,8 @@ namespace LuaScripting
             prefab.SetActive(false);
 
             // Instantiate.
-            var instantiatedGameObject = Instantiate(prefab);
+            var instantiatedGameObject = Instantiate(prefab, transform);
+            instantiatedGameObject.transform.SetParent(null);
 
             // Add the individual lua object component.
             var luaIndividualObject = instantiatedGameObject.AddComponent<LuaIndividualObject>();
@@ -274,33 +296,33 @@ namespace LuaScripting
         /// </summary>
         private void InitializeInspectorDefinedObjects()
         {
-            // Create the group domains specified in the inspector.
-            foreach (var group in _groups)
+            foreach (var luaRoomPreset in FindObjectsOfType<LuaRoomPresets>())
             {
-                group.AssignRoom(this);
-                AddGroupDomain(group);
-                RunGroupDomain(group.GroupName);
-            }
+                // Create the group domains specified in the inspector.
+                foreach (var group in luaRoomPreset.Groups)
+                {
+                    group.AssignRoom(this);
+                    AddGroupDomain(group);
+                    RunGroupDomain(group.GroupName);
+                }
 
-            // Create/Assign the domain of each individual lua object.
-            // TODO: remove find, do it with a pattern.
-            foreach (var luaGameObject in FindObjectsOfType<LuaGameObject>())
-            {
-                if (luaGameObject is LuaIndividualObject luaIndividualObject)
+                // Create/Assign the domain of each individual lua object.
+                foreach (var luaIndividualObject in luaRoomPreset.Individuals)
                 {
                     luaIndividualObject.LuaDomain =
                         LuaIndividualDomain.NewIndividualDomain(luaIndividualObject.ScriptPath, luaIndividualObject, this);
 
                     luaIndividualObject.LuaDomain.Enabled = luaIndividualObject.enabled;
                 }
-            }
 
-            // Add, run and call the awake() for all the groups.
-            foreach (var groupKeyValuePair in Groups)
-            {
-                groupKeyValuePair.Value.LuaAwake?.Invoke();
+                luaRoomPreset.ResetActiveState();
+                luaRoomPreset.AssignRoom(this);
             }
         }
 
+        public void Dispose()
+        {
+            // TODO: dispose everything inside the room.
+        }
     }
 }

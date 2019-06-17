@@ -5,6 +5,7 @@ using LuaScripting;
 using SFB;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using XLua;
 
 namespace UDMS
@@ -25,6 +26,7 @@ namespace UDMS
         public LuaTable GameSettings = LuaManager.LuaEnv.NewTable();
 
         public LuaRoom ActiveLuaRoom;
+        private string _newRoomName;
 
         private void Awake()
         {
@@ -115,6 +117,11 @@ namespace UDMS
             {
                 GetComponent<LuaRoom>().InstantiateIndividualGameObject("grandpa Variant", "models/lpfamily", "agent_alone.lua");
             }
+
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                ChooseRoom();
+            }
         }
 
         private void ChangeScriptOnSelectedDomains(bool combineScripts = false)
@@ -135,6 +142,49 @@ namespace UDMS
                 }
                 
             }
+        }
+
+        public void ChooseRoom()
+        {
+            var paths = StandaloneFileBrowser.OpenFolderPanel("", LuaManager.ScriptsBasePath, false);
+
+            if (paths.Length > 0)
+            {
+                var path = paths[0];
+
+                var shortPath = path.Replace('\\', '/');
+                shortPath = shortPath.Replace(LuaManager.ScriptsBasePath, "").TrimStart('/');
+
+                _newRoomName = shortPath;
+
+                if (ActiveLuaRoom != null)
+                {
+                    StartCoroutine(UnloadScene(ActiveLuaRoom.SceneName));
+                }
+                else
+                {
+                    OnPreviousSceneUnloaded(SceneManager.GetSceneByName(_newRoomName));
+                }
+            }
+        }
+
+        private IEnumerator UnloadScene(string sceneName)
+        {
+            yield return SceneManager.UnloadSceneAsync(sceneName);
+
+            OnPreviousSceneUnloaded(SceneManager.GetSceneByName(_newRoomName));
+        }
+
+        private void OnPreviousSceneUnloaded(Scene scene)
+        {
+            var roomObject = new GameObject("LuaRoom");
+            roomObject.SetActive(false);
+            var luaRoom = roomObject.AddComponent<LuaRoom>();
+            luaRoom.RoomName = _newRoomName;
+            luaRoom.SetUpRoom();
+            ActiveLuaRoom = luaRoom;
+                
+            StartCoroutine(luaRoom.Activate());
         }
 
         public void ChooseSong()
