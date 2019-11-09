@@ -128,12 +128,18 @@ namespace UDMS
         {
             var paths = StandaloneFileBrowser.OpenFilePanel("", LuaManager.ScriptsBasePath, "lua", combineScripts);
 
-            if (paths.Length > 0)
+            if (paths.Length > 0 && paths[0].Length > 0)
             {
                 foreach (var path in paths)
                 {
                     var shortPath = path.Replace('\\', '/');
-                    shortPath = shortPath.Replace(LuaManager.ScriptsBasePath, "").TrimStart('/');
+                    var basePathPos = shortPath.IndexOf(LuaManager.ScriptsBasePath, System.StringComparison.Ordinal);
+                    if (basePathPos == -1)
+                    {
+                        Debug.LogError($"Invalid room path: {path}. All the rooms must be inside: {LuaManager.ScriptsBasePath}");
+                        return;
+                    }
+                    shortPath = shortPath.Substring(basePathPos + LuaManager.ScriptsBasePath.Length).Trim(new char[] { '/' });
 
                     foreach (var selectedDomain in SelectedObjects)
                     {
@@ -207,7 +213,7 @@ namespace UDMS
 
         public IEnumerator StartSong(string path)
         {
-            using (var www = UnityWebRequestMultimedia.GetAudioClip("file://" + path, AudioType.OGGVORBIS))
+            using (var www = UnityWebRequestMultimedia.GetAudioClip(path.StartsWith("file://", System.StringComparison.Ordinal) ? path : "file://" + path, AudioType.OGGVORBIS))
             {
                 yield return www.SendWebRequest();
                 
