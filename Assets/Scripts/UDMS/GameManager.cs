@@ -148,12 +148,20 @@ namespace UDMS
         {
             var paths = StandaloneFileBrowser.OpenFolderPanel("", LuaManager.ScriptsBasePath, false);
 
-            if (paths.Length > 0)
+            if (paths.Length > 0 && paths[0].Length > 0)
             {
                 var path = paths[0];
 
+
                 var shortPath = path.Replace('\\', '/');
-                shortPath = shortPath.Replace(LuaManager.ScriptsBasePath, "").TrimStart('/');
+                var basePathPos = shortPath.IndexOf(LuaManager.ScriptsBasePath, System.StringComparison.Ordinal);
+                if (basePathPos == -1)
+                {
+                    Debug.LogError($"Invalid room path: {path}. All the rooms must be inside: {LuaManager.ScriptsBasePath}");
+                    return;
+                }
+
+                shortPath = shortPath.Substring(basePathPos + LuaManager.ScriptsBasePath.Length).Trim(new char[] { '/' });
 
                 _newRoomName = shortPath;
 
