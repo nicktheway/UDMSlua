@@ -30,6 +30,11 @@ namespace LuaScripting
         [HideInInspector] public LuaDomain RoomSettings;
 
         /// <summary>
+        /// The room has access to the global music functions
+        /// </summary>
+        public Action<string> PlayMusicGlobal;
+
+        /// <summary>
         /// A list that contains the registered LuaDomains of the room.
         /// </summary>
         public readonly List<LuaDomain> RegisteredDomains = new List<LuaDomain>();
@@ -102,6 +107,7 @@ namespace LuaScripting
         {
             RoomSettings = LuaDomain.NewLuaDomain(Path.Combine(RoomScriptPath, "settings.lua"), this, false);
             RoomSettings.LuaEnvironment.Set("room", this);
+            RoomSettings.LuaEnvironment.Set("setMusic", PlayMusicGlobal);
             RoomSettings.DoScript();
 
             RoomSettings.LuaEnvironment.Get("scene", out SceneName);
@@ -246,7 +252,7 @@ namespace LuaScripting
             LuaManager.DoScript(Path.Combine(RoomScriptPath, path), environment, debugName);
         }
 
-                /// <summary>
+        /// <summary>
         /// Instantiates a prefab from an AssetBundle with and individual domain inside this room.
         /// </summary>
         /// <param name="objectName">The prefab's name inside the asset bundle.</param>
@@ -288,6 +294,67 @@ namespace LuaScripting
             instantiatedGameObject.SetActive(true);
 
             return instantiatedGameObject;
+        }
+
+        /// <summary>
+        /// Instantiates a group of prefabs from an AssetBundle within a group domain inside this room.
+        /// </summary>
+        /// <param name="objectName">The prefab's name inside the asset bundle.</param>
+        /// <param name="bundleName">The Asset Bundle's name.</param>
+        /// <param name="membersCount">The number of members in the group.</param>
+        /// <param name="groupName">The name of the group.</param>
+        /// <param name="scriptPath">The script that will drive this group.</param>
+        /// <returns></returns>
+        public LuaGroupDomain InstantiateGroup(string objectName, string bundleName, int membersCount, string groupName, string scriptPath)
+        {
+            var go = AssetManager.LoadAsset<GameObject>(objectName, bundleName);
+
+            return go ? InstantiateGroup(go, membersCount, groupName, scriptPath) : null;
+        }
+
+        /// <summary>
+        /// Instantiates a prefab membersCount times within a group domain inside this room.
+        /// </summary>
+        /// <param name="prefab">The prefab to instantiate.</param>
+        /// <param name="membersCount">The number of members in the group.</param>
+        /// <param name="groupName">The name of the group.</param>
+        /// <param name="scriptPath">The script that will drive this group.</param>
+        /// <returns>The newly created group domain.</returns>
+        public LuaGroupDomain InstantiateGroup(GameObject prefab, int membersCount, string groupName, string scriptPath)
+        {
+            // Set the prefab inactive so that Instantiate function won't call Awake()/OnEnable()
+            prefab.SetActive(false);
+
+            var groupDomain = LuaGroupDomain.NewGroupDomain(groupName, scriptPath, this);
+            var members = new List<GameObject>(membersCount);
+
+            // Create a parent object for the group members and put it under the room.
+            var parent = new GameObject(groupName);
+            parent.transform.SetParent(transform);
+            
+            for (var i = 0; i < membersCount; i++)
+            {
+                // Instantiate.
+                var instantiatedGameObject = Instantiate(prefab, transform);
+                instantiatedGameObject.transform.SetParent(parent.transform);
+
+                var luaGroupObject = instantiatedGameObject.AddComponent<LuaGroupObject>();
+                
+                groupDomain.AddMember(luaGroupObject);
+
+                members.Add(instantiatedGameObject);
+            }
+
+            // After all the members have been instantiated activate them.
+            foreach (var member in members)
+            {
+                member.SetActive(true);
+            }
+
+            AddGroupDomain(groupDomain);
+            groupDomain.DoScript();
+
+            return groupDomain;
         }
 
         /// <summary>

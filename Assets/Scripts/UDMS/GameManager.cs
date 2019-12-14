@@ -18,6 +18,7 @@ namespace UDMS
 
         public static readonly string MusicBasePath = Application.streamingAssetsPath + "/Music";
 
+
         private AudioSource _audioSource;
 
         /// <summary>
@@ -115,7 +116,7 @@ namespace UDMS
 
             if (Input.GetKeyDown(KeyCode.O))
             {
-                GetComponent<LuaRoom>().InstantiateIndividualGameObject("grandpa Variant", "models/lpfamily", "agent_alone.lua");
+                ActiveLuaRoom.InstantiateIndividualGameObject("grandpa Variant", "models/lpfamily", "agent_alone.lua");
             }
 
             if (Input.GetKeyDown(KeyCode.K))
@@ -195,6 +196,7 @@ namespace UDMS
             roomObject.SetActive(false);
             var luaRoom = roomObject.AddComponent<LuaRoom>();
             luaRoom.RoomName = _newRoomName;
+            luaRoom.PlayMusicGlobal = PlaySong;
             luaRoom.SetUpRoom();
             ActiveLuaRoom = luaRoom;
                 
@@ -207,8 +209,13 @@ namespace UDMS
 
             if (paths.Length > 0)
             {
-                StartCoroutine(StartSong(paths[0]));
+                PlaySong(paths[0]);
             }
+        }
+
+        public void PlaySong(string path)
+        {
+            StartCoroutine(StartSong(Path.Combine(MusicBasePath, path)));
         }
 
         public IEnumerator StartSong(string path)
