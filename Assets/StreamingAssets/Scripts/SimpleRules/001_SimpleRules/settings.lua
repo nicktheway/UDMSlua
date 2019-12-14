@@ -22,8 +22,6 @@ local shadows = UE.ShadowQuality.All
 local preferredRefreshRate = 20
 
 function applySettings()
-	-- Audio --
-	setMusic('./MusicArchiveOrg/029_-_03_-_Tribal.ogg')
 	-- Graphics
 	UE.Screen.SetResolution(resolutionWidth, resolutionHeight, fullScreen, preferredRefreshRate)
 	UE.QualitySettings.SetQualityLevel(qualityLevel)
@@ -32,10 +30,11 @@ function applySettings()
 end
 
 function setUp()
-	print('Room set up')
+	setMusic('MusicArchiveOrg/D_SMILEZ_-_02_-_Blinded_in_Sweet_Realism.ogg')
+
 	--UE.SceneManager:LoadScene(scene, UE.LoadSceneMode.Additive)
 	--UE.SceneManagement.MoveGameObjectToScene	
-	local group = room:InstantiateGroup('grandpa Variant', 'models/lpfamily', 3, 'grandpas', 'groupaa.lua')
+	local group = room:InstantiateGroup('grandpa Variant', 'models/lpfamily', 3, 'grandpas', 'group.lua')
 	for i = 0, group.Members.Count - 1 do
 		group.Members[i].transform.position = UE.Vector3(i * 10, 0, 0)
 	end
