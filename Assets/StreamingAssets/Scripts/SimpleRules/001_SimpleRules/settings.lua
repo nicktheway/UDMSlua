@@ -35,9 +35,6 @@ function setUp()
 	--UE.SceneManager:LoadScene(scene, UE.LoadSceneMode.Additive)
 	--UE.SceneManagement.MoveGameObjectToScene	
 	local group = room:InstantiateGroup('grandpa Variant', 'models/lpfamily', 3, 'grandpas', 'group.lua')
-	for i = 0, group.Members.Count - 1 do
-		group.Members[i].transform.position = UE.Vector3(i * 10, 0, 0)
-	end
 end
 
 -- Everytime the script is reloaded the settings are applied.
