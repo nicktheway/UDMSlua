@@ -7,7 +7,7 @@ local rand = UE.Random.Range
 
 local anims = {}
 
-local clip1 = 'Crouch Walk02'
+local clip1 = 'Sneak Walk1'
 local clip2 = 'Jazz Dancing01'
 local randomClips = {'Jazz Dancing01', 'Jazz Dancing02', 'Jazz Dancing03', 'Jazz Dancing04'}
 

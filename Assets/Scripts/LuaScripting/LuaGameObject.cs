@@ -2,7 +2,7 @@
 
 namespace LuaScripting
 {
-    public abstract class LuaGameObject : MonoBehaviour
+    public abstract partial class LuaGameObject : MonoBehaviour
     {
         private bool _selected;
 
