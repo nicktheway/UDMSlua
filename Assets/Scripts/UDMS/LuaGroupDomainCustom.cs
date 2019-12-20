@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace LuaScripting
@@ -82,6 +83,27 @@ namespace LuaScripting
             }
 
             return hoodMemberCount > 0 ? hoodCenter / hoodMemberCount : hoodCenter;
+        }
+
+        /// <summary>
+        /// Finds the agents inside a circle.
+        /// </summary>
+        /// <param name="center">The circle's center.</param>
+        /// <param name="radius">The circle's radius.</param>
+        /// <returns>A list of agent ids.</returns>
+        public List<int> GetMemberIdsInCircle(Vector3 center, float radius)
+        {
+            var idsList = new List<int>();
+
+            for (var i = 0; i < Members.Count; i++)
+            {
+                if (Vector3.SqrMagnitude(Members[i].transform.position - center) <= radius * radius)
+                {
+                    idsList.Add(i);
+                }
+            }
+
+            return idsList;
         }
     }
 }
