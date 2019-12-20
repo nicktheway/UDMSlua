@@ -199,13 +199,29 @@ namespace LuaScripting
         {
             LuaEnvironment.Dispose();
         }
+
+        /// <summary>
+        /// Called every frame before the update function runs.
+        /// </summary>
+        public virtual void BeforeUpdateActions()
+        {
+
+        }
+
+        /// <summary>
+        /// Called every frame after the late update function runs. Useful for reseting flags, etc.
+        /// </summary>
+        public virtual void AfterLateUpdateActions()
+        {
+
+        }
     }
 
     /// <summary>
     /// A lua domain for an individual object.
     /// </summary>
     [Serializable]
-    public class LuaIndividualDomain : LuaDomain
+    public partial class LuaIndividualDomain : LuaDomain
     {
         [NonSerialized] public LuaIndividualObject LuaIndividualObject;
 
@@ -320,7 +336,7 @@ namespace LuaScripting
     /// A lua domain that is shared between a group of objects.
     /// </summary>
     [Serializable]
-    public class LuaGroupDomain : LuaDomain
+    public partial class LuaGroupDomain : LuaDomain
     {
         public string GroupName = string.Empty;
         public List<LuaGroupObject> Members = new List<LuaGroupObject>();

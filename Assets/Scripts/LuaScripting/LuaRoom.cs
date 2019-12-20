@@ -137,7 +137,10 @@ namespace LuaScripting
             foreach (var luaDomain in RegisteredDomains)
             {
                 if (luaDomain.Enabled)
+                {
+                    luaDomain.BeforeUpdateActions();
                     luaDomain.LuaUpdate?.Invoke();
+                }  
             }
 
 #if UNITY_EDITOR
@@ -161,7 +164,10 @@ namespace LuaScripting
             foreach (var luaDomain in RegisteredDomains)
             {
                 if (luaDomain.Enabled)
+                {
                     luaDomain.LuaLateUpdate?.Invoke();
+                    luaDomain.AfterLateUpdateActions();
+                }
             }
         }
 
