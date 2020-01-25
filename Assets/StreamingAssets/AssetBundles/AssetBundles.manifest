@@ -1,7 +1,10 @@
 ManifestFileVersion: 0
-CRC: 3771629589
+CRC: 3952194914
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: models/lpfamily
+      Dependencies: {}
+    Info_1:
+      Name: models/main
       Dependencies: {}
