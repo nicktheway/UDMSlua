@@ -34,7 +34,7 @@ function setUp()
 
 	--UE.SceneManager:LoadScene(scene, UE.LoadSceneMode.Additive)
 	--UE.SceneManagement.MoveGameObjectToScene	
-	local group = room:InstantiateGroup('grandpa Variant', 'models/lpfamily', 10, 'grandpas', 'group.lua')
+	local group = room:InstantiateGroup('MvnPuppet', 'models/main', 10, 'MvnPuppets', 'group.lua')
 end
 
 -- Everytime the script is reloaded the settings are applied.
