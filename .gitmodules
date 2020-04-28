@@ -1,0 +1,3 @@
+[submodule "xLua"]
+	path = xLua
+	url = git@github.com:nicktheway/xLua.git
