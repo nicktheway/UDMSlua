@@ -5,6 +5,7 @@ namespace LuaScripting
     public abstract partial class LuaGameObject : MonoBehaviour
     {
         private bool _selected;
+        private Color _initialColor;
 
         public void Select(bool select)
         {
@@ -12,11 +13,13 @@ namespace LuaScripting
 
             if (select)
             {
-                GetComponentInChildren<Renderer>().material.color = Color.red;
+                var renderer = GetComponentInChildren<Renderer>();
+                _initialColor = renderer.material.color;
+                renderer.material.color = Color.red;
             }
             else
             {
-                GetComponentInChildren<Renderer>().material.color = Color.white;
+                GetComponentInChildren<Renderer>().material.color = _initialColor;
             }
         }
 
