@@ -23,7 +23,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100002, guid: 6fe3ec98bd3fe3e49b88674d486974a1, type: 3}
       propertyPath: m_Name
-      value: Neo
+      value: NeoMan
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 6fe3ec98bd3fe3e49b88674d486974a1, type: 3}
       propertyPath: m_LocalPosition.x

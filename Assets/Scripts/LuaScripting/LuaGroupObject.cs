@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
+using System.Collections.Generic;
+using XLua;
 
 namespace LuaScripting
 {
+    [LuaCallCSharp]
     public class LuaGroupObject : LuaGameObject
     {
         public int GroupMemberId { get; set; } = -1;
+        public List<int> Neighbours = new List<int>();
 
         private LuaGroupDomain _luaGroupScript;
         public override LuaDomain LuaDomain { get => _luaGroupScript; set => _luaGroupScript = (LuaGroupDomain) value; }

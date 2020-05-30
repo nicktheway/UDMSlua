@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
+using XLua;
 
 namespace LuaScripting
 {
+    [LuaCallCSharp]
     public class LuaIndividualObject : LuaGameObject
     {
         // The path here is usefull for the inspector initialized objects.

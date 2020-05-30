@@ -65,6 +65,9 @@
 		<type fullname="XLuaTest.Foo2Child" preserve="all"/>
 		<type fullname="XLuaTest.Foo" preserve="all"/>
 		<type fullname="XLuaTest.FooExtension" preserve="all"/>
+		<type fullname="LuaScripting.LuaGameObject" preserve="all"/>
+		<type fullname="LuaScripting.LuaGroupObject" preserve="all"/>
+		<type fullname="LuaScripting.LuaIndividualObject" preserve="all"/>
 		<type fullname="LuaScripting.ClassExtensions.CinemachineExtensions" preserve="all"/>
 		<type fullname="Tutorial.DerivedClass+TestEnumInner" preserve="all"/>
 		

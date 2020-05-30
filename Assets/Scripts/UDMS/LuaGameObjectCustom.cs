@@ -8,11 +8,12 @@ namespace LuaScripting
     /// </summary>
     public abstract partial class LuaGameObject : MonoBehaviour
     {
+        public int State = 0;
         public bool TurnToMoveDir;
+        public bool ColorState;
 
         private Vector3 _framePos;
         private Vector3 _displacement;
-
 
         public void BeforeUpdateActions()
         {
@@ -23,6 +24,12 @@ namespace LuaScripting
         {
             _displacement = transform.position - _framePos;
             if (TurnToMoveDir) TurnToDirSoft(_displacement, 10);
+            if (TextMeshComponent && _showTextMeshObject) TextMeshComponent.transform.rotation = Camera.main.transform.rotation;
+            if (ColorState) 
+            {
+                if (State == 1) SetColor(0, 1, 0);
+                else ClearColor();
+            }
         }
 
         public void MoveUp(float distance)

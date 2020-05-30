@@ -160,14 +160,25 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(XLuaTest.FooExtension), XLuaTestFooExtensionWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(LuaScripting.LuaGameObject), LuaScriptingLuaGameObjectWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(LuaScripting.LuaGroupObject), LuaScriptingLuaGroupObjectWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(LuaScripting.LuaIndividualObject), LuaScriptingLuaIndividualObjectWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(LuaScripting.ClassExtensions.CinemachineExtensions), LuaScriptingClassExtensionsCinemachineExtensionsWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(Tutorial.DerivedClass.TestEnumInner), TutorialDerivedClassTestEnumInnerWrap.__Register);
         
-        
-        
         }
+        
+        
+        
+        
         
         static void Init(LuaEnv luaenv, ObjectTranslator translator)
         {

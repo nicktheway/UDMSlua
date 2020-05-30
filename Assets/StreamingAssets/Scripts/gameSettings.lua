@@ -22,6 +22,10 @@ function applySettings()
 	-- Sound
 	Audio.volume = volumeScale
 	
+	-- Frame Rate
+	UE.Application.targetFrameRate = 30
+	UE.QualitySettings.vSyncCount = 0
+	
 	-- Graphics
 	UE.Screen.SetResolution(resolutionWidth, resolutionHeight, fullScreen, preferredRefreshRate)
 	UE.QualitySettings.SetQualityLevel(qualityLevel)

@@ -77,6 +77,24 @@ namespace UDMS
                     }
                 }
             }
+            else if (Input.GetMouseButton(1))
+            {
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
+                if (Physics.Raycast(ray, out var hit))
+                {
+                    var objectHit = hit.transform;
+
+                    var luaGroupObject = objectHit.GetComponent<LuaGroupObject>();
+                    if (luaGroupObject)
+                    {
+                        if (luaGroupObject.LuaDomain is LuaGroupDomain luaGroupDomain)
+                        {
+                            luaGroupDomain.HighlightNeigbours(luaGroupObject.GroupMemberId);
+                        }
+                    }
+                }
+            }
 
             if (Input.GetKeyUp(KeyCode.R))
             {

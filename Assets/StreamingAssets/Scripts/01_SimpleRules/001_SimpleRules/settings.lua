@@ -25,6 +25,8 @@ function applySettings()
 	-- Graphics
 	UE.Screen.SetResolution(resolutionWidth, resolutionHeight, fullScreen, preferredRefreshRate)
 	UE.QualitySettings.SetQualityLevel(qualityLevel)
+	UE.Application.targetFrameRate = 30
+	UE.QualitySettings.vSyncCount = 0
 	
 	UE.QualitySettings.shadows = shadows
 end

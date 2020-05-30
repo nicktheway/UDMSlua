@@ -21,11 +21,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 5831f52a0c022b540b31ca0837e53923,
+    - target: {fileID: -6057140222963153312, guid: 5831f52a0c022b540b31ca0837e53923,
         type: 3}
-      propertyPath: m_Name
-      value: Robot Kyle
-      objectReference: {fileID: 0}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 22945217124ece1429c15f9d137bf747, type: 2}
     - target: {fileID: -4216859302048453862, guid: 5831f52a0c022b540b31ca0837e53923,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -81,11 +81,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 5831f52a0c022b540b31ca0837e53923,
+    - target: {fileID: -927199367670048503, guid: 5831f52a0c022b540b31ca0837e53923,
         type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 22945217124ece1429c15f9d137bf747, type: 2}
+      propertyPath: m_Name
+      value: Robot Kyle Variant
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5831f52a0c022b540b31ca0837e53923, type: 3}
 --- !u!1 &215754384238184585 stripped
