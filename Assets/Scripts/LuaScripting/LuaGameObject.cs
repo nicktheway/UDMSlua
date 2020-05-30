@@ -28,6 +28,7 @@ namespace LuaScripting
 
         public void ToggleTextMeshObject(bool show)
         {
+            if (!_textMeshComponent && !show) return;
             TextMeshComponent.gameObject.SetActive(show);
             _showTextMeshObject = show;
         }

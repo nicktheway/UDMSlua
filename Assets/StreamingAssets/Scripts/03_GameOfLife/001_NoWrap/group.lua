@@ -6,6 +6,7 @@ local floor = UE.Mathf.FloorToInt
 local rand = UE.Random.Range
 
 local anims = {}
+local transforms = {}
 
 local clip1 = 'Sneak Walk1'
 local clip2 = 'Jazz Dancing01'
@@ -23,10 +24,10 @@ local TIME = 0
 function start()
     for i=0,Nagn - 1 do
         anims[i] = Members[i]:GetComponent(typeof(UE.Animator))
+		transforms[i] = Members[i].transform
 		Members[i].ColorState = true
 		if i % 2 == 0 then
 			Members[i].State = 1
-			Members[i]:MoveUp(2)
 		else
 			Members[i].State = 0
 		end
@@ -37,19 +38,19 @@ function start()
     end
 	--]]
 	
-	Group:ToGridFormation(4, UE.Vector3(0, 0, 0), 2, 2)
-	Group:RegisterGridNeighbours(4)
-	Group:ToggleIndices(true)
+	Group:ToGridFormation(10, UE.Vector3(-5, 0, -5), 1, 1)
+	Group:RegisterGridNeighbours(10)
+	Group:ToggleIndices(false)
 end
 
 function update()
     local nclipId = floor(rand(1, 4.99))
     for i=0,Nagn-1 do
         individualMove(i, nclipId)
-    end
+	end
     TIME = TIME + 1
 	
-	if TIME % 200 == 0 then
+	if TIME % 80 == 0 then
 		Group:UpdateStates('gameoflife', 'B2S1')
 	end
 end
@@ -60,7 +61,7 @@ end
 
 function individualMove(agentId, nclipId)
     local myAnim = anims[agentId]
-    local transform = Members[agentId].transform
+    local transform = transforms[agentId]
 
     if TIME%T0==T1 then 
         myAnim:CrossFade(clip1, NormTransDur);     -- animation clips change at fixed times.

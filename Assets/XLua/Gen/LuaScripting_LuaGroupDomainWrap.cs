@@ -588,8 +588,9 @@ namespace XLua.CSObjectWrap
             
                 
                 {
+                    bool _show = LuaAPI.lua_toboolean(L, 2);
                     
-                    gen_to_be_invoked.ToggleIndices(  );
+                    gen_to_be_invoked.ToggleIndices( _show );
                     
                     
                     

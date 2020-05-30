@@ -145,6 +145,7 @@ namespace LuaScripting
 
             for (var i = 0; i < maxId; i++)
             {
+                Members[i].Neighbours = new List<int>(8);
                 var row = i / gridColumns;
                 var column = i % gridColumns;
                 for (var k = -1; k < 2; k++) 
@@ -186,12 +187,17 @@ namespace LuaScripting
                         bornList.Add(int.Parse(capture.ToString()));
                     }
                 }
+                var states = new List<int>(Members.Count);
+                foreach (var member in Members)
+                {
+                    states.Add(member.State);
+                }
                 foreach (var member in Members)
                 {
                     var activeNeigbours = 0;
                     foreach (var id in member.Neighbours)
                     {
-                        if (Members[id].State != 0) 
+                        if (states[id] != 0) 
                         {
                             activeNeigbours++;
                         }
@@ -205,8 +211,6 @@ namespace LuaScripting
                         member.State = 0;
                     }
                 }
-                Debug.Log("Born list: " + bornList.Count);
-                Debug.Log("Survive list: " + surviveList.Count);
             }
             else
             {
@@ -217,12 +221,13 @@ namespace LuaScripting
         /// <summary>
         /// Shows/Hides the index of each member. Useful for debugging.
         /// </summary>
-        public void ToggleIndices()
+        /// <param name="show">Show the members' ids.</param>
+        public void ToggleIndices(bool show)
         {
             foreach(var member in Members)
             {
-                member.ToggleTextMeshObject(true);
-                member.SetText(member.GroupMemberId.ToString());
+                member.ToggleTextMeshObject(show);
+                if (show) member.SetText(member.GroupMemberId.ToString());
             }
         }
 

@@ -221,6 +221,7 @@ namespace LuaScripting
     /// A lua domain for an individual object.
     /// </summary>
     [Serializable]
+    [LuaCallCSharp]
     public partial class LuaIndividualDomain : LuaDomain
     {
         [NonSerialized] public LuaIndividualObject LuaIndividualObject;
@@ -336,6 +337,7 @@ namespace LuaScripting
     /// A lua domain that is shared between a group of objects.
     /// </summary>
     [Serializable]
+    [LuaCallCSharp]
     public partial class LuaGroupDomain : LuaDomain
     {
         public string GroupName = string.Empty;
