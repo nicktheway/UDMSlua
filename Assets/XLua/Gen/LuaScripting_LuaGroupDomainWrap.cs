@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaGroupDomain);
-			Utils.BeginObjectRegister(type, L, translator, 0, 18, 11, 10);
+			Utils.BeginObjectRegister(type, L, translator, 0, 19, 11, 10);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadScriptSymbols", _m_LoadScriptSymbols);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UnloadScriptSymbols", _m_UnloadScriptSymbols);
@@ -37,6 +37,7 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetHoodCenter", _m_GetHoodCenter);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetMemberIdsInCircle", _m_GetMemberIdsInCircle);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ToGridFormation", _m_ToGridFormation);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetState", _m_SetState);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RegisterGridNeighbours", _m_RegisterGridNeighbours);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UpdateStates", _m_UpdateStates);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ToggleIndices", _m_ToggleIndices);
@@ -506,6 +507,34 @@ namespace XLua.CSObjectWrap
                     float _colDistance = (float)LuaAPI.lua_tonumber(L, 5);
                     
                     gen_to_be_invoked.ToGridFormation( _columns, _bottomLeftPoint, _rowDistance, _colDistance );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_SetState(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    System.Collections.Generic.List<int> _activeIds = (System.Collections.Generic.List<int>)translator.GetObject(L, 2, typeof(System.Collections.Generic.List<int>));
+                    
+                    gen_to_be_invoked.SetState( _activeIds );
                     
                     
                     

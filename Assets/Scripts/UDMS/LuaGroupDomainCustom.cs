@@ -130,6 +130,22 @@ namespace LuaScripting
         }
 
         /// <summary>
+        /// Sets the state of the specified members to one. Reset all the others' to zero.
+        /// </summary>
+        /// <param name="activeIds">A list of the members' ids to set their state to 1.</param> 
+        public void SetState(List<int> activeIds)
+        {
+            foreach(var member in Members)
+            {
+                member.State = 0;
+            }
+            foreach(var id in activeIds)
+            {
+                Members[id].State = 1;
+            }
+        }
+
+        /// <summary>
         /// Sets up all the member's neighbours for a grid formation.
         /// </summary>
         /// <param name="columns">The grid's columns.</param>

@@ -26,18 +26,13 @@ function start()
         anims[i] = Members[i]:GetComponent(typeof(UE.Animator))
 		transforms[i] = Members[i].transform
 		Members[i].ColorState = true
-		if i % 2 == 0 then
-			Members[i].State = 1
-		else
-			Members[i].State = 0
-		end
     end
 	--[[
     for i=0,Nagn-1 do
          individualPrepare(i)
     end
 	--]]
-	
+	Group:SetState({34, 44, 54})
 	Group:ToGridFormation(10, UE.Vector3(-5, 0, -5), 1, 1)
 	Group:RegisterGridNeighbours(10)
 	Group:ToggleIndices(false)
