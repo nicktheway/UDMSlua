@@ -225,9 +225,20 @@ namespace UDMS
         {
             var paths = StandaloneFileBrowser.OpenFilePanel("Choose a song.", MusicBasePath, "ogg", false);
 
-            if (paths.Length > 0)
+            if (paths.Length > 0 && paths[0].Length > 0)
             {
-                PlaySong(paths[0]);
+                var path = paths[0];
+                
+                var shortPath = path.Replace('\\', '/');
+                var basePathPos = shortPath.IndexOf(MusicBasePath, System.StringComparison.Ordinal);
+
+                if (basePathPos == -1)
+                {
+                    Debug.LogError($"Invalid music path: {path}. All music must be inside: {MusicBasePath}");
+                    return;
+                }
+                shortPath = shortPath.Substring(basePathPos + MusicBasePath.Length).Trim(new char[] { '/' });
+                PlaySong(shortPath);
             }
         }
 
