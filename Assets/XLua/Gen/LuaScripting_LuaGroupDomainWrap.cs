@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaGroupDomain);
-			Utils.BeginObjectRegister(type, L, translator, 0, 19, 11, 10);
+			Utils.BeginObjectRegister(type, L, translator, 0, 22, 11, 10);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadScriptSymbols", _m_LoadScriptSymbols);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UnloadScriptSymbols", _m_UnloadScriptSymbols);
@@ -42,6 +42,9 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UpdateStates", _m_UpdateStates);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ToggleIndices", _m_ToggleIndices);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "HighlightNeigbours", _m_HighlightNeigbours);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DirOfAgent", _m_DirOfAgent);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetNearestAgentWithState", _m_GetNearestAgentWithState);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistOfAgents", _m_DistOfAgents);
 			
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "Dist", _g_get_Dist);
@@ -652,6 +655,95 @@ namespace XLua.CSObjectWrap
                     
                     
                     return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DirOfAgent(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    int _agentId = LuaAPI.xlua_tointeger(L, 2);
+                    
+                        UnityEngine.Vector3 gen_ret = gen_to_be_invoked.DirOfAgent( _agentId );
+                        translator.PushUnityEngineVector3(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetNearestAgentWithState(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.Vector3 _position;translator.Get(L, 2, out _position);
+                    int _state = LuaAPI.xlua_tointeger(L, 3);
+                    
+                        int gen_ret = gen_to_be_invoked.GetNearestAgentWithState( _position, _state );
+                        LuaAPI.xlua_pushinteger(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DistOfAgents(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    int _agentId1 = LuaAPI.xlua_tointeger(L, 2);
+                    int _agentId2 = LuaAPI.xlua_tointeger(L, 3);
+                    
+                        float gen_ret = gen_to_be_invoked.DistOfAgents( _agentId1, _agentId2 );
+                        LuaAPI.lua_pushnumber(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
                 }
                 
             } catch(System.Exception gen_e) {

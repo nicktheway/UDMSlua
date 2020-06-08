@@ -264,5 +264,36 @@ namespace LuaScripting
                 Members[id].TextMeshComponent.color = new Color(0, 1, 0);
             }
         }
+
+        public Vector3 DirOfAgent(int agentId)
+        {
+            Debug.Assert(Members.Count > agentId && agentId >= 0);
+
+            return Members[agentId].DirMine();
+        }
+
+        public int GetNearestAgentWithState(Vector3 position, int state)
+        {
+            var minDist = float.MaxValue;
+            var minId = -1;
+            for (var i = 0; i < Members.Count; i++)
+            {
+                var dist = Vector3.SqrMagnitude(Members[i].transform.position - position);
+                if (Members[i].State == state && dist < minDist) 
+                {
+                    minDist = dist;
+                    minId = i;
+                }
+            }
+            return minId;
+        }
+
+        public float DistOfAgents(int agentId1, int agentId2)
+        {
+            Debug.Assert(Members.Count > agentId1 && agentId1 >= 0);
+            Debug.Assert(Members.Count > agentId2 && agentId2 >= 0);
+            
+            return Vector3.Distance(Members[agentId1].transform.position, Members[agentId2].transform.position);
+        }
     }
 }

@@ -6,7 +6,7 @@ using XLua;
 namespace LuaScripting
 {
     [LuaCallCSharp]
-    public class LuaGroupObject : LuaGameObject
+    public partial class LuaGroupObject : LuaGameObject
     {
         public int GroupMemberId { get; set; } = -1;
         public List<int> Neighbours = new List<int>();

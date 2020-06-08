@@ -127,6 +127,49 @@ namespace LuaScripting
             if (Vector3.Cross(v0, direction).y > 0) transform.Rotate(0, speed * q1, 0);
             if (Vector3.Cross(v0, direction).y < 0) transform.Rotate(0, -speed * q1, 0);
         }
+
+        public Vector3 DirAgentToPnt(Vector3 point)
+        {
+            return Vector3.Normalize(transform.position);
+        }
+
+        public Vector3 DirMine()
+        {
+            return Vector3.Normalize(transform.position);
+        }
+
+        public Vector3 DirStayInDisc(float radius)
+        {
+            if (Vector3.Magnitude(transform.position) > radius)
+                return -Vector3.Normalize(transform.position);
+            
+            return Vector3.Normalize(transform.position);
+        }
+
+        public Vector3 Displacement()
+        {
+            return _displacement;
+        }
+
+        public float DistTravelled()
+        {
+            return Vector3.Magnitude(_displacement);
+        }
+
+        public bool IsActive()
+        {
+            return State == 1;
+        }
+
+        public Vector3 GetPos()
+        {
+            return transform.position;
+        }
+
+        public Vector3 GetAngles()
+        {
+            return transform.rotation.eulerAngles;
+        }
     }
 }
 

@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaGameObject);
-			Utils.BeginObjectRegister(type, L, translator, 0, 27, 5, 4);
+			Utils.BeginObjectRegister(type, L, translator, 0, 35, 5, 4);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Select", _m_Select);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ToggleTextMeshObject", _m_ToggleTextMeshObject);
@@ -50,6 +50,14 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "TurnToAngle", _m_TurnToAngle);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "TurnToDir", _m_TurnToDir);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "TurnToDirSoft", _m_TurnToDirSoft);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DirAgentToPnt", _m_DirAgentToPnt);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DirMine", _m_DirMine);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DirStayInDisc", _m_DirStayInDisc);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Displacement", _m_Displacement);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistTravelled", _m_DistTravelled);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "IsActive", _m_IsActive);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetPos", _m_GetPos);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAngles", _m_GetAngles);
 			
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "TextMeshComponent", _g_get_TextMeshComponent);
@@ -868,6 +876,232 @@ namespace XLua.CSObjectWrap
                     
                     
                     return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DirAgentToPnt(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.Vector3 _point;translator.Get(L, 2, out _point);
+                    
+                        UnityEngine.Vector3 gen_ret = gen_to_be_invoked.DirAgentToPnt( _point );
+                        translator.PushUnityEngineVector3(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DirMine(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                        UnityEngine.Vector3 gen_ret = gen_to_be_invoked.DirMine(  );
+                        translator.PushUnityEngineVector3(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DirStayInDisc(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    float _radius = (float)LuaAPI.lua_tonumber(L, 2);
+                    
+                        UnityEngine.Vector3 gen_ret = gen_to_be_invoked.DirStayInDisc( _radius );
+                        translator.PushUnityEngineVector3(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_Displacement(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                        UnityEngine.Vector3 gen_ret = gen_to_be_invoked.Displacement(  );
+                        translator.PushUnityEngineVector3(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DistTravelled(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                        float gen_ret = gen_to_be_invoked.DistTravelled(  );
+                        LuaAPI.lua_pushnumber(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_IsActive(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                        bool gen_ret = gen_to_be_invoked.IsActive(  );
+                        LuaAPI.lua_pushboolean(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetPos(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                        UnityEngine.Vector3 gen_ret = gen_to_be_invoked.GetPos(  );
+                        translator.PushUnityEngineVector3(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetAngles(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                        UnityEngine.Vector3 gen_ret = gen_to_be_invoked.GetAngles(  );
+                        translator.PushUnityEngineVector3(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
                 }
                 
             } catch(System.Exception gen_e) {
