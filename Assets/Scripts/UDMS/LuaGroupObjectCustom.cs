@@ -10,6 +10,7 @@ namespace LuaScripting
     /// </summary>
     public partial class LuaGroupObject : LuaGameObject
     {
+        // TODO: to be removed. no need for this function.
         public void SetState(int value)
         {
             State = value;

@@ -130,7 +130,7 @@ namespace LuaScripting
 
         public Vector3 DirAgentToPnt(Vector3 point)
         {
-            return Vector3.Normalize(transform.position);
+            return Vector3.Normalize(point - transform.position);
         }
 
         public Vector3 DirMine()
