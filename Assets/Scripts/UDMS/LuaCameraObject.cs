@@ -9,7 +9,7 @@ namespace LuaScripting
     public class LuaCameraObject : LuaIndividualObject
     {
         public CinemachineVirtualCamera[] Cameras;
-        public CinemachineSmoothPath[] DollyTracks;
+        public CinemachineSmoothPath[] DollyPaths;
         public float FOV {get => _fov; set { SetFov(value); }}
 
         public float PathPosition { get => _pathPosition; set { SetPathPosition(value); }}
@@ -46,32 +46,32 @@ namespace LuaScripting
             }
         }}
 
-        public string DollyTrack { get => _dollyTrack;  set {
+        public string DollyPath { get => _dollyPath;  set {
             switch(value) {
                 case "circular": {
-                    _dollyTrack = value;
-                    SetActiveDollyTrack(0);
+                    _dollyPath = value;
+                    SetActiveDollyPath(0);
                     break;
                 }
                 case "square": {
-                    _dollyTrack = value;
-                    SetActiveDollyTrack(1);
+                    _dollyPath = value;
+                    SetActiveDollyPath(1);
                     break;
                 }
                 case "custom1": {
-                    _dollyTrack = value;
-                    SetActiveDollyTrack(2);
+                    _dollyPath = value;
+                    SetActiveDollyPath(2);
                     break;
                 }
                 default: {
-                    _dollyTrack = "circular";
-                    SetActiveDollyTrack(0);
+                    _dollyPath = "circular";
+                    SetActiveDollyPath(0);
                     break;
                 }
             }
         }}
         private string _activeCamera = "dolly";
-        private string _dollyTrack = "circular";
+        private string _dollyPath = "circular";
         private float _fov = 40;
         private float _pathPosition = 0;
         private bool _autoDolly = true;
@@ -84,13 +84,13 @@ namespace LuaScripting
         protected override void Awake()
         {
             Cameras = GetComponentsInChildren<CinemachineVirtualCamera>();
-            DollyTracks = GetComponentsInChildren<CinemachineSmoothPath>();
+            DollyPaths = GetComponentsInChildren<CinemachineSmoothPath>();
             _trackedDolly = Cameras[1].GetCinemachineComponent<CinemachineTrackedDolly>();
             Debug.Assert(_trackedDolly != null);
             _followTarget = transform.GetChild(2).GetChild(0);
             _lookAtTarget = transform.GetChild(2).GetChild(1);
             ActiveCamera = _activeCamera;
-            DollyTrack = _dollyTrack;
+            DollyPath = _dollyPath;
             AutoDolly = _autoDolly;
             FOV = _fov;
             PathPosition = _pathPosition;
@@ -160,9 +160,9 @@ namespace LuaScripting
         }
 
         /// <summary>
-        /// Sets the active track's position.
+        /// Sets the active dolly path's position.
         /// </summary>
-        public void SetTrackPosition(float x, float y, float z)
+        public void SetDollyPathPosition(float x, float y, float z)
         {
             if (_trackedDolly == null) return;
 
@@ -170,9 +170,9 @@ namespace LuaScripting
         }
 
         /// <summary>
-        /// Sets the active track's scale. Useful for expanding/compressing the track.
+        /// Sets the active dolly path's scale. Useful for expanding/compressing the path.
         /// </summary>
-        public void SetTrackScale(float x, float y, float z)
+        public void SetDollyPathScale(float x, float y, float z)
         {
             if (_trackedDolly == null) return;
 
@@ -198,14 +198,14 @@ namespace LuaScripting
             Cameras[cameraId].Priority = 100;
         }
 
-        private void SetActiveDollyTrack(int trackId)
+        private void SetActiveDollyPath(int pathId)
         {
-            if (_trackedDolly == null || DollyTracks == null || Cameras == null || Cameras.Length == 0 || DollyTracks.Length == 0)
+            if (_trackedDolly == null || DollyPaths == null || Cameras == null || Cameras.Length == 0 || DollyPaths.Length == 0)
             {
                 return;
             }
             
-            _trackedDolly.m_Path = DollyTracks[trackId];
+            _trackedDolly.m_Path = DollyPaths[pathId];
         }
 
         private void SetFov(float fov)
