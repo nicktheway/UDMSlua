@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaCameraObject);
-			Utils.BeginObjectRegister(type, L, translator, 0, 6, 6, 6);
+			Utils.BeginObjectRegister(type, L, translator, 0, 6, 7, 7);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "FollowGroupAgent", _m_FollowGroupAgent);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LookAtGroupAgent", _m_LookAtGroupAgent);
@@ -33,6 +33,7 @@ namespace XLua.CSObjectWrap
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "FOV", _g_get_FOV);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "PathPosition", _g_get_PathPosition);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "AutoDolly", _g_get_AutoDolly);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "ActiveCamera", _g_get_ActiveCamera);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "DollyTrack", _g_get_DollyTrack);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "Cameras", _g_get_Cameras);
@@ -40,6 +41,7 @@ namespace XLua.CSObjectWrap
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "FOV", _s_set_FOV);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "PathPosition", _s_set_PathPosition);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "AutoDolly", _s_set_AutoDolly);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "ActiveCamera", _s_set_ActiveCamera);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "DollyTrack", _s_set_DollyTrack);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "Cameras", _s_set_Cameras);
@@ -299,6 +301,20 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_AutoDolly(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                LuaScripting.LuaCameraObject gen_to_be_invoked = (LuaScripting.LuaCameraObject)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushboolean(L, gen_to_be_invoked.AutoDolly);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _g_get_ActiveCamera(RealStatePtr L)
         {
 		    try {
@@ -379,6 +395,21 @@ namespace XLua.CSObjectWrap
 			
                 LuaScripting.LuaCameraObject gen_to_be_invoked = (LuaScripting.LuaCameraObject)translator.FastGetCSObj(L, 1);
                 gen_to_be_invoked.PathPosition = (float)LuaAPI.lua_tonumber(L, 2);
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_AutoDolly(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                LuaScripting.LuaCameraObject gen_to_be_invoked = (LuaScripting.LuaCameraObject)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.AutoDolly = LuaAPI.lua_toboolean(L, 2);
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

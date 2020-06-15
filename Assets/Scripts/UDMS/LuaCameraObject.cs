@@ -14,6 +14,8 @@ namespace LuaScripting
 
         public float PathPosition { get => _pathPosition; set { SetPathPosition(value); }}
 
+        public bool AutoDolly { get => _autoDolly; set { SetAutoDolly(value); }}
+
         public string ActiveCamera { get => _activeCamera;  set {
             switch(value) {
                 case "explorer": {
@@ -72,6 +74,7 @@ namespace LuaScripting
         private string _dollyTrack = "circular";
         private float _fov = 40;
         private float _pathPosition = 0;
+        private bool _autoDolly = true;
 
         private CinemachineTrackedDolly _trackedDolly;
 
@@ -88,6 +91,7 @@ namespace LuaScripting
             _lookAtTarget = transform.GetChild(2).GetChild(1);
             ActiveCamera = _activeCamera;
             DollyTrack = _dollyTrack;
+            AutoDolly = _autoDolly;
             FOV = _fov;
             PathPosition = _pathPosition;
             base.Awake();
@@ -223,6 +227,15 @@ namespace LuaScripting
             if (_trackedDolly == null) return;
 
             _trackedDolly.m_PathPosition = pathPosition;
+            _pathPosition = pathPosition;
+        }
+
+        private void SetAutoDolly(bool autoDolly)
+        {
+            if (_trackedDolly == null) return;
+
+            _trackedDolly.m_AutoDolly.m_Enabled = autoDolly;
+            _autoDolly = autoDolly;
         }
     }
 
