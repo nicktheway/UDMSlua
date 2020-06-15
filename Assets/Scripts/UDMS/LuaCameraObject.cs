@@ -93,16 +93,66 @@ namespace LuaScripting
             base.Awake();
         }
 
+        /// <summary>
+        /// Makes the camera follow a specific group agent.
+        /// </summary>
+        /// <param name="groupName">The agent's group name.</param>
+        /// <param name="agentId">The id of the agent.</param>
+        /// <param name="offset">The offset off the target the camera should follow.</param>
+        public void FollowGroupAgent(string groupName, int agentId, Vector3 offset)
+        {
+            if (!LuaDomain.DomainRoom.Groups.ContainsKey(groupName))
+            {
+                Debug.LogError($"There is no group named: {groupName}");
+                return;
+            }
+
+            var group = LuaDomain.DomainRoom.Groups[groupName];
+
+            if (agentId >= group.Members.Count) 
+            {
+                Debug.LogError($"No agent found with id: {agentId}. Group: {groupName} has only {group.Members.Count} agents and their ids start from zero.");
+                return;
+            }
+
+            SetFollowTarget(group.Members[agentId].transform, offset);
+        }
+
+        /// <summary>
+        /// Makes the camera target a specific group agent.
+        /// </summary>
+        /// <param name="groupName">The agent's group name.</param>
+        /// <param name="agentId">The id of the agent.</param>
+        /// <param name="offset">The offset off the target the camera should look at.</param>
+        public void LookAtGroupAgent(string groupName, int agentId, Vector3 offset)
+        {
+            if (!LuaDomain.DomainRoom.Groups.ContainsKey(groupName))
+            {
+                Debug.LogError($"There is no group named: {groupName}");
+                return;
+            }
+
+            var group = LuaDomain.DomainRoom.Groups[groupName];
+
+            if (agentId >= group.Members.Count) 
+            {
+                Debug.LogError($"No agent found with id: {agentId}. Group: {groupName} has only {group.Members.Count} agents and their ids start from zero.");
+                return;
+            }
+
+            SetLookAtTarget(group.Members[agentId].transform, offset);
+        }
+
         public void SetFollowTarget(Transform targetTransform, Vector3 offset)
         {
             _followTarget.SetParent(targetTransform);
-            _followTarget.position = offset;
+            _followTarget.localPosition = offset;
         }
 
         public void SetLookAtTarget(Transform targetTransform, Vector3 offset)
         {
             _lookAtTarget.SetParent(targetTransform);
-            _lookAtTarget.position = offset;
+            _lookAtTarget.localPosition = offset;
         }
 
         /// <summary>

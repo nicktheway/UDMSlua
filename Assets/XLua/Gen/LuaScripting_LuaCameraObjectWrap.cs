@@ -21,8 +21,10 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaCameraObject);
-			Utils.BeginObjectRegister(type, L, translator, 0, 4, 6, 6);
+			Utils.BeginObjectRegister(type, L, translator, 0, 6, 6, 6);
 			
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "FollowGroupAgent", _m_FollowGroupAgent);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LookAtGroupAgent", _m_LookAtGroupAgent);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetFollowTarget", _m_SetFollowTarget);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetLookAtTarget", _m_SetLookAtTarget);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetTrackPosition", _m_SetTrackPosition);
@@ -86,6 +88,66 @@ namespace XLua.CSObjectWrap
         
         
         
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_FollowGroupAgent(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaCameraObject gen_to_be_invoked = (LuaScripting.LuaCameraObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    string _groupName = LuaAPI.lua_tostring(L, 2);
+                    int _agentId = LuaAPI.xlua_tointeger(L, 3);
+                    UnityEngine.Vector3 _offset;translator.Get(L, 4, out _offset);
+                    
+                    gen_to_be_invoked.FollowGroupAgent( _groupName, _agentId, _offset );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_LookAtGroupAgent(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaCameraObject gen_to_be_invoked = (LuaScripting.LuaCameraObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    string _groupName = LuaAPI.lua_tostring(L, 2);
+                    int _agentId = LuaAPI.xlua_tointeger(L, 3);
+                    UnityEngine.Vector3 _offset;translator.Get(L, 4, out _offset);
+                    
+                    gen_to_be_invoked.LookAtGroupAgent( _groupName, _agentId, _offset );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _m_SetFollowTarget(RealStatePtr L)
