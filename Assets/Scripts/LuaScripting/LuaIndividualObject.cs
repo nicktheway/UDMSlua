@@ -8,7 +8,6 @@ namespace LuaScripting
     public class LuaIndividualObject : LuaGameObject
     {
         // The path here is usefull for the inspector initialized objects.
-        [System.Obsolete]
         [SerializeField] public string ScriptPath = string.Empty;
 
         private LuaIndividualDomain _luaIndividualScript;

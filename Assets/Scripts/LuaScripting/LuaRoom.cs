@@ -259,6 +259,29 @@ namespace LuaScripting
         }
 
         /// <summary>
+        /// Instantiates the global camera rig into the room.
+        /// </summary>
+        public GameObject InstantiateCameraRig()
+        {
+            var cameraRig = AssetManager.LoadAsset<GameObject>("CameraRig", "etc/camerarig");
+            cameraRig.SetActive(false);
+
+            Debug.Assert(cameraRig != null);
+            var instantiatedCameraRig = Instantiate(cameraRig, transform); 
+            instantiatedCameraRig.transform.SetParent(null);
+
+            var luaCameraObject = instantiatedCameraRig.AddComponent<LuaCameraObject>();
+
+            luaCameraObject.LuaDomain = LuaIndividualDomain.NewIndividualDomain("camera.lua", luaCameraObject, this);
+
+            luaCameraObject.ScriptPath = "camera.lua";
+
+            instantiatedCameraRig.SetActive(true);
+
+            return instantiatedCameraRig;
+        }
+
+        /// <summary>
         /// Instantiates a prefab from an AssetBundle with and individual domain inside this room.
         /// </summary>
         /// <param name="objectName">The prefab's name inside the asset bundle.</param>

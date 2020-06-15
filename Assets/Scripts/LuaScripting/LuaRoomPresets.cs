@@ -19,7 +19,6 @@ namespace LuaScripting
         /// </summary>
         public List<LuaIndividualObject> Individuals = new List<LuaIndividualObject>();
 
-        public LuaIndividualObject Cameras;
         public GameObject UI;
 
         private LuaRoom _luaRoom;
@@ -90,7 +89,8 @@ namespace LuaScripting
 
         public void RedoCameraScript()
         {
-            Cameras.LuaDomain.RedoLuaScript(true, true, true);
+            var camera = FindObjectOfType<LuaCameraObject>();
+            camera.LuaDomain.RedoLuaScript(true, true, true);
         }
 
         public void RedoSettingsScript()

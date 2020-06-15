@@ -642,12 +642,12 @@ GameObject:
   m_Component:
   - component: {fileID: 422933237}
   m_Layer: 0
-  m_Name: CameraRig
+  m_Name: RoomCameras
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &422933237
 Transform:
   m_ObjectHideFlags: 0
@@ -689,8 +689,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 444506528}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3565884, y: 2.1054187, z: -1.0248804}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1552161236}
@@ -715,21 +715,21 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 1
   m_Waypoints:
-  - position: {x: 1.3494716, y: 1.2539313, z: -5.498633}
+  - position: {x: -1.349472, y: 1.2539313, z: -5.498633}
     roll: 0
-  - position: {x: 5.107527, y: 1.472256, z: -4.655063}
+  - position: {x: 3.107527, y: 1.472256, z: -4.655063}
     roll: 0
-  - position: {x: 7.477638, y: 1.7110927, z: -0.10301161}
+  - position: {x: 5.477638, y: 1.7110927, z: -0.10301161}
     roll: 0
-  - position: {x: 5.32926, y: 0.8833401, z: 4.2282276}
+  - position: {x: 3.32926, y: 0.8833401, z: 4.2282276}
     roll: 0
-  - position: {x: 1.8157289, y: 1.6246288, z: 4.8519835}
+  - position: {x: -0.2, y: 1.6246288, z: 4.8519835}
     roll: 0
-  - position: {x: -1.2107253, y: 1.7576342, z: 3.3253155}
+  - position: {x: -3.210725, y: 1.7576342, z: 3.3253155}
     roll: 0
-  - position: {x: -2.7882538, y: 2.396708, z: 1.0362028}
+  - position: {x: -4.788254, y: 2.396708, z: 1.0362028}
     roll: 0
-  - position: {x: -2.6318426, y: 1.965497, z: -4.4417553}
+  - position: {x: -4.631843, y: 1.965497, z: -4.4417553}
     roll: 0
 --- !u!1 &494210169
 GameObject:
@@ -786,7 +786,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 549112632}
-  m_LocalRotation: {x: 0.09880882, y: -0.6077326, z: 0.07656995, w: 0.7842417}
+  m_LocalRotation: {x: 0.0067900647, y: -0.6516878, z: 0.0058343904, w: 0.75843453}
   m_LocalPosition: {x: -1.3565884, y: 2.1054187, z: -7.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1301,9 +1301,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Groups: []
-  Individuals:
-  - {fileID: 1539257776}
-  Cameras: {fileID: 1539257776}
+  Individuals: []
+  Cameras: {fileID: 0}
   UI: {fileID: 494210169}
 --- !u!4 &1305005483
 Transform:
@@ -1401,7 +1400,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1539257775}
-  - component: {fileID: 1539257776}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -1425,20 +1423,6 @@ Transform:
   m_Father: {fileID: 422933237}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1539257776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539257774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 529b428302eeef444a6b17aeda00331a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TurnToMoveDir: 0
-  ScriptPath: camera.lua
 --- !u!1 &1551661798
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3687372345
+CRC: 1080697096
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -7,4 +7,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_1:
       Name: models/main
+      Dependencies: {}
+    Info_2:
+      Name: etc/camerarig
       Dependencies: {}
