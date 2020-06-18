@@ -10,7 +10,7 @@ function start()
 	Group:ToggleIndices(true)
 
     for i = 0, Nagn - 1 do
-        Members[i].TurnToMoveDir = true
+        Members[i].TurnToMoveDir = i % 2 == 0
     end
 end
 
