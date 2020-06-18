@@ -10,6 +10,7 @@ function onSpaceButtonDown()
 	go.transform:SetParent(Members[0].transform)
 	go.transform:SetParent(nill)
 	go.transform.position = Members[1].transform.position + UE.Vector3.up
+    go:GetComponent(typeof(UE.Renderer)).material.color = UE.Color.red
 	
 	local rb = go:AddComponent(typeof(UE.Rigidbody))
 	
@@ -20,8 +21,11 @@ end
 function onAButtonDown()
 	local go = UE.GameObject.CreatePrimitive(UE.PrimitiveType.Cube)
 	go.transform.position = Members[0].transform.position + 2 * UE.Vector3.up
+    go:SetActive(false)
+    local groupObject = go:AddComponent(typeof(CS.LuaScripting.LuaGroupObject))
 	
-	Group:AddMember(go)
+	Group:AddMember(groupObject)
+    go:SetActive(true)
 	UE.Object.Destroy(go, math.random(5))
 end
 
