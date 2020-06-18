@@ -31,6 +31,8 @@ ExportedObj/
 *.svd
 *.pdb
 
+# Vim temp
+*.swp
 
 # Unity3D generated meta files
 *.pidb.meta
