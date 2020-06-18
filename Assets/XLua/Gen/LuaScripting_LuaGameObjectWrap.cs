@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaGameObject);
-			Utils.BeginObjectRegister(type, L, translator, 0, 35, 5, 4);
+			Utils.BeginObjectRegister(type, L, translator, 0, 39, 5, 4);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Select", _m_Select);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ToggleTextMeshObject", _m_ToggleTextMeshObject);
@@ -36,7 +36,9 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "MoveFwd", _m_MoveFwd);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "MoveRight", _m_MoveRight);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "MoveInDir", _m_MoveInDir);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "MoveInDirXZ", _m_MoveInDirXZ);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GoToPoint", _m_GoToPoint);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GoToPointXZ", _m_GoToPointXZ);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetDir", _m_SetDir);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetPos", _m_SetPos);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetPosX", _m_SetPosX);
@@ -54,6 +56,8 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DirMine", _m_DirMine);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DirStayInDisc", _m_DirStayInDisc);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Displacement", _m_Displacement);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistAgentToPnt", _m_DistAgentToPnt);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistAgentToPntXZ", _m_DistAgentToPntXZ);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistTravelled", _m_DistTravelled);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "IsActive", _m_IsActive);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetPos", _m_GetPos);
@@ -489,6 +493,36 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_MoveInDirXZ(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.Vector2 _direction;translator.Get(L, 2, out _direction);
+                    float _distance = (float)LuaAPI.lua_tonumber(L, 3);
+                    bool _normalized = LuaAPI.lua_toboolean(L, 4);
+                    
+                    gen_to_be_invoked.MoveInDirXZ( _direction, _distance, _normalized );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _m_GoToPoint(RealStatePtr L)
         {
 		    try {
@@ -505,6 +539,35 @@ namespace XLua.CSObjectWrap
                     float _distance = (float)LuaAPI.lua_tonumber(L, 3);
                     
                     gen_to_be_invoked.GoToPoint( _point, _distance );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GoToPointXZ(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.Vector2 _point;translator.Get(L, 2, out _point);
+                    float _distance = (float)LuaAPI.lua_tonumber(L, 3);
+                    
+                    gen_to_be_invoked.GoToPointXZ( _point, _distance );
                     
                     
                     
@@ -986,6 +1049,64 @@ namespace XLua.CSObjectWrap
                     
                         UnityEngine.Vector3 gen_ret = gen_to_be_invoked.Displacement(  );
                         translator.PushUnityEngineVector3(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DistAgentToPnt(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.Vector3 _point;translator.Get(L, 2, out _point);
+                    
+                        float gen_ret = gen_to_be_invoked.DistAgentToPnt( _point );
+                        LuaAPI.lua_pushnumber(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DistAgentToPntXZ(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGameObject gen_to_be_invoked = (LuaScripting.LuaGameObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.Vector2 _point;translator.Get(L, 2, out _point);
+                    
+                        float gen_ret = gen_to_be_invoked.DistAgentToPntXZ( _point );
+                        LuaAPI.lua_pushnumber(L, gen_ret);
                     
                     
                     

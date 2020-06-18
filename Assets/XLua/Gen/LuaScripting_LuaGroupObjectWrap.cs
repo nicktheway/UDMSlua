@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaGroupObject);
-			Utils.BeginObjectRegister(type, L, translator, 0, 17, 3, 3);
+			Utils.BeginObjectRegister(type, L, translator, 0, 16, 3, 3);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetState", _m_SetState);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAgentNearest", _m_GetAgentNearest);
@@ -34,7 +34,6 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DirToNearest", _m_DirToNearest);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetNearestActive", _m_GetNearestActive);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DirToNearestActive", _m_DirToNearestActive);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistAgentToPnt", _m_DistAgentToPnt);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistToAgent", _m_DistToAgent);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistToHood", _m_DistToHood);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistToNearest", _m_DistToNearest);
@@ -395,35 +394,6 @@ namespace XLua.CSObjectWrap
                     
                         UnityEngine.Vector3 gen_ret = gen_to_be_invoked.DirToNearestActive(  );
                         translator.PushUnityEngineVector3(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_DistAgentToPnt(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                LuaScripting.LuaGroupObject gen_to_be_invoked = (LuaScripting.LuaGroupObject)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    UnityEngine.Vector3 _point;translator.Get(L, 2, out _point);
-                    
-                        float gen_ret = gen_to_be_invoked.DistAgentToPnt( _point );
-                        LuaAPI.lua_pushnumber(L, gen_ret);
                     
                     
                     

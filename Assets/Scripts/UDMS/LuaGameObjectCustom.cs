@@ -34,17 +34,17 @@ namespace LuaScripting
 
         public void MoveUp(float distance)
         {
-            transform.position += distance * Vector3.up;
+            transform.position += distance * transform.up;
         }
 
         public void MoveFwd(float distance)
         {
-            transform.position += distance * Vector3.forward;
+            transform.position += distance * transform.forward;
         }
 
         public void MoveRight(float distance)
         {
-            transform.position += distance * Vector3.right;
+            transform.position += distance * transform.right;
         }
 
         public void MoveInDir(Vector3 direction, float distance, bool normalized)
@@ -52,9 +52,20 @@ namespace LuaScripting
             transform.position += (normalized ? Vector3.Normalize(direction) : direction) * distance;
         }
 
+        public void MoveInDirXZ(Vector2 direction, float distance, bool normalized)
+        {
+            var displacement = (normalized ? direction.normalized : direction) * distance; 
+            transform.position += new Vector3(displacement.x, 0, displacement.y);
+        }
+
         public void GoToPoint(Vector3 point, float distance)
         {
             MoveInDir(point - transform.position, distance, true);
+        }
+
+        public void GoToPointXZ(Vector2 point, float distance)
+        {
+            MoveInDirXZ(point - new Vector2(transform.position.x, transform.position.z), distance, true);
         }
 
         public void SetDir(Vector3 direction)
@@ -120,6 +131,7 @@ namespace LuaScripting
 
         public void TurnToDirSoft(Vector3 direction, float speed)
         {
+            direction.Normalize();
             var v0 = new Vector3(Mathf.Sin(transform.eulerAngles.y * Mathf.Deg2Rad), 0, Mathf.Cos(transform.eulerAngles.y * Mathf.Deg2Rad));
             var q1 = Vector3.Cross(v0, direction).magnitude;
 
@@ -149,6 +161,16 @@ namespace LuaScripting
         public Vector3 Displacement()
         {
             return _displacement;
+        }
+
+        public float DistAgentToPnt(Vector3 point)
+        {
+            return Vector3.Distance(transform.position, point);
+        }
+
+        public float DistAgentToPntXZ(Vector2 point)
+        {
+            return Vector2.Distance(new Vector2(transform.position.x, transform.position.z), point);
         }
 
         public float DistTravelled()

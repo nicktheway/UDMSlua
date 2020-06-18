@@ -114,11 +114,6 @@ namespace LuaScripting
             return Vector3.zero;
         }
 
-        public float DistAgentToPnt(Vector3 point)
-        {
-            return Vector3.Distance(transform.position, point);
-        }
-
         public float DistToAgent(int agentId)
         {
             Debug.Assert(agentId >= 0 && agentId < _luaGroupScript.Members.Count);
