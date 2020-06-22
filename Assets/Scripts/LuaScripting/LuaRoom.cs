@@ -582,6 +582,105 @@ namespace LuaScripting
             }
         }
 
+        /// <summary>
+        /// Retrieves one of the room's registered objects from its key.
+        /// </summary>
+        /// <param name="objectKey">The key with which the object was registered in the room.</param>
+        /// <returns>The GameObject or null if no game object is registered with this key in the room.</returns>
+        public GameObject GetObject(string objectKey)
+        {
+            if (Objects.ContainsKey(objectKey))
+            {
+                return Objects[objectKey];
+            }
+            Debug.LogWarning($"No object found with key: {objectKey}");
+
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieves one of the room's group domains from its name.
+        /// </summary>
+        /// <param name="groupName">The name of the group.</param>
+        /// <returns>The group's LuaGroupDomain or null if no group with that name exists in the room.</returns>
+        public LuaGroupDomain GetGroupDomain(string groupName)
+        {
+            if (Groups.ContainsKey(groupName))
+            {
+                return Groups[groupName];
+            }
+            Debug.LogWarning($"No group found with name: {groupName}");
+
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieves one of the room's individual domains from its name.
+        /// </summary>
+        /// <param name="domainName">The name of the individual domain.</param>
+        /// <returns>The group's LuaIndividualDomain or null if no individual domain with that name exists in the room.</returns>
+        public LuaIndividualDomain GetIndividualDomain(string domainName)
+        {
+            if (IndividualDomains.ContainsKey(domainName))
+            {
+                return IndividualDomains[domainName];
+            }
+            Debug.LogWarning($"No individual domain with name: {domainName} found in the room.");
+
+            return null;
+        } 
+
+        /// <summary>
+        /// Return a list of the keys of the available registered objects in the room.
+        /// </summary>
+        /// <returns>The keys of the registered room objects.</returns>
+        public List<string> GetObjectKeys()
+        {
+            var list = new List<string>();
+            foreach (var pair in Objects)
+            {
+                if (pair.Value != null) 
+                {
+                    list.Add(pair.Key);
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Return a list of the names of the registered group domains in the room.
+        /// </summary>
+        /// <returns>The names of the registered group domains.</returns>
+        public List<string> GetGroupDomainNames()
+        {
+            var list = new List<string>();
+            foreach (var pair in Groups)
+            {
+                if (pair.Value != null) 
+                {
+                    list.Add(pair.Key);
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Return a list of the names of the registered individual domains in the room.
+        /// </summary>
+        /// <returns>The names of the registered individual domains.</returns>
+        public List<string> GetIndividualDomainNames()
+        {
+            var list = new List<string>();
+            foreach (var pair in IndividualDomains)
+            {
+                if (pair.Value != null) 
+                {
+                    list.Add(pair.Key);
+                }
+            }
+            return list;
+        }
+
         public void Dispose()
         {
             // TODO: dispose everything inside the room.

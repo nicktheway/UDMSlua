@@ -50,6 +50,7 @@ namespace UDMS
             DebugLogConsole.AddCommand("selected", "Prints a list of the currently selected domains.", PrintSelected);
             DebugLogConsole.AddCommand<char, string>("select", "Select a domain of the room by its type and name to perform actions on it. First argument should be the type: 'g' for groups and 'i' for individual domains. Second argument should be the domain's name.", SelectDomain);
             DebugLogConsole.AddCommand<char, string>("deselect", "Deselect a domain of the room by its type and name. First argument should be the type: 'g' for groups and 'i' for individual domains. Second argument should be the domain's name.", DeselectDomain);
+            DebugLogConsole.AddCommand<string>("run", "Executes lua code inside the domain.", ExecuteLuaString);
             DebugLogConsole.AddCommand("script", "Opens panel for selecting a new script for the selected domains.", ChangeScriptForSelectedDomains);
             DebugLogConsole.AddCommand("combine", "Opens panel for selecting a combinations of scripts for the selected domains.", CombineScriptsForSelectedDomains);
             DebugLogConsole.AddCommand("delete", "Deletes the selected domains.", DeleteSelectedDomains);
@@ -156,6 +157,21 @@ namespace UDMS
         public void ApplyGameSettings()
         {
             LuaManager.DoScript("gameSettings.lua", GameSettings, "gameSettings.lua");
+        }
+
+        public void ExecuteLuaString(string scriptlet)
+        {
+            var list = new StringBuilder();
+            foreach (var selected in SelectedObjects)
+            {
+                var returnValues = selected.DoString(scriptlet);
+                if (returnValues == null) return;
+                foreach (var value in returnValues)
+                {
+                    list.Append(value.ToString());
+                }
+            }
+            Debug.Log(list.ToString());
         }
 
         public void PrintSelected()

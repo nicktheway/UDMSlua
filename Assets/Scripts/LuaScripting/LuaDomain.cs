@@ -126,6 +126,15 @@ namespace LuaScripting
         }
 
         /// <summary>
+        /// Executes lua code from a string inside the domain's environment.
+        /// </summary>
+        /// <returns>A list of return values.</returns>
+        public object[] DoString(string scriptlet)
+        {
+            return LuaManager.DoString(scriptlet, LuaEnvironment, DomainName);
+        }
+
+        /// <summary>
         /// Executes the Lua script inside the environment and loads the script's symbols.
         /// </summary>
         /// <param name="insideTheRoom">Should the script be run inside the room's path?</param>

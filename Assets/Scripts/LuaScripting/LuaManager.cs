@@ -100,6 +100,21 @@ namespace LuaScripting
         }
 
         /// <summary>
+        /// Executes a lua string inside a lua table.
+        /// </summary>
+        /// This function will execute the specified string inside the specified environment table, essentially setting all the variables
+        /// and functions defined as key-value elements on the specified environment table.
+        /// 
+        /// <param name="scriptlet">The lua code string to run.</param>
+        /// <param name="environment">The lua table in which the string will run.</param>
+        /// <param name="debugName">A friendly name that will be used for errors/warnings on the script.</param> 
+        /// <returns>List of returned values.</returns> 
+        public static object[] DoString(string scriptlet, LuaTable environment, string debugName = "chunk")
+        {
+            return LuaEnv.DoString(scriptlet, debugName, environment);
+        }
+
+        /// <summary>
         /// This function will dispose the globally used lua environment. You shouldn't need it unless you need to change to another Lua environment
         /// or don't need to use anything related to this environment anymore.
         /// </summary>
