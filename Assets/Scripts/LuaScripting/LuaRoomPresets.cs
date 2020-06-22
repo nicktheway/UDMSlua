@@ -17,7 +17,7 @@ namespace LuaScripting
         /// <summary>
         /// List for adding individual objects via the inspector.
         /// </summary>
-        public List<LuaIndividualObject> Individuals = new List<LuaIndividualObject>();
+        public List<RoomIndividualObject> Individuals = new List<RoomIndividualObject>();
 
 
         [System.Serializable]
@@ -25,6 +25,13 @@ namespace LuaScripting
         {
             public string ObjectName;
             public GameObject GameObject;
+        }
+
+        [System.Serializable]
+        public class RoomIndividualObject
+        {
+            public string ObjectName;
+            public LuaIndividualObject GameObject;
         }
 
         /// <summary>
@@ -61,8 +68,8 @@ namespace LuaScripting
         {
             foreach (var luaIndividualObject in Individuals)
             {
-                _activeInitialValues.Add(luaIndividualObject.gameObject.activeSelf);
-                luaIndividualObject.gameObject.SetActive(false);
+                _activeInitialValues.Add(luaIndividualObject.GameObject.gameObject.activeSelf);
+                luaIndividualObject.GameObject.gameObject.SetActive(false);
             }
 
             foreach (var luaGroupDomain in Groups)
@@ -81,7 +88,7 @@ namespace LuaScripting
         {
             for (var i = 0; i < Individuals.Count; i++)
             {
-                Individuals[i].gameObject.SetActive(true);
+                Individuals[i].GameObject.gameObject.SetActive(true);
                 //Individuals[i].gameObject.SetActive(_activeInitialValues[i]);
             }
 

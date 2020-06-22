@@ -1302,7 +1302,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Groups: []
   Individuals: []
-  Cameras: {fileID: 0}
+  Objects:
+  - ObjectName: Ground
+    GameObject: {fileID: 364336871}
+  - ObjectName: Light
+    GameObject: {fileID: 363343506}
   UI: {fileID: 494210169}
 --- !u!4 &1305005483
 Transform:

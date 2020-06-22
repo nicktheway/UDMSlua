@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using LuaScripting;
 using SFB;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using XLua;
+using IngameDebugConsole;
 
 namespace UDMS
 {
@@ -38,20 +40,30 @@ namespace UDMS
             ApplyGameSettings();
         }
 
-        private void PrepareGameSettingsSymbols()
+        private void Start()
         {
-            LuaManager.AttachGlobalTableAsDefault(GameSettings);
-            GameSettings.Set("self", gameObject);
-            GameSettings.Set("Audio", _audioSource);
+            DebugLogConsole.AddCommand("reload", "Reloads the scripts of the selected LuaDomains.", ReloadScriptsOnSelectedDomains);
+            DebugLogConsole.AddCommand("room", "Opens panel for selecting a new room/scenario.", ChooseRoom);
+            DebugLogConsole.AddCommand("song", "Opens a file panel for selecting a new song to play.", ToggleMainMenu);
+            DebugLogConsole.AddCommand("domains", "Prints a list of the room's domains.", PrintRoomDomains);
+            DebugLogConsole.AddCommand("objects", "Prints a list of the room's registered objects.", PrintRoomObjects);
+            DebugLogConsole.AddCommand("selected", "Prints a list of the currently selected domains.", PrintSelected);
+            DebugLogConsole.AddCommand<char, string>("select", "Select a domain of the room by its type and name to perform actions on it. First argument should be the type: 'g' for groups and 'i' for individual domains. Second argument should be the domain's name.", SelectDomain);
+            DebugLogConsole.AddCommand<char, string>("deselect", "Deselect a domain of the room by its type and name. First argument should be the type: 'g' for groups and 'i' for individual domains. Second argument should be the domain's name.", DeselectDomain);
+            DebugLogConsole.AddCommand("script", "Opens panel for selecting a new script for the selected domains.", ChangeScriptForSelectedDomains);
+            DebugLogConsole.AddCommand("combine", "Opens panel for selecting a combinations of scripts for the selected domains.", CombineScriptsForSelectedDomains);
+            DebugLogConsole.AddCommand("delete", "Deletes the selected domains.", DeleteSelectedDomains);
+            DebugLogConsole.AddCommand<string>("grandpa", "Instantiates a new grandpa individual object inside the room.", InstantiateGrandpa);
+            DebugLogConsole.AddCommand("menu", "Toggles the main menu.", ToggleMainMenu);
+            DebugLogConsole.AddCommand("ENVDISPOSE", "Disposes the Lua Environment. Not recommended.", DisposeLuaEnvironment);
         }
 
-        public void ApplyGameSettings()
-        {
-            LuaManager.DoScript("gameSettings.lua", GameSettings, "gameSettings.lua");
-        }
-
-        // Update is called once per frame
         private void Update()
+        {
+            MouseSelectListen();
+        }
+
+        private void MouseSelectListen()
         {
             if (Input.GetMouseButtonUp(0))
             {
@@ -95,52 +107,254 @@ namespace UDMS
                     }
                 }
             }
+        }
 
+        private void KeyInputListeners()
+        {
             if (Input.GetKeyUp(KeyCode.R))
             {
-                foreach (var selectedDomain in SelectedObjects)
-                {
-                    selectedDomain.RedoLuaScript(true, true);
-                }
+                ReloadScriptsOnSelectedDomains();
             }
 
             if (Input.GetKeyUp(KeyCode.D))
             {
-                foreach (var selectedDomain in SelectedObjects)
-                {
-                    selectedDomain.Dispose();
-                }
-                SelectedObjects.Clear();
+                DeleteSelectedDomains();
             }
 
-            if (Input.GetKeyDown(KeyCode.S) && SelectedObjects.Count > 0)
+            if (Input.GetKeyDown(KeyCode.S))
             {
-                ChangeScriptOnSelectedDomains();
+                ChangeScriptForSelectedDomains();
             }
-            else if (Input.GetKeyDown(KeyCode.C) && SelectedObjects.Count > 0)
+            else if (Input.GetKeyDown(KeyCode.C))
             {
-                ChangeScriptOnSelectedDomains(true);
+                CombineScriptsForSelectedDomains();
             }
 
             if (Input.GetKeyDown(KeyCode.M))
             {
-                UI.SetActive(!UI.activeSelf);
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                LuaManager.DisposeTheLuaEnv();
+                ToggleMainMenu();
             }
 
             if (Input.GetKeyDown(KeyCode.O))
             {
-                ActiveLuaRoom.InstantiateIndividualGameObject("grandpa Variant", "models/lpfamily", "agent_alone.lua");
+                InstantiateGrandpa("AutoGrandpa");
             }
 
             if (Input.GetKeyDown(KeyCode.K))
             {
                 ChooseRoom();
             }
+        }
+
+        private void PrepareGameSettingsSymbols()
+        {
+            LuaManager.AttachGlobalTableAsDefault(GameSettings);
+            GameSettings.Set("self", gameObject);
+            GameSettings.Set("Audio", _audioSource);
+        }
+
+        public void ApplyGameSettings()
+        {
+            LuaManager.DoScript("gameSettings.lua", GameSettings, "gameSettings.lua");
+        }
+
+        public void PrintSelected()
+        {
+            var list = new StringBuilder();
+            foreach (var selected in SelectedObjects)
+            {
+                var type = selected is LuaGroupDomain ? 'g' : 'i';
+                list.Append($"{type} \"{selected.DomainName}\"\n");
+            }
+            Debug.Log(list.ToString());
+        }
+
+        public void PrintRoomDomains()
+        {
+            var list = new StringBuilder();
+            foreach (var domain in ActiveLuaRoom.RegisteredDomains)
+            {
+                var type = domain is LuaGroupDomain ? 'g' : 'i';
+                // Settings is the only domain that isn't a group nor an individual domain currently.
+                if (type == 'i' && !(domain is LuaIndividualDomain)) continue;
+
+                list.Append($"{type} \"{domain.DomainName}\"\n");
+            }
+            Debug.Log(list.ToString());
+        }
+
+        public void PrintRoomObjects()
+        {
+            var list = new StringBuilder();
+            foreach (var key in ActiveLuaRoom.Objects.Keys)
+            {
+                list.Append($"\"{key}\"\n");
+            }
+            Debug.Log(list.ToString());
+        }
+
+        public void SelectDomain(char type, string domainName)
+        {
+            switch(type)
+            {
+                case 'g':
+                    SelectGroupDomain(domainName);
+                    break;
+                case 'i':
+                    SelectIndividualDomain(domainName);
+                    break;
+                default:
+                    Debug.LogError("Unsupported type argument. Use 'g' for groups or 'i' for individual domains.");
+                    break;
+            }
+        }
+
+        public void DeselectDomain(char type, string domainName)
+        {
+            switch(type)
+            {
+                case 'g':
+                    DeselectGroupDomain(domainName);
+                    break;
+                case 'i':
+                    DeselectIndividualDomain(domainName);
+                    break;
+                default:
+                    Debug.LogError("Unsupported type argument. Use 'g' for groups or 'i' for individual domains.");
+                    break;
+            }
+        }
+
+        public void SelectGroupDomain(string groupName)
+        {
+            if (ActiveLuaRoom.Groups.ContainsKey(groupName))
+            {
+                var groupDomain = ActiveLuaRoom.Groups[groupName];
+                if (SelectedObjects.Contains(groupDomain))
+                {
+                    Debug.Log($"The group {groupName} is already selected.");
+                }
+                else 
+                {
+                    SelectedObjects.Add(groupDomain);
+                    groupDomain.Select(true);
+                }
+            }
+            else 
+            {
+                Debug.LogError($"No group named: {groupName} exists in the room.");
+            }
+        }
+
+        public void DeselectGroupDomain(string groupName)
+        {
+            if (ActiveLuaRoom.Groups.ContainsKey(groupName))
+            {
+                var groupDomain = ActiveLuaRoom.Groups[groupName];
+                if (!SelectedObjects.Contains(groupDomain))
+                {
+                    Debug.Log($"The group {groupName} is already not selected.");
+                }
+                else 
+                {
+                    SelectedObjects.Remove(groupDomain);
+                    groupDomain.Select(false);
+                }
+            }
+            else 
+            {
+                Debug.LogError($"No group named: {groupName} exists in the room.");
+            }
+        }
+
+        public void SelectIndividualDomain(string domainName)
+        {
+            if (ActiveLuaRoom.IndividualDomains.ContainsKey(domainName))
+            {
+                var domain = ActiveLuaRoom.IndividualDomains[domainName];
+                if (SelectedObjects.Contains(domain))
+                {
+                    Debug.Log($"The domain {domainName} is already selected.");
+                }
+                else 
+                {
+                    SelectedObjects.Add(domain);
+                    domain.Select(true);
+                }
+            }
+            else 
+            {
+                Debug.LogError($"No individual domain named: {domainName} exists in the room.");
+            }
+        }
+
+        public void DeselectIndividualDomain(string domainName)
+        {
+            if (ActiveLuaRoom.IndividualDomains.ContainsKey(domainName))
+            {
+                var domain = ActiveLuaRoom.IndividualDomains[domainName];
+                if (!SelectedObjects.Contains(domain))
+                {
+                    Debug.Log($"The domain {domainName} is already not selected.");
+                }
+                else 
+                {
+                    SelectedObjects.Remove(domain);
+                    domain.Select(false);
+                }
+            }
+            else 
+            {
+                Debug.LogError($"No individual domain named: {domainName} exists in the room.");
+            }
+        }
+
+        public void ReloadScriptsOnSelectedDomains()
+        {
+            foreach (var selectedDomain in SelectedObjects)
+            {
+                selectedDomain.RedoLuaScript(true, true);
+            }
+        }
+
+        public void DeleteSelectedDomains()
+        {
+            foreach (var selectedDomain in SelectedObjects)
+            {
+                selectedDomain.Dispose();
+            }
+            SelectedObjects.Clear();
+        }
+
+        public void ChangeScriptForSelectedDomains()
+        {
+            if (SelectedObjects.Count > 0)
+            {
+                ChangeScriptOnSelectedDomains();
+            }
+        }
+
+        public void CombineScriptsForSelectedDomains()
+        {
+            if (SelectedObjects.Count > 0)
+            {
+                ChangeScriptOnSelectedDomains(true);
+            }
+        }
+
+        public void DisposeLuaEnvironment()
+        {
+            LuaManager.DisposeTheLuaEnv();
+        }
+
+        public void ToggleMainMenu()
+        {
+            UI.SetActive(!UI.activeSelf);
+        }
+
+        public void InstantiateGrandpa(string domainName)
+        {
+            ActiveLuaRoom.InstantiateIndividualGameObject("grandpa Variant", "models/lpfamily", domainName, "agent_alone.lua");
         }
 
         private void ChangeScriptOnSelectedDomains(bool combineScripts = false)

@@ -94,11 +94,12 @@ namespace XLua.CSObjectWrap
             
                 
                 {
-                    string _scriptPath = LuaAPI.lua_tostring(L, 1);
-                    LuaScripting.LuaIndividualObject _attachedObject = (LuaScripting.LuaIndividualObject)translator.GetObject(L, 2, typeof(LuaScripting.LuaIndividualObject));
-                    LuaScripting.LuaRoom _domainRoom = (LuaScripting.LuaRoom)translator.GetObject(L, 3, typeof(LuaScripting.LuaRoom));
+                    string _domainName = LuaAPI.lua_tostring(L, 1);
+                    string _scriptPath = LuaAPI.lua_tostring(L, 2);
+                    LuaScripting.LuaIndividualObject _attachedObject = (LuaScripting.LuaIndividualObject)translator.GetObject(L, 3, typeof(LuaScripting.LuaIndividualObject));
+                    LuaScripting.LuaRoom _domainRoom = (LuaScripting.LuaRoom)translator.GetObject(L, 4, typeof(LuaScripting.LuaRoom));
                     
-                        LuaScripting.LuaIndividualDomain gen_ret = LuaScripting.LuaIndividualDomain.NewIndividualDomain( _scriptPath, _attachedObject, _domainRoom );
+                        LuaScripting.LuaIndividualDomain gen_ret = LuaScripting.LuaIndividualDomain.NewIndividualDomain( _domainName, _scriptPath, _attachedObject, _domainRoom );
                         translator.Push(L, gen_ret);
                     
                     

@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaRoom);
-			Utils.BeginObjectRegister(type, L, translator, 0, 15, 9, 5);
+			Utils.BeginObjectRegister(type, L, translator, 0, 16, 10, 5);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetUpRoom", _m_SetUpRoom);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Activate", _m_Activate);
@@ -30,6 +30,7 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UnregisterDomain", _m_UnregisterDomain);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddGroupDomain", _m_AddGroupDomain);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RunGroupDomain", _m_RunGroupDomain);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddIndividualDomain", _m_AddIndividualDomain);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RunScriptInRoom", _m_RunScriptInRoom);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InstantiateCameraRig", _m_InstantiateCameraRig);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InstantiateAndRegisterObject", _m_InstantiateAndRegisterObject);
@@ -48,6 +49,7 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "RegisteredDomains", _g_get_RegisteredDomains);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "Groups", _g_get_Groups);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "Objects", _g_get_Objects);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "IndividualDomains", _g_get_IndividualDomains);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "_registeredDomains", _g_get__registeredDomains);
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "RoomName", _s_set_RoomName);
@@ -311,6 +313,34 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_AddIndividualDomain(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaRoom gen_to_be_invoked = (LuaScripting.LuaRoom)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    LuaScripting.LuaIndividualDomain _individualDomain = (LuaScripting.LuaIndividualDomain)translator.GetObject(L, 2, typeof(LuaScripting.LuaIndividualDomain));
+                    
+                    gen_to_be_invoked.AddIndividualDomain( _individualDomain );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _m_RunScriptInRoom(RealStatePtr L)
         {
 		    try {
@@ -550,25 +580,27 @@ namespace XLua.CSObjectWrap
             
 			    int gen_param_count = LuaAPI.lua_gettop(L);
             
-                if(gen_param_count == 3&& translator.Assignable<UnityEngine.GameObject>(L, 2)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)) 
+                if(gen_param_count == 4&& translator.Assignable<UnityEngine.GameObject>(L, 2)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 4) || LuaAPI.lua_type(L, 4) == LuaTypes.LUA_TSTRING)) 
                 {
                     UnityEngine.GameObject _prefab = (UnityEngine.GameObject)translator.GetObject(L, 2, typeof(UnityEngine.GameObject));
-                    string _scriptPath = LuaAPI.lua_tostring(L, 3);
+                    string _objectDomainName = LuaAPI.lua_tostring(L, 3);
+                    string _scriptPath = LuaAPI.lua_tostring(L, 4);
                     
-                        UnityEngine.GameObject gen_ret = gen_to_be_invoked.InstantiateIndividualGameObject( _prefab, _scriptPath );
+                        UnityEngine.GameObject gen_ret = gen_to_be_invoked.InstantiateIndividualGameObject( _prefab, _objectDomainName, _scriptPath );
                         translator.Push(L, gen_ret);
                     
                     
                     
                     return 1;
                 }
-                if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 4) || LuaAPI.lua_type(L, 4) == LuaTypes.LUA_TSTRING)) 
+                if(gen_param_count == 5&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 4) || LuaAPI.lua_type(L, 4) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 5) || LuaAPI.lua_type(L, 5) == LuaTypes.LUA_TSTRING)) 
                 {
                     string _objectName = LuaAPI.lua_tostring(L, 2);
                     string _bundleName = LuaAPI.lua_tostring(L, 3);
-                    string _scriptPath = LuaAPI.lua_tostring(L, 4);
+                    string _objectDomainName = LuaAPI.lua_tostring(L, 4);
+                    string _scriptPath = LuaAPI.lua_tostring(L, 5);
                     
-                        UnityEngine.GameObject gen_ret = gen_to_be_invoked.InstantiateIndividualGameObject( _objectName, _bundleName, _scriptPath );
+                        UnityEngine.GameObject gen_ret = gen_to_be_invoked.InstantiateIndividualGameObject( _objectName, _bundleName, _objectDomainName, _scriptPath );
                         translator.Push(L, gen_ret);
                     
                     
@@ -771,6 +803,20 @@ namespace XLua.CSObjectWrap
 			
                 LuaScripting.LuaRoom gen_to_be_invoked = (LuaScripting.LuaRoom)translator.FastGetCSObj(L, 1);
                 translator.Push(L, gen_to_be_invoked.Objects);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_IndividualDomains(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                LuaScripting.LuaRoom gen_to_be_invoked = (LuaScripting.LuaRoom)translator.FastGetCSObj(L, 1);
+                translator.Push(L, gen_to_be_invoked.IndividualDomains);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }

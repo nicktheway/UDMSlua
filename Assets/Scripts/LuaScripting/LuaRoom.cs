@@ -52,6 +52,10 @@ namespace LuaScripting
         public readonly Dictionary<string, GameObject> Objects = new Dictionary<string, GameObject>();
 
 
+        /// <summary>
+        /// The available lua individual objects in the room.
+        /// </summary>
+        public readonly Dictionary<string, LuaIndividualDomain> IndividualDomains = new Dictionary<string, LuaIndividualDomain>();
 
 #if UNITY_EDITOR
         // For inspector debugging.
@@ -112,7 +116,7 @@ namespace LuaScripting
         /// </summary>
         private void LoadRoomSettings()
         {
-            RoomSettings = LuaDomain.NewLuaDomain(Path.Combine(RoomScriptPath, "settings.lua"), this, false);
+            RoomSettings = LuaDomain.NewLuaDomain("RoomSettings", Path.Combine(RoomScriptPath, "settings.lua"), this, false);
             RoomSettings.LuaEnvironment.Set("room", this);
             RoomSettings.LuaEnvironment.Set("setMusic", PlayMusicGlobal);
             RoomSettings.DoScript();
@@ -187,6 +191,30 @@ namespace LuaScripting
         {
             RegisteredDomains.Add(domain);
 
+            // Add to the dictionaries
+            if (domain is LuaGroupDomain groupDomain)
+            {
+                if (!Groups.ContainsKey(groupDomain.DomainName))
+                {
+                    Groups.Add(groupDomain.DomainName, groupDomain);
+                }
+                else
+                {
+                    Debug.LogError($"There is already a group named: {groupDomain.DomainName} inside the room.");
+                }
+            }
+            else if (domain is LuaIndividualDomain individualDomain)
+            {
+                if (!IndividualDomains.ContainsKey(individualDomain.DomainName))
+                {
+                    IndividualDomains.Add(individualDomain.DomainName, individualDomain);
+                }
+                else
+                {
+                    Debug.LogError($"There is already an individual domain named: {individualDomain.DomainName} inside the room.");
+                }
+            }
+
             return RegisteredDomains.Count - 1;
         }
 
@@ -210,6 +238,22 @@ namespace LuaScripting
                 
             // Remove the last element which will be either the only element or a duplicate element.
             RegisteredDomains.RemoveAt(lastId);
+
+            // Remove from dictionaries
+            if (domain is LuaGroupDomain groupDomain)
+            {
+                if (Groups.ContainsKey(groupDomain.DomainName))
+                {
+                    Groups.Remove(groupDomain.DomainName);
+                }
+            }
+            else if (domain is LuaIndividualDomain individualDomain)
+            {
+                if (IndividualDomains.ContainsKey(individualDomain.DomainName))
+                {
+                    IndividualDomains.Remove(individualDomain.DomainName);
+                }
+            }
         }
 
         /// <summary>
@@ -231,12 +275,12 @@ namespace LuaScripting
         /// <param name="group">The group domain to be added.</param>
         public void AddGroupDomain(LuaGroupDomain group)
         {
-            if (Groups.ContainsKey(group.GroupName))
+            if (Groups.ContainsKey(group.DomainName))
             {
-                Debug.LogError($"A group with the name {group.GroupName} already exists.");
+                Debug.LogError($"A group with the name {group.DomainName} already exists.");
             }
 
-            Groups.Add(group.GroupName, group);
+            Groups.Add(group.DomainName, group);
         }
 
         /// <summary>
@@ -249,6 +293,20 @@ namespace LuaScripting
 
             luaGroup.InitializeMembers();
             luaGroup.DoScript();
+        }
+
+        /// <summary>
+        /// Adds an individual domain to the individual domain dictionary. Does not run the domain.
+        /// </summary>
+        /// <param name="individualDomain">The LuaIndividualDomain to be added.</param>
+        public void AddIndividualDomain(LuaIndividualDomain individualDomain)
+        {
+            if (IndividualDomains.ContainsKey(individualDomain.DomainName))
+            {
+                Debug.LogError($"An individual domain with the name: {individualDomain.DomainName} already exists in the room.");
+            }
+
+            IndividualDomains.Add(individualDomain.DomainName, individualDomain);
         }
 
         /// <summary>
@@ -279,7 +337,7 @@ namespace LuaScripting
 
             var luaCameraObject = instantiatedCameraRig.AddComponent<LuaCameraObject>();
 
-            luaCameraObject.LuaDomain = LuaIndividualDomain.NewIndividualDomain("camera.lua", luaCameraObject, this);
+            luaCameraObject.LuaDomain = LuaIndividualDomain.NewIndividualDomain("CameraRig", "camera.lua", luaCameraObject, this);
 
             luaCameraObject.ScriptPath = "camera.lua";
 
@@ -387,22 +445,24 @@ namespace LuaScripting
         /// </summary>
         /// <param name="objectName">The prefab's name inside the asset bundle.</param>
         /// <param name="bundleName">The Asset Bundle's name.</param>
+        /// <param name="objectDomainName">The name of the object.</param>
         /// <param name="scriptPath">The script that will drive this object.</param>
         /// <returns>The instantiated game object.</returns>
-        public GameObject InstantiateIndividualGameObject(string objectName, string bundleName, string scriptPath)
+        public GameObject InstantiateIndividualGameObject(string objectName, string bundleName, string objectDomainName, string scriptPath)
         {
             var go = AssetManager.LoadAsset<GameObject>(objectName, bundleName);
 
-            return go ? InstantiateIndividualGameObject(go, scriptPath) : null;
+            return go ? InstantiateIndividualGameObject(go, objectDomainName, scriptPath) : null;
         }
 
         /// <summary>
         /// Instantiates a prefab with an individual domain inside this room.
         /// </summary>
         /// <param name="prefab">The prefab to instantiate.</param>
+        /// <param name="objectDomainName">The name of the object.</param>
         /// <param name="scriptPath">The script that will drive this object.</param>
         /// <returns>Tne instantiated object.</returns>
-        public GameObject InstantiateIndividualGameObject(GameObject prefab, string scriptPath)
+        public GameObject InstantiateIndividualGameObject(GameObject prefab, string objectDomainName, string scriptPath)
         {
             // Set the prefab inactive so that Instantiate function won't call Awake()/OnEnable()
             prefab.SetActive(false);
@@ -415,7 +475,8 @@ namespace LuaScripting
             var luaIndividualObject = instantiatedGameObject.AddComponent<LuaIndividualObject>();
             
             // Create a domain for it.
-            luaIndividualObject.LuaDomain = LuaIndividualDomain.NewIndividualDomain(scriptPath, luaIndividualObject, this);
+            var individualDomain = LuaIndividualDomain.NewIndividualDomain(objectDomainName, scriptPath, luaIndividualObject, this);
+            luaIndividualObject.LuaDomain = individualDomain;
 
             // Set the script path to view in the inspector.
             luaIndividualObject.ScriptPath = scriptPath;
@@ -481,7 +542,6 @@ namespace LuaScripting
                 member.SetActive(true);
             }
 
-            AddGroupDomain(groupDomain);
             groupDomain.DoScript();
 
             return groupDomain;
@@ -505,17 +565,16 @@ namespace LuaScripting
                 foreach (var group in luaRoomPreset.Groups)
                 {
                     group.AssignRoom(this);
-                    AddGroupDomain(group);
-                    RunGroupDomain(group.GroupName);
+                    RunGroupDomain(group.DomainName);
                 }
 
                 // Create/Assign the domain of each individual lua object.
                 foreach (var luaIndividualObject in luaRoomPreset.Individuals)
                 {
-                    luaIndividualObject.LuaDomain =
-                        LuaIndividualDomain.NewIndividualDomain(luaIndividualObject.ScriptPath, luaIndividualObject, this);
+                    luaIndividualObject.GameObject.LuaDomain =
+                        LuaIndividualDomain.NewIndividualDomain(luaIndividualObject.ObjectName, luaIndividualObject.GameObject.ScriptPath, luaIndividualObject.GameObject, this);
 
-                    luaIndividualObject.LuaDomain.Enabled = luaIndividualObject.enabled;
+                    luaIndividualObject.GameObject.LuaDomain.Enabled = luaIndividualObject.GameObject.enabled;
                 }
 
                 luaRoomPreset.ResetActiveState();

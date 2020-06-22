@@ -13,6 +13,11 @@ namespace LuaScripting
     public class LuaDomain
     {
         /// <summary>
+        /// The name of the domain. Should be unique in the room. Can be used to easily retrieve domains.
+        /// </summary>
+        public string DomainName = string.Empty;
+
+        /// <summary>
         /// The path of the script in the LuaManager.ScriptsBasePath folder.
         /// </summary>
         public string ScriptPath = string.Empty;
@@ -54,15 +59,16 @@ namespace LuaScripting
         /// <summary>
         /// Creates a simple lua domain. Example usage: settings.
         /// </summary>
+        /// <param name="domainName">The name of the domain inside the room.</param>
         /// <param name="scriptPath">The path of the domain's script inside the room.</param>
         /// <param name="domainRoom">The room of the new domain.</param>
         /// <param name="passSettings">Should the room settings be available in the domain's script?</param>
         /// <returns>The created domain.</returns>
-        public static LuaDomain NewLuaDomain(string scriptPath, LuaRoom domainRoom, bool passSettings = true)
+        public static LuaDomain NewLuaDomain(string domainName, string scriptPath, LuaRoom domainRoom, bool passSettings = true)
         {
             Assert.IsNotNull(domainRoom);
 
-            var newDomain = new LuaDomain{ScriptPath = Path.Combine(domainRoom.RoomName, scriptPath)};
+            var newDomain = new LuaDomain{DomainName = domainName, ScriptPath = Path.Combine(domainRoom.RoomName, scriptPath)};
             newDomain.AssignRoom(domainRoom, passSettings);
 
             return newDomain;
@@ -198,6 +204,7 @@ namespace LuaScripting
         /// </summary>
         public virtual void Dispose()
         {
+            DomainRoom.UnregisterDomain(this);
             LuaEnvironment.Dispose();
         }
 
@@ -248,15 +255,16 @@ namespace LuaScripting
         /// <summary>
         /// Creates a new individual domain.
         /// </summary>
+        /// <param name="domainName">The name of the new individual domain. Should be unique in the room.</param>
         /// <param name="scriptPath">The script's path of the domain in the room's folder.</param>
         /// <param name="attachedObject">The game object inside the domain.</param>
         /// <param name="domainRoom">The room of this domain.</param>
         /// <returns></returns>
-        public static LuaIndividualDomain NewIndividualDomain(string scriptPath, LuaIndividualObject attachedObject, LuaRoom domainRoom)
+        public static LuaIndividualDomain NewIndividualDomain(string domainName, string scriptPath, LuaIndividualObject attachedObject, LuaRoom domainRoom)
         {
             Assert.IsNotNull(domainRoom);
 
-            var luaIndividualScript = new LuaIndividualDomain {ScriptPath = scriptPath, LuaIndividualObject = attachedObject};
+            var luaIndividualScript = new LuaIndividualDomain {DomainName = domainName, ScriptPath = scriptPath, LuaIndividualObject = attachedObject};
 
             luaIndividualScript.AssignRoom(domainRoom);
             luaIndividualScript.DoScript();
@@ -341,7 +349,6 @@ namespace LuaScripting
     [LuaCallCSharp]
     public partial class LuaGroupDomain : LuaDomain
     {
-        public string GroupName = string.Empty;
         public List<LuaGroupObject> Members = new List<LuaGroupObject>();
 
         // Unity Callbacks
@@ -406,7 +413,7 @@ namespace LuaScripting
         {
             Assert.IsNotNull(domainRoom);
 
-            var newDomain = new LuaGroupDomain {GroupName = groupName, ScriptPath = scriptPath};
+            var newDomain = new LuaGroupDomain {DomainName = groupName, ScriptPath = scriptPath};
             newDomain.AssignRoom(domainRoom);
 
             return newDomain;
