@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 using XLua;
 
 namespace LuaScripting
@@ -12,6 +13,7 @@ namespace LuaScripting
     /// LuaRoom is a class that sets up a Scene and manages LuaDomains inside the scene.
     /// </summary>
     [DefaultExecutionOrder(-1000)]
+    [LuaCallCSharp]
     public class LuaRoom : MonoBehaviour
     {
         public string RoomName = string.Empty;
@@ -43,6 +45,11 @@ namespace LuaScripting
         /// The available lua groups in the room.
         /// </summary>
         public readonly Dictionary<string, LuaGroupDomain> Groups = new Dictionary<string, LuaGroupDomain>();
+
+        /// <summary>
+        /// The available registered objects in the room.
+        /// </summary>
+        public readonly Dictionary<string, GameObject> Objects = new Dictionary<string, GameObject>();
 
 
 
@@ -282,7 +289,101 @@ namespace LuaScripting
         }
 
         /// <summary>
-        /// Instantiates a prefab from an AssetBundle with and individual domain inside this room.
+        /// Instantiates a new registered object in the room. Use for simple objects that do not need their own scripts.
+        /// </summary> 
+        /// <param name="objectName">The key of the new object in the room.</param>
+        /// <param name="objectType">An optional type can be specified for faster object creation. Accepts values from a predefined list, an empty object will be created for values out of that list.</param>
+        /// <param name="components">An optional array of component names can specified to add the equivalent components to the new object.</param>
+        /// <param name="activate">Should the object be activated? Defaults to true.</param>
+        /// <returns>The instantiated game object.</returns>
+        public GameObject InstantiateAndRegisterObject(string objectKey, string objectType = "", string[] components = null, bool activate = true)
+        {
+            var newObject = InstantiateObject(objectType, components, activate);
+            RegisterObject(objectKey, newObject);
+
+            return newObject;
+        }
+
+        /// <summary>
+        /// Instantiates a new object in the room. Use for simple objects that do not need their own scripts.
+        /// </summary> 
+        /// <param name="objectType">An optional type can be specified for faster object creation. Accepts values from a predefined list, an empty object will be created for values out of that list.</param>
+        /// <param name="components">An optional array of component names can specified to add the equivalent components to the new object.</param>
+        /// <param name="activate">Should the object be activated? Defaults to true.</param>
+        /// <returns>The instantiated game object.</returns>
+        public GameObject InstantiateObject(string objectType = "", string[] components = null, bool activate = true)
+        {
+            GameObject newObject;
+            switch (objectType)
+            {
+                case "cube":
+                    newObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    break;
+                case "sphere":
+                    newObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    break;
+                case "capsule":
+                    newObject = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+                    break;
+                case "cylinder":
+                    newObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                    break;
+                case "plane":
+                    newObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                    break;
+                case "quad":
+                    newObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                    break;
+                case "light":
+                    newObject = new GameObject();
+                    newObject.SetActive(false);
+                    newObject.AddComponent<Light>();
+                    break;
+                case "camera":
+                    newObject = new GameObject();
+                    newObject.SetActive(false);
+                    newObject.AddComponent<Camera>();
+                    newObject.AddComponent<AudioListener>();
+                    break;
+                case "vcamera":
+                    newObject = new GameObject();
+                    newObject.SetActive(false);
+                    newObject.AddComponent<CinemachineVirtualCamera>();
+                    break;
+                default:
+                    newObject = new GameObject();
+                    break;
+            }
+            newObject.SetActive(false);
+
+            if (components != null) 
+            {
+                foreach(var component in components)
+                {
+                    newObject.AddComponent(Type.GetType(component));
+                }
+            }
+
+            newObject.transform.SetParent(null);
+            if (activate) newObject.SetActive(true);
+
+            return newObject;
+        }
+
+
+        /// <summary>
+        /// Registers a new object.
+        /// </summary>
+        /// <param name="objectKey">The key of the object in the room.</param>
+        /// <param name="objectToRegister">The object to register on that key.</param>
+        public void RegisterObject(string objectKey, GameObject objectToRegister)
+        {
+            Debug.Assert(!Objects.ContainsKey(objectKey));
+            Objects.Add(objectKey, objectToRegister);
+        }
+
+        /// <summary>
+        /// Instantiates a prefab from an AssetBundle with an individual domain inside this room.
         /// </summary>
         /// <param name="objectName">The prefab's name inside the asset bundle.</param>
         /// <param name="bundleName">The Asset Bundle's name.</param>
@@ -394,6 +495,12 @@ namespace LuaScripting
         {
             foreach (var luaRoomPreset in FindObjectsOfType<LuaRoomPresets>())
             {
+                // Register the already initialized objects specified in the inspector.
+                foreach (var registeredObject in luaRoomPreset.Objects)
+                {
+                    Objects.Add(registeredObject.ObjectName, registeredObject.GameObject);
+                }
+
                 // Create the group domains specified in the inspector.
                 foreach (var group in luaRoomPreset.Groups)
                 {

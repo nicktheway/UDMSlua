@@ -16,6 +16,7 @@ function onSpaceButtonDown()
 	
 	rb:AddForce(UE.Vector3.up * 20, UE.ForceMode.VelocityChange)
 	UE.Object.Destroy(go, 3)
+    print(onAButtonDown)
 end
 
 function onAButtonDown()

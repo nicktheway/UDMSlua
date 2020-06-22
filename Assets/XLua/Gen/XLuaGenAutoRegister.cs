@@ -179,6 +179,9 @@ namespace XLua.CSObjectWrap
         static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
         {
         
+            translator.DelayWrapLoader(typeof(LuaScripting.LuaRoom), LuaScriptingLuaRoomWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(LuaScripting.LuaCameraObject), LuaScriptingLuaCameraObjectWrap.__Register);
         
         

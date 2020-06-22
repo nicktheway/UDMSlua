@@ -116,6 +116,7 @@ namespace LuaScripting
         {
             // Attaches the global metatable to the LuaEnvironment.
             LuaManager.AttachGlobalTableAsDefault(LuaEnvironment);
+            LuaEnvironment.Set("Room", DomainRoom);
         }
 
         /// <summary>

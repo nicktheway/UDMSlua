@@ -70,6 +70,7 @@
 		<type fullname="LuaScripting.LuaGameObject" preserve="all"/>
 		<type fullname="LuaScripting.LuaGroupObject" preserve="all"/>
 		<type fullname="LuaScripting.LuaIndividualObject" preserve="all"/>
+		<type fullname="LuaScripting.LuaRoom" preserve="all"/>
 		<type fullname="LuaScripting.LuaCameraObject" preserve="all"/>
 		<type fullname="LuaScripting.ClassExtensions.CinemachineExtensions" preserve="all"/>
 		<type fullname="Tutorial.DerivedClass+TestEnumInner" preserve="all"/>

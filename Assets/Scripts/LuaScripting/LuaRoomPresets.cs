@@ -19,6 +19,19 @@ namespace LuaScripting
         /// </summary>
         public List<LuaIndividualObject> Individuals = new List<LuaIndividualObject>();
 
+
+        [System.Serializable]
+        public class SimpleRoomGameObject
+        {
+            public string ObjectName;
+            public GameObject GameObject;
+        }
+
+        /// <summary>
+        /// List for adding simple objects via the inspector.
+        /// </summary>
+        public List<SimpleRoomGameObject> Objects = new List<SimpleRoomGameObject>();
+
         public GameObject UI;
 
         private LuaRoom _luaRoom;
