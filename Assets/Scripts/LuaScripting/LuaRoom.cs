@@ -618,7 +618,7 @@ namespace LuaScripting
         /// Retrieves one of the room's individual domains from its name.
         /// </summary>
         /// <param name="domainName">The name of the individual domain.</param>
-        /// <returns>The group's LuaIndividualDomain or null if no individual domain with that name exists in the room.</returns>
+        /// <returns>The LuaIndividualDomain or null if no individual domain with that name exists in the room.</returns>
         public LuaIndividualDomain GetIndividualDomain(string domainName)
         {
             if (IndividualDomains.ContainsKey(domainName))
