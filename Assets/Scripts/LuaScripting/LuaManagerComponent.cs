@@ -18,6 +18,7 @@ namespace LuaScripting
         private void Awake()
         {
             _activeInstances++;
+            LuaManager.LuaEnv.AddLoader(LuaManager.LibraryLoader);
         }
 
         private void Start()

@@ -75,6 +75,23 @@ namespace LuaScripting
         }
 
         /// <summary>
+        /// A custom xLua loader to offer UDMS library support into a room's scripts.
+        /// </summary> 
+        public static byte[] LibraryLoader(ref string libraryPath)
+        {
+            var filePath = Path.Combine(ScriptsBasePath, $"Libraries/{libraryPath.Replace(".", "/")}.lua");
+
+            if (File.Exists(filePath)) 
+            {
+                return File.ReadAllBytes(filePath);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Executes a lua script inside a lua table.
         /// </summary>
         /// This function will execute the specified script inside the specified environment table, essentially setting all the variables

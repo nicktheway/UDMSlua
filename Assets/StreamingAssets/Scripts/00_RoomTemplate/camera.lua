@@ -1,6 +1,9 @@
 -- aliases --
 local UE = CS.UnityEngine
+mm = require("modules")
 
+
+mm.test('34')
 function awake()
     self.ActiveCamera = "dolly"
 	self.DollyPath = 'custom1'
