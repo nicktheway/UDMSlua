@@ -17,6 +17,7 @@ namespace UDMS
     {
         public List<LuaDomain> SelectedObjects = new List<LuaDomain>();
         public GameObject UI;
+        public GameObject HelpPanel;
 
         public static readonly string MusicBasePath = Application.streamingAssetsPath + "/Music";
 
@@ -44,7 +45,7 @@ namespace UDMS
         {
             DebugLogConsole.AddCommand("reload", "Reloads the scripts of the selected LuaDomains.", ReloadScriptsOnSelectedDomains);
             DebugLogConsole.AddCommand("room", "Opens panel for selecting a new room/scenario.", ChooseRoom);
-            DebugLogConsole.AddCommand("song", "Opens a file panel for selecting a new song to play.", ToggleMainMenu);
+            DebugLogConsole.AddCommand("song", "Opens a file panel for selecting a new song to play.", ChooseSong);
             DebugLogConsole.AddCommand("domains", "Prints a list of the room's domains.", PrintRoomDomains);
             DebugLogConsole.AddCommand("objects", "Prints a list of the room's registered objects.", PrintRoomObjects);
             DebugLogConsole.AddCommand("selected", "Prints a list of the currently selected domains.", PrintSelected);
@@ -56,12 +57,19 @@ namespace UDMS
             DebugLogConsole.AddCommand("delete", "Deletes the selected domains.", DeleteSelectedDomains);
             DebugLogConsole.AddCommand<string>("grandpa", "Instantiates a new grandpa individual object inside the room.", InstantiateGrandpa);
             DebugLogConsole.AddCommand("menu", "Toggles the main menu.", ToggleMainMenu);
+            DebugLogConsole.AddCommand("globalsettings", "Reloads gameSettings.lua which is the global settings script.", ApplyGameSettings);
+            DebugLogConsole.AddCommand("basedir", "Opens the base scripting directory inside the OS' file manager.", OpenScenarioBaseDirectory);
+            DebugLogConsole.AddCommand("musicdir", "Opens the music's base directory inside the OS' file manager.", OpenMusicBaseDirectory);
             DebugLogConsole.AddCommand("ENVDISPOSE", "Disposes the Lua Environment. Not recommended.", DisposeLuaEnvironment);
         }
 
         private void Update()
         {
             MouseSelectListen();
+            if (Input.GetButtonUp("Cancel"))
+            {
+                ToggleMainMenu();
+            }
         }
 
         private void MouseSelectListen()
@@ -172,6 +180,16 @@ namespace UDMS
                 }
             }
             Debug.Log(list.ToString());
+        }
+
+        public void OpenScenarioBaseDirectory()
+        {
+            Application.OpenURL("file://" + LuaManager.ScriptsBasePath);
+        }
+
+        public void OpenMusicBaseDirectory()
+        {
+            Application.OpenURL("file://" + MusicBasePath);
         }
 
         public void PrintSelected()
@@ -366,6 +384,18 @@ namespace UDMS
         public void ToggleMainMenu()
         {
             UI.SetActive(!UI.activeSelf);
+            if (!UI.activeSelf) 
+            {
+                HelpPanel.SetActive(false);
+            }
+        }
+
+        public void TogglePanel(string panel)
+        {
+            if (panel == "help")
+            {
+                HelpPanel.SetActive(!HelpPanel.activeSelf);
+            }
         }
 
         public void InstantiateGrandpa(string domainName)
