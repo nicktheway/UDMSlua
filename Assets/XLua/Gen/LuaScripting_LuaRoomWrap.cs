@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaRoom);
-			Utils.BeginObjectRegister(type, L, translator, 0, 22, 10, 5);
+			Utils.BeginObjectRegister(type, L, translator, 0, 22, 9, 4);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetUpRoom", _m_SetUpRoom);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Activate", _m_Activate);
@@ -56,13 +56,11 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "Groups", _g_get_Groups);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "Objects", _g_get_Objects);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "IndividualDomains", _g_get_IndividualDomains);
-            Utils.RegisterFunc(L, Utils.GETTER_IDX, "_registeredDomains", _g_get__registeredDomains);
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "RoomName", _s_set_RoomName);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "SceneName", _s_set_SceneName);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "RoomSettings", _s_set_RoomSettings);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "PlayMusicGlobal", _s_set_PlayMusicGlobal);
-            Utils.RegisterFunc(L, Utils.SETTER_IDX, "_registeredDomains", _s_set__registeredDomains);
             
 			
 			Utils.EndObjectRegister(type, L, translator, null, null,
@@ -1000,20 +998,6 @@ namespace XLua.CSObjectWrap
             return 1;
         }
         
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get__registeredDomains(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                LuaScripting.LuaRoom gen_to_be_invoked = (LuaScripting.LuaRoom)translator.FastGetCSObj(L, 1);
-                translator.Push(L, gen_to_be_invoked._registeredDomains);
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 1;
-        }
-        
         
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -1069,21 +1053,6 @@ namespace XLua.CSObjectWrap
 			
                 LuaScripting.LuaRoom gen_to_be_invoked = (LuaScripting.LuaRoom)translator.FastGetCSObj(L, 1);
                 gen_to_be_invoked.PlayMusicGlobal = translator.GetDelegate<System.Action<string>>(L, 2);
-            
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 0;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _s_set__registeredDomains(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                LuaScripting.LuaRoom gen_to_be_invoked = (LuaScripting.LuaRoom)translator.FastGetCSObj(L, 1);
-                gen_to_be_invoked._registeredDomains = (System.Collections.Generic.List<LuaScripting.LuaDomain>)translator.GetObject(L, 2, typeof(System.Collections.Generic.List<LuaScripting.LuaDomain>));
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
