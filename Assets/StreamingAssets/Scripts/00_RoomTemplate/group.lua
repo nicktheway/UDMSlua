@@ -3,8 +3,14 @@ local effects = require('effects')
 
 local Nagn = Members.Count
 local frameCounter = 0
+local clip = 'Jazz Dancing01'
+local anims = {}
 
 function start()
+    for i=0,Nagn - 1 do
+        anims[i] = Members[i]:GetComponent(typeof(UE.Animator))
+		anims[i]:CrossFade(clip, 0.4);
+    end
     -- Group function call example
     -- full list of available functions at: https://udms-docs.netlify.app/src-pages-scripting-api-group/
     Group:ToGridFormation(4, UE.Vector3(-2, 0, -2), 1, 1)
@@ -16,7 +22,6 @@ function start()
     end
 	--]]
 	Group:ToggleIndices(true)
-	UE.GameObject.CreatePrimitive(UE.PrimitiveType.Cube)
 end
 
 function update()
@@ -27,6 +32,7 @@ function update()
 	if frameCounter % 200 == 0 then
 		effects.vignetteEffect(1, 1, 1)
 		effects.bloomEffect(50, 1, 2, 1)
+		effects.colorGradingEffect(-100, 1, 2, 1)
 	end
 	
 	frameCounter = frameCounter + 1

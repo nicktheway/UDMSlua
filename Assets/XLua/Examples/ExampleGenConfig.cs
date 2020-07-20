@@ -55,6 +55,7 @@ public static class ExampleGenConfig
                 typeof(UnityEngine.ScriptableObject),
                 typeof(UnityEngine.Rendering.PostProcessing.Vignette),
                 typeof(UnityEngine.Rendering.PostProcessing.Bloom),
+                typeof(UnityEngine.Rendering.PostProcessing.ColorGrading),
                 typeof(UnityEngine.Rendering.PostProcessing.PostProcessManager),
                 typeof(UnityEngine.Rendering.PostProcessing.RuntimeUtilities),
 
@@ -98,6 +99,8 @@ public static class ExampleGenConfig
                 typeof(DG.Tweening.Core.DOSetter<float>),
                 typeof(DG.Tweening.Core.DOGetter<Vector3>),
                 typeof(DG.Tweening.Core.DOSetter<Vector3>),
+                typeof(DG.Tweening.Core.DOGetter<Color>),
+                typeof(DG.Tweening.Core.DOSetter<Color>),
             };
 
     //黑名单
