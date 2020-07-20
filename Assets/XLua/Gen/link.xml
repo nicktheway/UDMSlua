@@ -33,6 +33,7 @@
 		<type fullname="UnityEngine.Light" preserve="all"/>
 		<type fullname="UnityEngine.Mathf" preserve="all"/>
 		<type fullname="UnityEngine.Debug" preserve="all"/>
+		<type fullname="UnityEngine.ScriptableObject" preserve="all"/>
 		<type fullname="UnityEngine.WaitForSeconds" preserve="all"/>
 		
 	</assembly>
@@ -44,6 +45,45 @@
 
 	<assembly fullname="UnityEngine.ParticleSystemModule">
 	    <type fullname="UnityEngine.ParticleSystem" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="UnityEngine.UnityWebRequestModule">
+	    <type fullname="UnityEngine.Networking.UnityWebRequest" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="Unity.Postprocessing.Runtime">
+	    <type fullname="UnityEngine.Rendering.PostProcessing.Vignette" preserve="all"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.PostProcessManager" preserve="all"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.RuntimeUtilities" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="DOTween">
+	    <type fullname="DG.Tweening.AutoPlay" preserve="all"/>
+		<type fullname="DG.Tweening.AxisConstraint" preserve="all"/>
+		<type fullname="DG.Tweening.Ease" preserve="all"/>
+		<type fullname="DG.Tweening.LogBehaviour" preserve="all"/>
+		<type fullname="DG.Tweening.LoopType" preserve="all"/>
+		<type fullname="DG.Tweening.PathMode" preserve="all"/>
+		<type fullname="DG.Tweening.PathType" preserve="all"/>
+		<type fullname="DG.Tweening.RotateMode" preserve="all"/>
+		<type fullname="DG.Tweening.ScrambleMode" preserve="all"/>
+		<type fullname="DG.Tweening.TweenType" preserve="all"/>
+		<type fullname="DG.Tweening.UpdateType" preserve="all"/>
+		<type fullname="DG.Tweening.DOTween" preserve="all"/>
+		<type fullname="DG.Tweening.DOVirtual" preserve="all"/>
+		<type fullname="DG.Tweening.EaseFactory" preserve="all"/>
+		<type fullname="DG.Tweening.Tweener" preserve="all"/>
+		<type fullname="DG.Tweening.Tween" preserve="all"/>
+		<type fullname="DG.Tweening.Sequence" preserve="all"/>
+		<type fullname="DG.Tweening.TweenParams" preserve="all"/>
+		<type fullname="DG.Tweening.Core.ABSSequentiable" preserve="all"/>
+		<type fullname="DG.Tweening.Core.TweenerCore`3[UnityEngine.Vector3,UnityEngine.Vector3,DG.Tweening.Plugins.Options.VectorOptions]" preserve="all"/>
+		<type fullname="DG.Tweening.TweenExtensions" preserve="all"/>
+		<type fullname="DG.Tweening.TweenSettingsExtensions" preserve="all"/>
+		<type fullname="DG.Tweening.ShortcutExtensions" preserve="all"/>
 		
 	</assembly>
 

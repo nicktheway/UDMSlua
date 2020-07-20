@@ -1,10 +1,8 @@
 local UE = CS.UnityEngine
-mm = require("modules")
-math = require("math")
-
-mm.test('aha')
+local effects = require('effects')
 
 local Nagn = Members.Count
+local frameCounter = 0
 
 function start()
     -- Group function call example
@@ -25,6 +23,12 @@ function update()
     for i = 0, Nagn - 1 do
         individualUpdate(i)
     end
+	
+	if frameCounter % 300 == 0 then
+		effects.vignetteEffect(1, 1, 1)
+	end
+	
+	frameCounter = frameCounter + 1
 end
 
 function individualUpdate(id)
@@ -34,4 +38,3 @@ function individualUpdate(id)
     local newDir =  Members[id]:DirAgentToPnt(UE.Vector3(0, 0, 0))
     Members[id]:SetDir(newDir)
 end
-
