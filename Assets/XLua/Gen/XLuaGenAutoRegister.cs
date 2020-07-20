@@ -115,6 +115,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.Rendering.PostProcessing.Vignette), UnityEngineRenderingPostProcessingVignetteWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(UnityEngine.Rendering.PostProcessing.Bloom), UnityEngineRenderingPostProcessingBloomWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(UnityEngine.Rendering.PostProcessing.PostProcessManager), UnityEngineRenderingPostProcessingPostProcessManagerWrap.__Register);
         
         
@@ -171,13 +174,13 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(DG.Tweening.Sequence), DGTweeningSequenceWrap.__Register);
         
-        
-            translator.DelayWrapLoader(typeof(DG.Tweening.TweenParams), DGTweeningTweenParamsWrap.__Register);
-        
         }
         
         static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
         {
+        
+            translator.DelayWrapLoader(typeof(DG.Tweening.TweenParams), DGTweeningTweenParamsWrap.__Register);
+        
         
             translator.DelayWrapLoader(typeof(DG.Tweening.Core.ABSSequentiable), DGTweeningCoreABSSequentiableWrap.__Register);
         

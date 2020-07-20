@@ -24,8 +24,9 @@ function update()
         individualUpdate(i)
     end
 	
-	if frameCounter % 300 == 0 then
+	if frameCounter % 200 == 0 then
 		effects.vignetteEffect(1, 1, 1)
+		effects.bloomEffect(50, 1, 2, 1)
 	end
 	
 	frameCounter = frameCounter + 1

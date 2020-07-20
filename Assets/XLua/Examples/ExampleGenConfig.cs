@@ -54,6 +54,7 @@ public static class ExampleGenConfig
                 typeof(UnityWebRequest),
                 typeof(UnityEngine.ScriptableObject),
                 typeof(UnityEngine.Rendering.PostProcessing.Vignette),
+                typeof(UnityEngine.Rendering.PostProcessing.Bloom),
                 typeof(UnityEngine.Rendering.PostProcessing.PostProcessManager),
                 typeof(UnityEngine.Rendering.PostProcessing.RuntimeUtilities),
 
@@ -95,6 +96,8 @@ public static class ExampleGenConfig
                 typeof(System.Collections.IEnumerator),
                 typeof(DG.Tweening.Core.DOGetter<float>),
                 typeof(DG.Tweening.Core.DOSetter<float>),
+                typeof(DG.Tweening.Core.DOGetter<Vector3>),
+                typeof(DG.Tweening.Core.DOSetter<Vector3>),
             };
 
     //黑名单
