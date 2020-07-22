@@ -31,7 +31,7 @@ namespace XLua.CSObjectWrap
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 15, 22, 0);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 15, 21, 0);
 			Utils.RegisterFunc(L, Utils.CLS_IDX, "GetLutStrip", _m_GetLutStrip_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "CopyTexture", _m_CopyTexture_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "isFloatingPointFormat", _m_isFloatingPointFormat_xlua_st_);
@@ -65,7 +65,6 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "scriptableRenderPipelineActive", _g_get_scriptableRenderPipelineActive);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "supportsDeferredShading", _g_get_supportsDeferredShading);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "supportsDepthNormals", _g_get_supportsDepthNormals);
-            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "isSinglePassStereoSelected", _g_get_isSinglePassStereoSelected);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "isSinglePassStereoEnabled", _g_get_isSinglePassStereoEnabled);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "isVREnabled", _g_get_isVREnabled);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "isAndroidOpenGL", _g_get_isAndroidOpenGL);
@@ -674,18 +673,6 @@ namespace XLua.CSObjectWrap
 		    try {
             
 			    LuaAPI.lua_pushboolean(L, UnityEngine.Rendering.PostProcessing.RuntimeUtilities.supportsDepthNormals);
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 1;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_isSinglePassStereoSelected(RealStatePtr L)
-        {
-		    try {
-            
-			    LuaAPI.lua_pushboolean(L, UnityEngine.Rendering.PostProcessing.RuntimeUtilities.isSinglePassStereoSelected);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
