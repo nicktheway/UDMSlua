@@ -6,6 +6,56 @@ local M = {}
 
 local pp_layer = UE.LayerMask.NameToLayer('PostProcessing')
 
+
+function M.newEffect(effectName)
+	local effect
+	
+	if effectName == 'anaglyph3d' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Anaglyph3D))
+	elseif effectName == 'circularblur' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.CircularBlur))
+	elseif effectName == 'colorization' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Colorization))
+	elseif effectName == 'drunk' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Drunk))
+	elseif effectName == 'duotone' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.DuoTone))
+	elseif effectName == 'emboss' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Emboss))
+	elseif effectName == 'greyscale' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Greyscale))
+	elseif effectName == 'laplacian' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Laplacian))
+	elseif effectName == 'lens' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Lens))
+	elseif effectName == 'lowresolution' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.LowResolution))
+	elseif effectName == 'negative' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Negative))
+	elseif effectName == 'nightvision' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.NightVision))
+	elseif effectName == 'posterization' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Posterization))
+	elseif effectName == 'radialblur' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.RadialBlur))
+	elseif effectName == 'scanner' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Scanner))
+	elseif effectName == 'sobel' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Sobel))
+	elseif effectName == 'thermalvision' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.ThermalVision))
+	elseif effectName == 'wiggle' then
+		effect = UE.ScriptableObject.CreateInstance(typeof(CS.PPEffects.Wiggle))
+	else
+		return null
+	end
+	
+	local volume = PP.PostProcessManager.instance:QuickVolume(pp_layer, 100.0, effect)
+	volume.weight = 1
+	
+	return effect
+end
+
 --[[
 	fadeIn <float> 	:	fade in duration
 	fadeOut <float> :	fade out duration

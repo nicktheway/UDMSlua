@@ -127,6 +127,61 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.Rendering.PostProcessing.RuntimeUtilities), UnityEngineRenderingPostProcessingRuntimeUtilitiesWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(PPEffects.Anaglyph3D), PPEffectsAnaglyph3DWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.CircularBlur), PPEffectsCircularBlurWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Colorization), PPEffectsColorizationWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Drunk), PPEffectsDrunkWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.DuoTone), PPEffectsDuoToneWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Emboss), PPEffectsEmbossWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Greyscale), PPEffectsGreyscaleWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Laplacian), PPEffectsLaplacianWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Lens), PPEffectsLensWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Negative), PPEffectsNegativeWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.NightVision), PPEffectsNightVisionWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Posterization), PPEffectsPosterizationWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.RadialBlur), PPEffectsRadialBlurWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Scanner), PPEffectsScannerWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Sobel), PPEffectsSobelWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.ThermalVision), PPEffectsThermalVisionWrap.__Register);
+        
+        }
+        
+        static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
+        {
+        
+            translator.DelayWrapLoader(typeof(PPEffects.Wiggle), PPEffectsWiggleWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(DG.Tweening.AutoPlay), DGTweeningAutoPlayWrap.__Register);
         
         
@@ -174,10 +229,6 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(DG.Tweening.Tween), DGTweeningTweenWrap.__Register);
         
-        }
-        
-        static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
-        {
         
             translator.DelayWrapLoader(typeof(DG.Tweening.Sequence), DGTweeningSequenceWrap.__Register);
         
@@ -280,9 +331,11 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(Tutorial.DerivedClass.TestEnumInner), TutorialDerivedClassTestEnumInnerWrap.__Register);
         
-        
-        
         }
+        
+        
+        
+        
         
         static void Init(LuaEnv luaenv, ObjectTranslator translator)
         {

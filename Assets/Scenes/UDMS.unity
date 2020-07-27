@@ -299,7 +299,43 @@ MonoBehaviour:
   breakBeforeColorGrading: 0
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
-  m_AfterStackBundles: []
+  m_AfterStackBundles:
+  - assemblyQualifiedName: Effects.Greyscale, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Negative, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: Effects.LowResolution, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Posterization, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Drunk, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Anaglyph3D, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: Effects.CircularBlur, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: Effects.RadialBlur, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: Effects.NightVision, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Sobel, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: Effects.ThermalVision, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: Effects.DuoTone, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Emboss, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Colorization, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Laplacian, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Lens, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Scanner, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - assemblyQualifiedName: Effects.Wiggle, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1 &380116316
 GameObject:
   m_ObjectHideFlags: 0
