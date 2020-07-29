@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4290055141
+CRC: 1221998192
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d90bc1d87fb4ce82b18ffe0e678c8d07
+    Hash: 9fa9eee9c951441334c8d8a944a596df
   TypeTreeHash:
     serializedVersion: 2
     Hash: 55d48f4ad9c3b13330b9eb5ee5686477
@@ -12,22 +12,23 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 Assets:
-- Assets/Scripts/PPEffects/Shaders/CircularBlur.shader
-- Assets/Scripts/PPEffects/Shaders/Lens.shader
-- Assets/Scripts/PPEffects/Shaders/DuoTone.shader
-- Assets/Scripts/PPEffects/Shaders/Sobel.shader
-- Assets/Scripts/PPEffects/Shaders/Wiggle.shader
-- Assets/Scripts/PPEffects/Shaders/Scanner.shader
-- Assets/Scripts/PPEffects/Shaders/RadialBlur.shader
-- Assets/Scripts/PPEffects/Shaders/Laplacian.shader
-- Assets/Scripts/PPEffects/Shaders/Colorization.shader
-- Assets/Scripts/PPEffects/Shaders/Emboss.shader
-- Assets/Scripts/PPEffects/Shaders/NightVision.shader
-- Assets/Scripts/PPEffects/Shaders/ThermalVision.shader
-- Assets/Scripts/PPEffects/Shaders/Negative.shader
-- Assets/Scripts/PPEffects/Shaders/Posterization.shader
-- Assets/Scripts/PPEffects/Shaders/Anaglyph3D.shader
-- Assets/Scripts/PPEffects/Shaders/Drunk.shader
-- Assets/Scripts/PPEffects/Shaders/Greyscale.shader
-- Assets/Scripts/PPEffects/Shaders/LowResolution.shader
+- Assets/Resources/PPEffects/Shaders/CircularBlur.shader
+- Assets/Resources/PPEffects/Shaders/Lens.shader
+- Assets/Resources/PPEffects/Shaders/DuoTone.shader
+- Assets/Resources/PPEffects/Shaders/Sobel.shader
+- Assets/Resources/PPEffects/Shaders/Wiggle.shader
+- Assets/Resources/PPEffects/Shaders/Scanner.shader
+- Assets/Resources/PPEffects/Shaders/SimpleLUT.shader
+- Assets/Resources/PPEffects/Shaders/RadialBlur.shader
+- Assets/Resources/PPEffects/Shaders/Laplacian.shader
+- Assets/Resources/PPEffects/Shaders/Colorization.shader
+- Assets/Resources/PPEffects/Shaders/Emboss.shader
+- Assets/Resources/PPEffects/Shaders/NightVision.shader
+- Assets/Resources/PPEffects/Shaders/ThermalVision.shader
+- Assets/Resources/PPEffects/Shaders/Negative.shader
+- Assets/Resources/PPEffects/Shaders/Posterization.shader
+- Assets/Resources/PPEffects/Shaders/Anaglyph3D.shader
+- Assets/Resources/PPEffects/Shaders/Drunk.shader
+- Assets/Resources/PPEffects/Shaders/Greyscale.shader
+- Assets/Resources/PPEffects/Shaders/LowResolution.shader
 Dependencies: []

@@ -305,6 +305,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(XLuaTest.FooExtension), XLuaTestFooExtensionWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(LuaScripting.AssetManager), LuaScriptingAssetManagerWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(LuaScripting.LuaIndividualDomain), LuaScriptingLuaIndividualDomainWrap.__Register);
         
         
@@ -328,14 +331,16 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(LuaScripting.ClassExtensions.CinemachineExtensions), LuaScriptingClassExtensionsCinemachineExtensionsWrap.__Register);
         
+        }
+        
+        static void wrapInit2(LuaEnv luaenv, ObjectTranslator translator)
+        {
         
             translator.DelayWrapLoader(typeof(Tutorial.DerivedClass.TestEnumInner), TutorialDerivedClassTestEnumInnerWrap.__Register);
         
+        
+        
         }
-        
-        
-        
-        
         
         static void Init(LuaEnv luaenv, ObjectTranslator translator)
         {
@@ -343,6 +348,8 @@ namespace XLua.CSObjectWrap
             wrapInit0(luaenv, translator);
             
             wrapInit1(luaenv, translator);
+            
+            wrapInit2(luaenv, translator);
             
             
             translator.AddInterfaceBridgeCreator(typeof(System.Collections.IEnumerator), SystemCollectionsIEnumeratorBridge.__Create);

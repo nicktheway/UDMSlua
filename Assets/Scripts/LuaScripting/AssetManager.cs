@@ -7,6 +7,7 @@ namespace LuaScripting
     /// <summary>
     /// A class to use for loading/unloading assets.
     /// </summary>
+    [XLua.LuaCallCSharp]
     public static class AssetManager
     {
         public static readonly string AssetBundlesPath = Path.Combine(Application.streamingAssetsPath, "AssetBundles");
@@ -31,6 +32,23 @@ namespace LuaScripting
             }
 
             return LoadedAssetBundles.ContainsKey(assetBundle) ? LoadedAssetBundles[assetBundle].LoadAsset<T>(assetName) : default;
+        }
+
+        /// <summary>
+        /// Loads an asset from a specified asset bundle.
+        /// </summary>
+        /// <param name="type">The type of the asset. (eg. GameObject)</param>
+        /// <param name="assetName">The name of the asset inside the asset bundle.</param>
+        /// <param name="assetBundle">The name of the asset bundle inside the AssetBundlePath.</param>
+        /// <returns>The retrieved object or null.</returns>
+        public static Object LoadAsset(System.Type type, string assetName, string assetBundle)
+        {
+            if (!LoadedAssetBundles.ContainsKey(assetBundle))
+            {
+                LoadAssetBundle(assetBundle);
+            }
+
+            return LoadedAssetBundles.ContainsKey(assetBundle) ? LoadedAssetBundles[assetBundle].LoadAsset(assetName, type) : null;
         }
 
         /// <summary>

@@ -1,0 +1,168 @@
+ManifestFileVersion: 0
+CRC: 3968967353
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 5e7131587b992c72edf915b04434bbdd
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2ed26e3ad9f6be9c24f85f5f5b54339d
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/Textures/LUTs/Pastel-Dream.png
+- Assets/Data/Textures/LUTs/Filter-Blue-Heavy.png
+- Assets/Data/Textures/LUTs/LUT.CIN_32_MOV12_ST-by HereVR.png
+- Assets/Data/Textures/LUTs/Flashback3D16.png
+- Assets/Data/Textures/LUTs/Filter-Yellow-Soft.png
+- Assets/Data/Textures/LUTs/DineInHell3D16.png
+- Assets/Data/Textures/LUTs/Cyberpunk3D16.png
+- Assets/Data/Textures/LUTs/RedAndBlue3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Vintage.png
+- Assets/Data/Textures/LUTs/Vault1013D16.png
+- Assets/Data/Textures/LUTs/FinalBattle3D16.png
+- Assets/Data/Textures/LUTs/Dark-Knight.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Compressed.png
+- Assets/Data/Textures/LUTs/Hipster3D16.png
+- Assets/Data/Textures/LUTs/Filter-Green-Soft.png
+- Assets/Data/Textures/LUTs/SciFi3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Warm_Evening.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Ink_Land_Red.png
+- Assets/Data/Textures/LUTs/Polygon_Lut_Vanilla_Icecream.png
+- Assets/Data/Textures/LUTs/Warm3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Neo_Chunky.png
+- Assets/Data/Textures/LUTs/Millennium3D16.png
+- Assets/Data/Textures/LUTs/Slumber3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Cartoon_Grainy.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_LowFi.jpg
+- Assets/Data/Textures/LUTs/Polygon_LUT_Pixel.png
+- Assets/Data/Textures/LUTs/Hard-Warmer.png
+- Assets/Data/Textures/LUTs/Punchy3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Ink_Land_Red_Alt.png
+- Assets/Data/Textures/LUTs/Romantic3D16.png
+- Assets/Data/Textures/LUTs/Blue-Grass.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Ink_Land.png
+- Assets/Data/Textures/LUTs/Cold.png
+- Assets/Data/Textures/LUTs/Fallen-World.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_RedCity_Alt.png
+- Assets/Data/Textures/LUTs/BadFilm3D16.png
+- Assets/Data/Textures/LUTs/Horror3D16.png
+- Assets/Data/Textures/LUTs/19603D16.png
+- Assets/Data/Textures/LUTs/Warm.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_SummerSlime.jpg
+- Assets/Data/Textures/LUTs/Saturated-Green.png
+- Assets/Data/Textures/LUTs/Saw3D16.png
+- Assets/Data/Textures/LUTs/NeonWorld3D16.png
+- Assets/Data/Textures/LUTs/Bit3Channels3D16.png
+- Assets/Data/Textures/LUTs/RedRoom3D16.png
+- Assets/Data/Textures/LUTs/Hollywood3D16.png
+- Assets/Data/Textures/LUTs/Nature3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Ink_Land_Alt.png
+- Assets/Data/Textures/LUTs/ModernRetro3D16.png
+- Assets/Data/Textures/LUTs/Filter-Green-Heavy.png
+- Assets/Data/Textures/LUTs/Intensity3D16.png
+- Assets/Data/Textures/LUTs/Enhancer.png
+- Assets/Data/Textures/LUTs/Weathered3D16.png
+- Assets/Data/Textures/LUTs/LUT.CIN_16_MOV06_ST-by HereVR.png
+- Assets/Data/Textures/LUTs/Toxic3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_YellowBelly.jpg
+- Assets/Data/Textures/LUTs/Filter-Red-Heavy.png
+- Assets/Data/Textures/LUTs/AlienInvasion3D16.png
+- Assets/Data/Textures/LUTs/Hitchcock3D16.png
+- Assets/Data/Textures/LUTs/Barren-Night.png
+- Assets/Data/Textures/LUTs/Pike3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_BurntBridge.jpg
+- Assets/Data/Textures/LUTs/DayForNight3D16.png
+- Assets/Data/Textures/LUTs/Beach3D16.png
+- Assets/Data/Textures/LUTs/LUT.BW_03_AllCh_LI-by HereVR.png
+- Assets/Data/Textures/LUTs/HotSun3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Posterize.png
+- Assets/Data/Textures/LUTs/Filter-Yellow-Heavy.png
+- Assets/Data/Textures/LUTs/HeavyContrast.png
+- Assets/Data/Textures/LUTs/PurpleHaze3D16.png
+- Assets/Data/Textures/LUTs/OldCountry3D16.png
+- Assets/Data/Textures/LUTs/Sin-City.png
+- Assets/Data/Textures/LUTs/Noire3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_ColorSplat.jpg
+- Assets/Data/Textures/LUTs/Barren.png
+- Assets/Data/Textures/LUTs/Rainbow3D16.png
+- Assets/Data/Textures/LUTs/Literally-BW.png
+- Assets/Data/Textures/LUTs/Icy.png
+- Assets/Data/Textures/LUTs/Dreadful3D16.png
+- Assets/Data/Textures/LUTs/Rads3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Neo_Chunky_Alt.png
+- Assets/Data/Textures/LUTs/Action3D16.png
+- Assets/Data/Textures/LUTs/Pale-Green.png
+- Assets/Data/Textures/LUTs/Dark3D16.png
+- Assets/Data/Textures/LUTs/AlienWorld3D16.png
+- Assets/Data/Textures/LUTs/Icefall3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Cartoon.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_ColorSlap.jpg
+- Assets/Data/Textures/LUTs/Foggy.png
+- Assets/Data/Textures/LUTs/Hayloft3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Pixel_Neutral.png
+- Assets/Data/Textures/LUTs/Hackers3D16.png
+- Assets/Data/Textures/LUTs/Arctic3D16.png
+- Assets/Data/Textures/LUTs/Desert-Glare.png
+- Assets/Data/Textures/LUTs/Filter-Red-Soft.png
+- Assets/Data/Textures/LUTs/LUT.MONO_02_Greenish_ST-by HereVR.png
+- Assets/Data/Textures/LUTs/Tropical-Colors.png
+- Assets/Data/Textures/LUTs/Tale-World.png
+- Assets/Data/Textures/LUTs/CrossProcess3D16.png
+- Assets/Data/Textures/LUTs/NotEnoughBits3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Sepia.png
+- Assets/Data/Textures/LUTs/Minimalist3D16.png
+- Assets/Data/Textures/LUTs/TexMex3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Leather_Strap.png
+- Assets/Data/Textures/LUTs/Endgame3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_RedCity.png
+- Assets/Data/Textures/LUTs/Under-Water.png
+- Assets/Data/Textures/LUTs/Posterizer.png
+- Assets/Data/Textures/LUTs/LUT.MONO_01_Reddish_ST-by HereVR.png
+- Assets/Data/Textures/LUTs/Winterfell3D16.png
+- Assets/Data/Textures/LUTs/Fincher3D16.png
+- Assets/Data/Textures/LUTs/Mr.Robot.png
+- Assets/Data/Textures/LUTs/Filter-Blue-Soft.png
+- Assets/Data/Textures/LUTs/Dream-World.png
+- Assets/Data/Textures/LUTs/LUT.CIN_07_Yellowish01_ST-by HereVR.png
+- Assets/Data/Textures/LUTs/OrangeTeal3D16.png
+- Assets/Data/Textures/LUTs/BrokenDigital3D16.png
+- Assets/Data/Textures/LUTs/No-Blood.png
+- Assets/Data/Textures/LUTs/Fire3D16.png
+- Assets/Data/Textures/LUTs/Fury.png
+- Assets/Data/Textures/LUTs/I-Hate-Yellow.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Honey_Pot.png
+- Assets/Data/Textures/LUTs/True-BW.png
+- Assets/Data/Textures/LUTs/HeatSignature3D16.png
+- Assets/Data/Textures/LUTs/Negative3D16.png
+- Assets/Data/Textures/LUTs/Dream3D16.png
+- Assets/Data/Textures/LUTs/SinCity3D16.png
+- Assets/Data/Textures/LUTs/MusicVideo3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_CutUp.jpg
+- Assets/Data/Textures/LUTs/Vintage3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_GreenPunch.jpg
+- Assets/Data/Textures/LUTs/Underwater3D16.png
+- Assets/Data/Textures/LUTs/Posterize3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Film.png
+- Assets/Data/Textures/LUTs/Matrix3D16.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Cutout.png
+- Assets/Data/Textures/LUTs/Greenpink.png
+- Assets/Data/Textures/LUTs/LUT.BW_11_Broken_ST-by HereVR.png
+- Assets/Data/Textures/LUTs/Sepia3D16.png
+- Assets/Data/Textures/LUTs/Poison.png
+- Assets/Data/Textures/LUTs/Haze.png
+- Assets/Data/Textures/LUTs/War3D16.png
+- Assets/Data/Textures/LUTs/LUT.CIN_09_HDR01_ST-by HereVR.png
+- Assets/Data/Textures/LUTs/Polygon_LUT_Vintage_Grainy.png
+- Assets/Data/Textures/LUTs/Bit1Channel3D16.png
+- Assets/Data/Textures/LUTs/HarshSun3D16.png
+- Assets/Data/Textures/LUTs/RobotVision3D16.png
+- Assets/Data/Textures/LUTs/Bleak.png
+- Assets/Data/Textures/LUTs/BleachBypass3D16.png
+- Assets/Data/Textures/LUTs/TritonePurple3D16.png
+- Assets/Data/Textures/LUTs/Matrix.png
+- Assets/Data/Textures/LUTs/Shut-Down.png
+- Assets/Data/Textures/LUTs/Documentary3D16.png
+Dependencies: []

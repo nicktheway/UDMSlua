@@ -97,6 +97,7 @@
 		<type fullname="XLuaTest.Foo2Child" preserve="all"/>
 		<type fullname="XLuaTest.Foo" preserve="all"/>
 		<type fullname="XLuaTest.FooExtension" preserve="all"/>
+		<type fullname="LuaScripting.AssetManager" preserve="all"/>
 		<type fullname="LuaScripting.LuaIndividualDomain" preserve="all"/>
 		<type fullname="LuaScripting.LuaGroupDomain" preserve="all"/>
 		<type fullname="LuaScripting.LuaGameObject" preserve="all"/>

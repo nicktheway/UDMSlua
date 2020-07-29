@@ -1374,6 +1374,48 @@ MonoBehaviour:
   - {fileID: -2282220576436331686}
   - {fileID: 8474080323051658538}
   - {fileID: -8096576140293965305}
+  - {fileID: 2470605600957062759}
+--- !u!114 &2470605600957062759
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f6a64bdb6f2a3489950a087cf9602d, type: 3}
+  m_Name: SimpleLUT
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  LookupTexture:
+    overrideState: 1
+    value: {fileID: 2800000, guid: 4fb8a36b32a51114694699d652e4e8c8, type: 3}
+    defaultState: 1
+  Amount:
+    overrideState: 1
+    value: 1
+  TintColor:
+    overrideState: 0
+    value: {r: 1, g: 1, b: 1, a: 1}
+  Hue:
+    overrideState: 0
+    value: 202
+  Saturation:
+    overrideState: 0
+    value: 0.161
+  Brightness:
+    overrideState: 0
+    value: 0
+  Contrast:
+    overrideState: 0
+    value: 0.117
+  Sharpness:
+    overrideState: 0
+    value: 0
 --- !u!114 &8474080323051658538
 MonoBehaviour:
   m_ObjectHideFlags: 3
