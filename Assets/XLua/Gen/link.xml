@@ -77,9 +77,12 @@
 		<type fullname="PPEffects.Posterization" preserve="all"/>
 		<type fullname="PPEffects.RadialBlur" preserve="all"/>
 		<type fullname="PPEffects.Scanner" preserve="all"/>
+		<type fullname="PPEffects.SimpleLUT" preserve="all"/>
+		<type fullname="PPEffects.SimpleMotionBlur" preserve="all"/>
 		<type fullname="PPEffects.Sobel" preserve="all"/>
 		<type fullname="PPEffects.ThermalVision" preserve="all"/>
 		<type fullname="PPEffects.Wiggle" preserve="all"/>
+		<type fullname="UDMS.Globals" preserve="all"/>
 		<type fullname="Tutorial.BaseClass" preserve="all"/>
 		<type fullname="Tutorial.TestEnum" preserve="all"/>
 		<type fullname="Tutorial.DerivedClass" preserve="all"/>

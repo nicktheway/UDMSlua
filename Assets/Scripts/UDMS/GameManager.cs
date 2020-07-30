@@ -9,9 +9,19 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using XLua;
 using IngameDebugConsole;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace UDMS
 {
+    public static class Globals
+    {
+        public static PostProcessVolume EffectsVolume;
+        public static DebugLogManager ConsoleManager;
+        public static AudioSource AudioSource;
+        public static Camera Camera;
+        public static GameObject MainMenuGameObject;
+    }
+
     [DefaultExecutionOrder(-99999)]
     public class GameManager : MonoBehaviour
     {
@@ -23,6 +33,8 @@ namespace UDMS
 
 
         private AudioSource _audioSource;
+        [SerializeField] private PostProcessVolume _effectsVolume;
+        [SerializeField] private DebugLogManager _consoleManager;
 
         /// <summary>
         /// The table with the game's global settings.
@@ -32,10 +44,21 @@ namespace UDMS
         public LuaRoom ActiveLuaRoom;
         private string _newRoomName;
 
+        private void InitializeGlobals()
+        {
+            Globals.Camera = Camera.main;
+            Globals.AudioSource = _audioSource;
+            Globals.MainMenuGameObject = UI;
+            Globals.EffectsVolume = _effectsVolume;
+            Globals.ConsoleManager = _consoleManager;
+        }
+
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
             DontDestroyOnLoad(gameObject);
+
+            InitializeGlobals();
 
             PrepareGameSettingsSymbols();
             ApplyGameSettings();

@@ -72,9 +72,12 @@ public static class ExampleGenConfig
                 typeof(PPEffects.Posterization),
                 typeof(PPEffects.RadialBlur),
                 typeof(PPEffects.Scanner),
+                typeof(PPEffects.SimpleLUT),
+                typeof(PPEffects.SimpleMotionBlur),
                 typeof(PPEffects.Sobel),
                 typeof(PPEffects.ThermalVision),
                 typeof(PPEffects.Wiggle),
+                typeof(UDMS.Globals),
 
                 // DotTween
                 typeof(DG.Tweening.AutoPlay),

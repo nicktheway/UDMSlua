@@ -169,17 +169,26 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(PPEffects.Scanner), PPEffectsScannerWrap.__Register);
         
         
-            translator.DelayWrapLoader(typeof(PPEffects.Sobel), PPEffectsSobelWrap.__Register);
+            translator.DelayWrapLoader(typeof(PPEffects.SimpleLUT), PPEffectsSimpleLUTWrap.__Register);
         
         
-            translator.DelayWrapLoader(typeof(PPEffects.ThermalVision), PPEffectsThermalVisionWrap.__Register);
+            translator.DelayWrapLoader(typeof(PPEffects.SimpleMotionBlur), PPEffectsSimpleMotionBlurWrap.__Register);
         
         }
         
         static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
         {
         
+            translator.DelayWrapLoader(typeof(PPEffects.Sobel), PPEffectsSobelWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(PPEffects.ThermalVision), PPEffectsThermalVisionWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(PPEffects.Wiggle), PPEffectsWiggleWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(UDMS.Globals), UDMSGlobalsWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(DG.Tweening.AutoPlay), DGTweeningAutoPlayWrap.__Register);
@@ -322,6 +331,10 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(LuaScripting.LuaIndividualObject), LuaScriptingLuaIndividualObjectWrap.__Register);
         
+        }
+        
+        static void wrapInit2(LuaEnv luaenv, ObjectTranslator translator)
+        {
         
             translator.DelayWrapLoader(typeof(LuaScripting.LuaRoom), LuaScriptingLuaRoomWrap.__Register);
         
@@ -331,10 +344,6 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(LuaScripting.ClassExtensions.CinemachineExtensions), LuaScriptingClassExtensionsCinemachineExtensionsWrap.__Register);
         
-        }
-        
-        static void wrapInit2(LuaEnv luaenv, ObjectTranslator translator)
-        {
         
             translator.DelayWrapLoader(typeof(Tutorial.DerivedClass.TestEnumInner), TutorialDerivedClassTestEnumInnerWrap.__Register);
         
