@@ -558,5 +558,10 @@ namespace UDMS
                 }
             }
         }
+
+        public void QuitApplication()
+        {
+            Application.Quit(0);
+        }
     }
 }
