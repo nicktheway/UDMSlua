@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -33,8 +34,10 @@ namespace UDMS
 
 
         private AudioSource _audioSource;
+#pragma warning disable 649 // Inspector initialization
         [SerializeField] private PostProcessVolume _effectsVolume;
         [SerializeField] private DebugLogManager _consoleManager;
+#pragma warning restore 649
 
         /// <summary>
         /// The table with the game's global settings.
@@ -59,7 +62,6 @@ namespace UDMS
             DontDestroyOnLoad(gameObject);
 
             InitializeGlobals();
-
             PrepareGameSettingsSymbols();
             ApplyGameSettings();
         }
@@ -551,8 +553,5 @@ namespace UDMS
                 }
             }
         }
-
-   
-
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+using Utilities;
 using XLua;
 
 namespace LuaScripting
@@ -76,9 +77,18 @@ namespace LuaScripting
             LoadRoomSettings();
 
             // Load room's scene.
-            SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
-            SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetSceneByName(SceneName));
-
+            if (SceneUtilities.IsValidSceneName(SceneName))
+            {
+                SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
+                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetSceneByName(SceneName));
+            }
+            else
+            {
+                SceneName = "EmptyScene";
+                var defaultScene = SceneManager.CreateScene(SceneName);
+                SceneManager.MoveGameObjectToScene(gameObject, defaultScene);
+            }
+            
             // Run the setUpRoom function to set up the scene.
             RoomSettings.LuaEnvironment.Get("setUp", out Action setUpRoom);
             setUpRoom?.Invoke();
@@ -90,7 +100,7 @@ namespace LuaScripting
         {
             yield return new WaitForSeconds(0.1f);
 
-            if (this == null || gameObject == null)
+            if (gameObject == null)
                 yield break;
 
             gameObject.SetActive(true);
