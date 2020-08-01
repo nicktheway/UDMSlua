@@ -26,34 +26,6 @@ PrefabInstance:
       value: MvnPuppet
       objectReference: {fileID: 0}
     - target: {fileID: 400028, guid: 6f5ca7c64b27fbc42ae90ccf466b8f92, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 400028, guid: 6f5ca7c64b27fbc42ae90ccf466b8f92, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400028, guid: 6f5ca7c64b27fbc42ae90ccf466b8f92, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400028, guid: 6f5ca7c64b27fbc42ae90ccf466b8f92, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400028, guid: 6f5ca7c64b27fbc42ae90ccf466b8f92, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400028, guid: 6f5ca7c64b27fbc42ae90ccf466b8f92, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400028, guid: 6f5ca7c64b27fbc42ae90ccf466b8f92, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400028, guid: 6f5ca7c64b27fbc42ae90ccf466b8f92, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}

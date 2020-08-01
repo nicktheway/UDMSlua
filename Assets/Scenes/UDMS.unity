@@ -338,6 +338,20 @@ MonoBehaviour:
       PublicKeyToken=null
   - assemblyQualifiedName: PPEffects.SimpleLUT, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: PPEffects.SimpleMotionBlur, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &296275821 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11452418, guid: 67117722a812a2e46ab8cb8eafbf5f5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1773222189}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a4f16ed905adcd4ab0d7c8c11f0d72c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &380116316
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,6 +512,8 @@ MonoBehaviour:
   SelectedObjects: []
   UI: {fileID: 932401125}
   HelpPanel: {fileID: 1469412404}
+  _effectsVolume: {fileID: 380116317}
+  _consoleManager: {fileID: 296275821}
   ActiveLuaRoom: {fileID: 0}
 --- !u!114 &1510132064
 MonoBehaviour:

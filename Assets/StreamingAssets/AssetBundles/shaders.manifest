@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1221998192
+CRC: 32358807
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9fa9eee9c951441334c8d8a944a596df
+    Hash: bc138a2e84bc3505431712273a5dd8e6
   TypeTreeHash:
     serializedVersion: 2
     Hash: 55d48f4ad9c3b13330b9eb5ee5686477
@@ -16,6 +16,7 @@ Assets:
 - Assets/Resources/PPEffects/Shaders/Lens.shader
 - Assets/Resources/PPEffects/Shaders/DuoTone.shader
 - Assets/Resources/PPEffects/Shaders/Sobel.shader
+- Assets/Resources/PPEffects/Shaders/SimpleMotionBlur.shader
 - Assets/Resources/PPEffects/Shaders/Wiggle.shader
 - Assets/Resources/PPEffects/Shaders/Scanner.shader
 - Assets/Resources/PPEffects/Shaders/SimpleLUT.shader
