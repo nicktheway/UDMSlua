@@ -339,9 +339,9 @@ namespace LuaScripting
         public GameObject InstantiateCameraRig()
         {
             var cameraRig = AssetManager.LoadAsset<GameObject>("CameraRig", "etc/camerarig");
+            Debug.Assert(cameraRig != null);
             cameraRig.SetActive(false);
 
-            Debug.Assert(cameraRig != null);
             var instantiatedCameraRig = Instantiate(cameraRig, transform); 
             instantiatedCameraRig.transform.SetParent(null);
 
@@ -359,7 +359,7 @@ namespace LuaScripting
         /// <summary>
         /// Instantiates a new registered object in the room. Use for simple objects that do not need their own scripts.
         /// </summary> 
-        /// <param name="objectName">The key of the new object in the room.</param>
+        /// <param name="objectKey">The key of the new object in the room.</param>
         /// <param name="objectType">An optional type can be specified for faster object creation. Accepts values from a predefined list, an empty object will be created for values out of that list.</param>
         /// <param name="components">An optional array of component names can specified to add the equivalent components to the new object.</param>
         /// <param name="activate">Should the object be activated? Defaults to true.</param>
