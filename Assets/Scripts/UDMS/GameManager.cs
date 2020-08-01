@@ -488,7 +488,12 @@ namespace UDMS
 
         private IEnumerator UnloadScene(string sceneName)
         {
-            yield return SceneManager.UnloadSceneAsync(sceneName);
+            var asyncUnloadOperation = SceneManager.UnloadSceneAsync(sceneName);
+
+            while (!asyncUnloadOperation.isDone)
+            {
+                yield return null;
+            }
 
             OnPreviousSceneUnloaded(SceneManager.GetSceneByName(_newRoomName));
         }
