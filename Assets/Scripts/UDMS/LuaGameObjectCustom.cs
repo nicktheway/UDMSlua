@@ -23,7 +23,10 @@ namespace LuaScripting
         public void AfterLateUpdateActions()
         {
             _displacement = transform.position - _framePos;
-            if (TurnToMoveDir) TurnToDirSoft(_displacement, 10);
+            if (TurnToMoveDir)
+            {
+                TurnToDirSoft(_displacement, 10);
+            }
             if (TextMeshComponent && _showTextMeshObject) TextMeshComponent.transform.rotation = Camera.main.transform.rotation;
             if (ColorState) 
             {
@@ -147,7 +150,7 @@ namespace LuaScripting
 
         public Vector3 DirMine()
         {
-            return Vector3.Normalize(transform.position);
+            return transform.forward;
         }
 
         public Vector3 DirStayInDisc(float radius)
