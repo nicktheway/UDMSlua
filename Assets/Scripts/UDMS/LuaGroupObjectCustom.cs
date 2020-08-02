@@ -94,8 +94,10 @@ namespace LuaScripting
             var minId = -1;
             for (var i = 0; i < _luaGroupScript.Members.Count; i++)
             {
+                if (i == GroupMemberId || _luaGroupScript.Members[i].State != 1) continue;
+
                 var dist = Vector3.SqrMagnitude(_luaGroupScript.Members[i].transform.position - transform.position);
-                if (i != GroupMemberId && _luaGroupScript.Members[i].State == 1 && dist < minDist) 
+                if (dist < minDist)
                 {
                     minDist = dist;
                     minId = i;

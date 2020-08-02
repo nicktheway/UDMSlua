@@ -415,11 +415,11 @@ namespace XLua.CSObjectWrap
             
 			    int gen_param_count = LuaAPI.lua_gettop(L);
             
-                if(gen_param_count == 5&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& translator.Assignable<string[]>(L, 4)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 5)) 
+                if(gen_param_count == 5&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& translator.Assignable<System.Type[]>(L, 4)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 5)) 
                 {
                     string _objectKey = LuaAPI.lua_tostring(L, 2);
                     string _objectType = LuaAPI.lua_tostring(L, 3);
-                    string[] _components = (string[])translator.GetObject(L, 4, typeof(string[]));
+                    System.Type[] _components = (System.Type[])translator.GetObject(L, 4, typeof(System.Type[]));
                     bool _activate = LuaAPI.lua_toboolean(L, 5);
                     
                         UnityEngine.GameObject gen_ret = gen_to_be_invoked.InstantiateAndRegisterObject( _objectKey, _objectType, _components, _activate );
@@ -429,11 +429,11 @@ namespace XLua.CSObjectWrap
                     
                     return 1;
                 }
-                if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& translator.Assignable<string[]>(L, 4)) 
+                if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& translator.Assignable<System.Type[]>(L, 4)) 
                 {
                     string _objectKey = LuaAPI.lua_tostring(L, 2);
                     string _objectType = LuaAPI.lua_tostring(L, 3);
-                    string[] _components = (string[])translator.GetObject(L, 4, typeof(string[]));
+                    System.Type[] _components = (System.Type[])translator.GetObject(L, 4, typeof(System.Type[]));
                     
                         UnityEngine.GameObject gen_ret = gen_to_be_invoked.InstantiateAndRegisterObject( _objectKey, _objectType, _components );
                         translator.Push(L, gen_ret);
@@ -487,10 +487,10 @@ namespace XLua.CSObjectWrap
             
 			    int gen_param_count = LuaAPI.lua_gettop(L);
             
-                if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& translator.Assignable<string[]>(L, 3)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 4)) 
+                if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& translator.Assignable<System.Type[]>(L, 3)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 4)) 
                 {
                     string _objectType = LuaAPI.lua_tostring(L, 2);
-                    string[] _components = (string[])translator.GetObject(L, 3, typeof(string[]));
+                    System.Type[] _components = (System.Type[])translator.GetObject(L, 3, typeof(System.Type[]));
                     bool _activate = LuaAPI.lua_toboolean(L, 4);
                     
                         UnityEngine.GameObject gen_ret = gen_to_be_invoked.InstantiateObject( _objectType, _components, _activate );
@@ -500,10 +500,10 @@ namespace XLua.CSObjectWrap
                     
                     return 1;
                 }
-                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& translator.Assignable<string[]>(L, 3)) 
+                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& translator.Assignable<System.Type[]>(L, 3)) 
                 {
                     string _objectType = LuaAPI.lua_tostring(L, 2);
-                    string[] _components = (string[])translator.GetObject(L, 3, typeof(string[]));
+                    System.Type[] _components = (System.Type[])translator.GetObject(L, 3, typeof(System.Type[]));
                     
                         UnityEngine.GameObject gen_ret = gen_to_be_invoked.InstantiateObject( _objectType, _components );
                         translator.Push(L, gen_ret);

@@ -361,10 +361,10 @@ namespace LuaScripting
         /// </summary> 
         /// <param name="objectKey">The key of the new object in the room.</param>
         /// <param name="objectType">An optional type can be specified for faster object creation. Accepts values from a predefined list, an empty object will be created for values out of that list.</param>
-        /// <param name="components">An optional array of component names can specified to add the equivalent components to the new object.</param>
+        /// <param name="components">An optional array of component types can specified to add the equivalent components to the new object.</param>
         /// <param name="activate">Should the object be activated? Defaults to true.</param>
         /// <returns>The instantiated game object.</returns>
-        public GameObject InstantiateAndRegisterObject(string objectKey, string objectType = "", string[] components = null, bool activate = true)
+        public GameObject InstantiateAndRegisterObject(string objectKey, string objectType = "", Type[] components = null, bool activate = true)
         {
             var newObject = InstantiateObject(objectType, components, activate);
             RegisterObject(objectKey, newObject);
@@ -376,10 +376,10 @@ namespace LuaScripting
         /// Instantiates a new object in the room. Use for simple objects that do not need their own scripts.
         /// </summary> 
         /// <param name="objectType">An optional type can be specified for faster object creation. Accepts values from a predefined list, an empty object will be created for values out of that list.</param>
-        /// <param name="components">An optional array of component names can specified to add the equivalent components to the new object.</param>
+        /// <param name="components">An optional array of component types can specified to add the equivalent components to the new object.</param>
         /// <param name="activate">Should the object be activated? Defaults to true.</param>
         /// <returns>The instantiated game object.</returns>
-        public GameObject InstantiateObject(string objectType = "", string[] components = null, bool activate = true)
+        public GameObject InstantiateObject(string objectType = "", Type[] components = null, bool activate = true)
         {
             GameObject newObject;
             switch (objectType)
@@ -428,11 +428,13 @@ namespace LuaScripting
             {
                 foreach(var component in components)
                 {
-                    newObject.AddComponent(Type.GetType(component));
+                    newObject.AddComponent(component);
                 }
             }
+            
+            // Move the object under the room.
+            newObject.transform.SetParent(transform);
 
-            newObject.transform.SetParent(null);
             if (activate) newObject.SetActive(true);
 
             return newObject;

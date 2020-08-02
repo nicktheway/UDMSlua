@@ -111,16 +111,22 @@ namespace LuaScripting
         /// Positions the group members to a grid.
         /// </summary>
         /// <param name="columns">The grid's columns.</param>
-        /// <param name="bottomLeftPoint">The position of the bottom left agent in the grid.</param>
+        /// <param name="topLeftPoint">The position of the top left agent in the grid.</param>
         /// <param name="rowDistance">The distance between two rows.</param>
         /// <param name="colDistance">The distance between two columns.</param>
-        public void ToGridFormation(int columns, Vector3 bottomLeftPoint, float rowDistance, float colDistance)
+        public void ToGridFormation(int columns, Vector3 topLeftPoint, float rowDistance, float colDistance)
         {
+            if (columns <= 0)
+            {
+                Debug.LogError("Invalid columns parameter. Must be a positive integer.");
+                return;
+            }
+
             var currentRow = 0;
             var currentCol = 0;
             foreach(var member in Members) 
             {
-                member.transform.position = bottomLeftPoint + currentRow * rowDistance * Vector3.right + currentCol * colDistance * Vector3.forward;
+                member.transform.position = topLeftPoint - currentRow * rowDistance * Vector3.forward + currentCol * colDistance * Vector3.right;
                 currentCol++;
                 if (currentCol == columns) {
                     currentCol = 0;
@@ -278,8 +284,10 @@ namespace LuaScripting
             var minId = -1;
             for (var i = 0; i < Members.Count; i++)
             {
+                if (Members[i].State != state) continue;
+
                 var dist = Vector3.SqrMagnitude(Members[i].transform.position - position);
-                if (Members[i].State == state && dist < minDist) 
+                if (dist < minDist) 
                 {
                     minDist = dist;
                     minId = i;

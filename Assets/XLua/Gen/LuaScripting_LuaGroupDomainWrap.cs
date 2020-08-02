@@ -503,11 +503,11 @@ namespace XLua.CSObjectWrap
                 
                 {
                     int _columns = LuaAPI.xlua_tointeger(L, 2);
-                    UnityEngine.Vector3 _bottomLeftPoint;translator.Get(L, 3, out _bottomLeftPoint);
+                    UnityEngine.Vector3 _topLeftPoint;translator.Get(L, 3, out _topLeftPoint);
                     float _rowDistance = (float)LuaAPI.lua_tonumber(L, 4);
                     float _colDistance = (float)LuaAPI.lua_tonumber(L, 5);
                     
-                    gen_to_be_invoked.ToGridFormation( _columns, _bottomLeftPoint, _rowDistance, _colDistance );
+                    gen_to_be_invoked.ToGridFormation( _columns, _topLeftPoint, _rowDistance, _colDistance );
                     
                     
                     
