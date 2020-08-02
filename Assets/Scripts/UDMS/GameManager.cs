@@ -504,9 +504,9 @@ namespace UDMS
             var luaRoom = roomObject.AddComponent<LuaRoom>();
             luaRoom.RoomName = _newRoomName;
             luaRoom.PlayMusicGlobal = PlaySong;
-            luaRoom.SetUpRoom();
             ActiveLuaRoom = luaRoom;
-                
+            luaRoom.SetUpRoom();
+
             StartCoroutine(luaRoom.Activate());
         }
 
