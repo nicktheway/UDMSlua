@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -9,6 +10,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using XLua;
 using IngameDebugConsole;
+using TMPro;
 using UnityEngine.Rendering.PostProcessing;
 
 namespace UDMS
@@ -20,6 +22,7 @@ namespace UDMS
         public static AudioSource AudioSource;
         public static Camera Camera;
         public static GameObject MainMenuGameObject;
+        public static TextMeshProUGUI ScreenText;
     }
 
     [DefaultExecutionOrder(-99999)]
@@ -36,6 +39,7 @@ namespace UDMS
 #pragma warning disable 649 // Inspector initialization
         [SerializeField] private PostProcessVolume _effectsVolume;
         [SerializeField] private DebugLogManager _consoleManager;
+        [SerializeField] private TextMeshProUGUI _screenTextComponent;
 #pragma warning restore 649
 
         /// <summary>
@@ -53,6 +57,7 @@ namespace UDMS
             Globals.MainMenuGameObject = UI;
             Globals.EffectsVolume = _effectsVolume;
             Globals.ConsoleManager = _consoleManager;
+            Globals.ScreenText = _screenTextComponent;
         }
 
         private void Awake()
@@ -67,7 +72,8 @@ namespace UDMS
 
         private void Start()
         {
-            DebugLogConsole.AddCommand("reload", "Reloads the scripts of the selected LuaDomains.", ReloadScriptsOnSelectedDomains);
+            DebugLogConsole.AddCommand("reload", "Reloads the active scenario.", ReloadRoom);
+            DebugLogConsole.AddCommand("reloaddomain", "Reloads the scripts of the selected LuaDomains.", ReloadScriptsOnSelectedDomains);
             DebugLogConsole.AddCommand("room", "Opens panel for selecting a new room/scenario.", ChooseRoom);
             DebugLogConsole.AddCommand("song", "Opens a file panel for selecting a new song to play.", ChooseSong);
             DebugLogConsole.AddCommand("domains", "Prints a list of the room's domains.", PrintRoomDomains);
@@ -93,6 +99,11 @@ namespace UDMS
             if (Input.GetButtonUp("Cancel"))
             {
                 ToggleMainMenu();
+            }
+
+            if (UI.activeSelf)
+            {
+                MainMenuShortcutListeners();
             }
         }
 
@@ -176,6 +187,42 @@ namespace UDMS
             if (Input.GetKeyDown(KeyCode.K))
             {
                 ChooseRoom();
+            }
+        }
+
+        private void MainMenuShortcutListeners()
+        {
+            if (Input.GetKeyUp(KeyCode.Alpha1))
+            {
+                ChooseRoom();
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha2))
+            {
+                ChooseSong();
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha3))
+            {
+                TogglePanel("help");
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha4))
+            {
+                OpenScenarioBaseDirectory();
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha5))
+            {
+                OpenMusicBaseDirectory();
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha6))
+            {
+                ReloadRoom();
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha7))
+            {
+                ApplyGameSettings();
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha8))
+            {
+                QuitApplication();
             }
         }
 
@@ -485,6 +532,15 @@ namespace UDMS
             }
         }
 
+        public void ReloadRoom()
+        {
+            if (ActiveLuaRoom != null)
+            {
+                _newRoomName = ActiveLuaRoom.RoomName;
+                StartCoroutine(UnloadScene(ActiveLuaRoom.SceneName));
+            }
+        }
+
         private IEnumerator UnloadScene(string sceneName)
         {
             var asyncUnloadOperation = SceneManager.UnloadSceneAsync(sceneName);
@@ -499,6 +555,7 @@ namespace UDMS
 
         private void OnPreviousSceneUnloaded(Scene scene)
         {
+            ResetScreenText();
             var roomObject = new GameObject("LuaRoom");
             roomObject.SetActive(false);
             var luaRoom = roomObject.AddComponent<LuaRoom>();
@@ -508,6 +565,13 @@ namespace UDMS
             luaRoom.SetUpRoom();
 
             StartCoroutine(luaRoom.Activate());
+        }
+
+        private void ResetScreenText()
+        {
+            _screenTextComponent.text = string.Empty;
+            _screenTextComponent.rectTransform.anchoredPosition = Vector2.zero;
+            _screenTextComponent.color = Color.white;
         }
 
         public void ChooseSong()

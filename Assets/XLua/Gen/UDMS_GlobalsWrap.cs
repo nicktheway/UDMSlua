@@ -31,7 +31,7 @@ namespace XLua.CSObjectWrap
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 1, 5, 5);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 1, 6, 6);
 			
 			
             
@@ -40,12 +40,14 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "AudioSource", _g_get_AudioSource);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "Camera", _g_get_Camera);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "MainMenuGameObject", _g_get_MainMenuGameObject);
+            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "ScreenText", _g_get_ScreenText);
             
 			Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "EffectsVolume", _s_set_EffectsVolume);
             Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "ConsoleManager", _s_set_ConsoleManager);
             Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "AudioSource", _s_set_AudioSource);
             Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "Camera", _s_set_Camera);
             Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "MainMenuGameObject", _s_set_MainMenuGameObject);
+            Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "ScreenText", _s_set_ScreenText);
             
 			
 			Utils.EndClassRegister(type, L, translator);
@@ -127,6 +129,18 @@ namespace XLua.CSObjectWrap
             return 1;
         }
         
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_ScreenText(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			    translator.Push(L, UDMS.Globals.ScreenText);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
         
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -187,6 +201,19 @@ namespace XLua.CSObjectWrap
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			    UDMS.Globals.MainMenuGameObject = (UnityEngine.GameObject)translator.GetObject(L, 1, typeof(UnityEngine.GameObject));
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_ScreenText(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			    UDMS.Globals.ScreenText = (TMPro.TextMeshProUGUI)translator.GetObject(L, 1, typeof(TMPro.TextMeshProUGUI));
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

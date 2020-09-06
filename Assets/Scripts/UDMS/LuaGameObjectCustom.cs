@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LuaScripting
 {
@@ -9,20 +8,26 @@ namespace LuaScripting
     public abstract partial class LuaGameObject : MonoBehaviour
     {
         public int State = 0;
+        public int StateOld = 0;
+        public Vector3 PositionOld = Vector3.zero;
         public bool TurnToMoveDir;
         public bool ColorState;
 
         private Vector3 _framePos;
         private Vector3 _displacement;
+        private int _stateOld = 0;
 
         public void BeforeUpdateActions()
         {
             _framePos = transform.position;
+            _stateOld = State;
         }
 
         public void AfterLateUpdateActions()
         {
             _displacement = transform.position - _framePos;
+            PositionOld = _framePos;
+            StateOld = _stateOld;
             if (TurnToMoveDir)
             {
                 TurnToDirSoft(_displacement, 10);

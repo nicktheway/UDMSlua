@@ -44,7 +44,7 @@ end
 
 function M.disableAllGlobalEffects()
 	for k, v in pairs(globalEffects) do
-		v.enabled.overrideState = false
+		v.enabled:Override(false)
 	end
 end
 

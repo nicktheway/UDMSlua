@@ -191,6 +191,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UDMS.Globals), UDMSGlobalsWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(UDMS.IKGameObjects), UDMSIKGameObjectsWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(DG.Tweening.AutoPlay), DGTweeningAutoPlayWrap.__Register);
         
         
@@ -328,13 +331,13 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(LuaScripting.LuaGroupObject), LuaScriptingLuaGroupObjectWrap.__Register);
         
-        
-            translator.DelayWrapLoader(typeof(LuaScripting.LuaIndividualObject), LuaScriptingLuaIndividualObjectWrap.__Register);
-        
         }
         
         static void wrapInit2(LuaEnv luaenv, ObjectTranslator translator)
         {
+        
+            translator.DelayWrapLoader(typeof(LuaScripting.LuaIndividualObject), LuaScriptingLuaIndividualObjectWrap.__Register);
+        
         
             translator.DelayWrapLoader(typeof(LuaScripting.LuaRoom), LuaScriptingLuaRoomWrap.__Register);
         

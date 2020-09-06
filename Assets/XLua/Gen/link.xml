@@ -83,6 +83,7 @@
 		<type fullname="PPEffects.ThermalVision" preserve="all"/>
 		<type fullname="PPEffects.Wiggle" preserve="all"/>
 		<type fullname="UDMS.Globals" preserve="all"/>
+		<type fullname="UDMS.IKGameObjects" preserve="all"/>
 		<type fullname="Tutorial.BaseClass" preserve="all"/>
 		<type fullname="Tutorial.TestEnum" preserve="all"/>
 		<type fullname="Tutorial.DerivedClass" preserve="all"/>

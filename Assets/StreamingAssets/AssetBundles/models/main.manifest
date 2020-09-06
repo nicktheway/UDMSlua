@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2551177455
+CRC: 154697703
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e7620ed06358408472642bee87508a23
+    Hash: e2381a294b9c40181d5b335c79215540
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 36dbbd6a709a28f4dd0c5a0ab1951293
+    Hash: f51e980e939e5e6251afb4c6ad79c7ca
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -27,11 +27,17 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 95
   Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: b4192dbcfe90d4a428051a3ccd09c562, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
 - Class: 136
   Script: {instanceID: 0}
 - Class: 137
   Script: {instanceID: 0}
 Assets:
 - Assets/Data/Agents/Prefabs/NeoMan.prefab
+- Assets/Data/Agents/Prefabs/xbot.prefab
+- Assets/Data/Agents/Prefabs/ybot.prefab
 - Assets/Data/Agents/Prefabs/MvnPuppet.prefab
 Dependencies: []

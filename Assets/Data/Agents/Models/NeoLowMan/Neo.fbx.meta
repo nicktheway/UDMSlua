@@ -1,61 +1,167 @@
 fileFormatVersion: 2
 guid: 6fe3ec98bd3fe3e49b88674d486974a1
 ModelImporter:
-  serializedVersion: 22
-  fileIDToRecycleName:
-    100000: Body
-    100002: //RootNode
-    100004: Neo_Head
-    100006: Neo_Hips
-    100008: Neo_LeftArm
-    100010: Neo_LeftFoot
-    100012: Neo_LeftForeArm
-    100014: Neo_LeftHand
-    100016: Neo_LeftLeg
-    100018: Neo_LeftShoulder
-    100020: Neo_LeftToeBase
-    100022: Neo_LeftUpLeg
-    100024: Neo_Neck
-    100026: Neo_Reference
-    100028: Neo_RightArm
-    100030: Neo_RightFoot
-    100032: Neo_RightForeArm
-    100034: Neo_RightHand
-    100036: Neo_RightLeg
-    100038: Neo_RightShoulder
-    100040: Neo_RightToeBase
-    100042: Neo_RightUpLeg
-    100044: Neo_Spine
-    100046: Neo_Spine1
-    100048: Neo_Spine2
-    400000: Body
-    400002: //RootNode
-    400004: Neo_Head
-    400006: Neo_Hips
-    400008: Neo_LeftArm
-    400010: Neo_LeftFoot
-    400012: Neo_LeftForeArm
-    400014: Neo_LeftHand
-    400016: Neo_LeftLeg
-    400018: Neo_LeftShoulder
-    400020: Neo_LeftToeBase
-    400022: Neo_LeftUpLeg
-    400024: Neo_Neck
-    400026: Neo_Reference
-    400028: Neo_RightArm
-    400030: Neo_RightFoot
-    400032: Neo_RightForeArm
-    400034: Neo_RightHand
-    400036: Neo_RightLeg
-    400038: Neo_RightShoulder
-    400040: Neo_RightToeBase
-    400042: Neo_RightUpLeg
-    400044: Neo_Spine
-    400046: Neo_Spine1
-    400048: Neo_Spine2
-    4300000: Body
-    9500000: //RootNode
-    13700000: Body
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Body
+  - first:
+      1: 100002
+    second: //RootNode
+  - first:
+      1: 100004
+    second: Neo_Head
+  - first:
+      1: 100006
+    second: Neo_Hips
+  - first:
+      1: 100008
+    second: Neo_LeftArm
+  - first:
+      1: 100010
+    second: Neo_LeftFoot
+  - first:
+      1: 100012
+    second: Neo_LeftForeArm
+  - first:
+      1: 100014
+    second: Neo_LeftHand
+  - first:
+      1: 100016
+    second: Neo_LeftLeg
+  - first:
+      1: 100018
+    second: Neo_LeftShoulder
+  - first:
+      1: 100020
+    second: Neo_LeftToeBase
+  - first:
+      1: 100022
+    second: Neo_LeftUpLeg
+  - first:
+      1: 100024
+    second: Neo_Neck
+  - first:
+      1: 100026
+    second: Neo_Reference
+  - first:
+      1: 100028
+    second: Neo_RightArm
+  - first:
+      1: 100030
+    second: Neo_RightFoot
+  - first:
+      1: 100032
+    second: Neo_RightForeArm
+  - first:
+      1: 100034
+    second: Neo_RightHand
+  - first:
+      1: 100036
+    second: Neo_RightLeg
+  - first:
+      1: 100038
+    second: Neo_RightShoulder
+  - first:
+      1: 100040
+    second: Neo_RightToeBase
+  - first:
+      1: 100042
+    second: Neo_RightUpLeg
+  - first:
+      1: 100044
+    second: Neo_Spine
+  - first:
+      1: 100046
+    second: Neo_Spine1
+  - first:
+      1: 100048
+    second: Neo_Spine2
+  - first:
+      4: 400000
+    second: Body
+  - first:
+      4: 400002
+    second: //RootNode
+  - first:
+      4: 400004
+    second: Neo_Head
+  - first:
+      4: 400006
+    second: Neo_Hips
+  - first:
+      4: 400008
+    second: Neo_LeftArm
+  - first:
+      4: 400010
+    second: Neo_LeftFoot
+  - first:
+      4: 400012
+    second: Neo_LeftForeArm
+  - first:
+      4: 400014
+    second: Neo_LeftHand
+  - first:
+      4: 400016
+    second: Neo_LeftLeg
+  - first:
+      4: 400018
+    second: Neo_LeftShoulder
+  - first:
+      4: 400020
+    second: Neo_LeftToeBase
+  - first:
+      4: 400022
+    second: Neo_LeftUpLeg
+  - first:
+      4: 400024
+    second: Neo_Neck
+  - first:
+      4: 400026
+    second: Neo_Reference
+  - first:
+      4: 400028
+    second: Neo_RightArm
+  - first:
+      4: 400030
+    second: Neo_RightFoot
+  - first:
+      4: 400032
+    second: Neo_RightForeArm
+  - first:
+      4: 400034
+    second: Neo_RightHand
+  - first:
+      4: 400036
+    second: Neo_RightLeg
+  - first:
+      4: 400038
+    second: Neo_RightShoulder
+  - first:
+      4: 400040
+    second: Neo_RightToeBase
+  - first:
+      4: 400042
+    second: Neo_RightUpLeg
+  - first:
+      4: 400044
+    second: Neo_Spine
+  - first:
+      4: 400046
+    second: Neo_Spine1
+  - first:
+      4: 400048
+    second: Neo_Spine2
+  - first:
+      43: 4300000
+    second: Body
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Body
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -63,7 +169,7 @@ ModelImporter:
       name: Body
     second: {fileID: 2100000, guid: bc55a7e33b0e80b4d86795b3ac269213, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 0
@@ -80,14 +186,24 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths:
-    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1
     - Neo_Reference/Neo_Hips/Neo_Spine
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_Neck/Neo_Head
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_LeftShoulder/Neo_LeftArm
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_RightShoulder/Neo_RightArm
+    - Neo_Reference/Neo_Hips/Neo_LeftUpLeg/Neo_LeftLeg
+    - Neo_Reference/Neo_Hips/Neo_RightUpLeg/Neo_RightLeg
+    - Neo_Reference/Neo_Hips
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_LeftShoulder/Neo_LeftArm/Neo_LeftForeArm/Neo_LeftHand
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_RightShoulder/Neo_RightArm/Neo_RightForeArm/Neo_RightHand
+    - Neo_Reference/Neo_Hips/Neo_LeftUpLeg/Neo_LeftLeg/Neo_LeftFoot
+    - Neo_Reference/Neo_Hips/Neo_RightUpLeg/Neo_RightLeg/Neo_RightFoot
     extraUserProperties: []
     clipAnimations: []
     isReadable: 0
@@ -96,6 +212,8 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 0
     importCameras: 0
@@ -103,10 +221,13 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
@@ -118,10 +239,13 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 0
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human:
     - boneName: Neo_Hips
       humanName: Hips
@@ -432,14 +556,16 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

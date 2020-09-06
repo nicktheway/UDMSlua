@@ -70,7 +70,7 @@ namespace LuaScripting
                 }
             }
         }}
-        private string _activeCamera = "dolly";
+        private string _activeCamera = "explorer";
         private string _dollyPath = "circular";
         private float _fov = 40;
         private float _pathPosition = 0;

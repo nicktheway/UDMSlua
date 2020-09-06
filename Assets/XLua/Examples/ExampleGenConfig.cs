@@ -78,6 +78,7 @@ public static class ExampleGenConfig
                 typeof(PPEffects.ThermalVision),
                 typeof(PPEffects.Wiggle),
                 typeof(UDMS.Globals),
+                typeof(UDMS.IKGameObjects),
 
                 // DotTween
                 typeof(DG.Tweening.AutoPlay),
