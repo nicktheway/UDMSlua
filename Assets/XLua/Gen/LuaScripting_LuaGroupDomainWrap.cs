@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaGroupDomain);
-			Utils.BeginObjectRegister(type, L, translator, 0, 22, 10, 9);
+			Utils.BeginObjectRegister(type, L, translator, 0, 24, 10, 9);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadScriptSymbols", _m_LoadScriptSymbols);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UnloadScriptSymbols", _m_UnloadScriptSymbols);
@@ -39,6 +39,8 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ToGridFormation", _m_ToGridFormation);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetState", _m_SetState);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RegisterGridNeighbours", _m_RegisterGridNeighbours);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetPositions", _m_SetPositions);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetNeighbours", _m_SetNeighbours);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UpdateStates", _m_UpdateStates);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ToggleIndices", _m_ToggleIndices);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "HighlightNeigbours", _m_HighlightNeigbours);
@@ -564,6 +566,62 @@ namespace XLua.CSObjectWrap
                     int _gridColumns = LuaAPI.xlua_tointeger(L, 2);
                     
                     gen_to_be_invoked.RegisterGridNeighbours( _gridColumns );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_SetPositions(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.Vector3[] _positions = (UnityEngine.Vector3[])translator.GetObject(L, 2, typeof(UnityEngine.Vector3[]));
+                    
+                    gen_to_be_invoked.SetPositions( _positions );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_SetNeighbours(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    int[][] _neighbours = (int[][])translator.GetObject(L, 2, typeof(int[][]));
+                    
+                    gen_to_be_invoked.SetNeighbours( _neighbours );
                     
                     
                     

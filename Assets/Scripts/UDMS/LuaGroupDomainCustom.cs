@@ -186,6 +186,34 @@ namespace LuaScripting
             }
         }
 
+        public void SetPositions(Vector3[] positions)
+        {
+            var givenPositionsCount = positions.Length;
+            if (givenPositionsCount <= 0)
+            {
+                Debug.LogError("There must be at least one position inside the array parameter.");
+            }
+            var currentIndex = 0;
+            foreach (var member in Members)
+            {
+                member.transform.position = positions[currentIndex];
+                currentIndex = (currentIndex + 1) % givenPositionsCount;
+            }
+        }
+
+        public void SetNeighbours(int[][] neighbours)
+        {
+            if (neighbours.Length != Members.Count)
+            {
+                Debug.LogError("An array of neighbour ids must be given foreach of the group members.");
+            }
+
+            for (var i = 0; i < Members.Count; i++)
+            {
+                Members[i].SetNeighbours(neighbours[i]);
+            }
+        }
+
         public void UpdateStates(string algorithm, string algorithmData)
         {
             if (algorithm == "gameoflife") 

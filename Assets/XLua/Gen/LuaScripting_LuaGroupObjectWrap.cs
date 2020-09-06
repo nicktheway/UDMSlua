@@ -21,8 +21,9 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaGroupObject);
-			Utils.BeginObjectRegister(type, L, translator, 0, 16, 3, 3);
+			Utils.BeginObjectRegister(type, L, translator, 0, 17, 3, 3);
 			
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetNeighbours", _m_SetNeighbours);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetState", _m_SetState);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAgentNearest", _m_GetAgentNearest);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DirAttractRepel", _m_DirAttractRepel);
@@ -92,6 +93,34 @@ namespace XLua.CSObjectWrap
         
         
         
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_SetNeighbours(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupObject gen_to_be_invoked = (LuaScripting.LuaGroupObject)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    int[] _neighbours = (int[])translator.GetObject(L, 2, typeof(int[]));
+                    
+                    gen_to_be_invoked.SetNeighbours( _neighbours );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _m_SetState(RealStatePtr L)

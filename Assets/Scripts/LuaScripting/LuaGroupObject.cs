@@ -14,6 +14,11 @@ namespace LuaScripting
         private LuaGroupDomain _luaGroupScript;
         public override LuaDomain LuaDomain { get => _luaGroupScript; set => _luaGroupScript = (LuaGroupDomain) value; }
 
+        public void SetNeighbours(int[] neighbours)
+        {
+            Neighbours = new List<int>(neighbours);
+        }
+
         protected virtual void Awake()
         {
             Assert.IsNotNull(_luaGroupScript);
