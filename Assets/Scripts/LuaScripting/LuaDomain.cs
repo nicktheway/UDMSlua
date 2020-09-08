@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 using UnityEngine.Assertions;
 using XLua;
+using Object = UnityEngine.Object;
 
 namespace LuaScripting
 {
@@ -359,6 +361,7 @@ namespace LuaScripting
     public partial class LuaGroupDomain : LuaDomain
     {
         public List<LuaGroupObject> Members = new List<LuaGroupObject>();
+        public GameObject GroupRoot;
 
         // Unity Callbacks
         public IntIntAction LuaOnElementAnimatorIK;
@@ -424,6 +427,8 @@ namespace LuaScripting
 
             var newDomain = new LuaGroupDomain {DomainName = groupName, ScriptPath = scriptPath};
             newDomain.AssignRoom(domainRoom);
+            newDomain.GroupRoot = new GameObject(groupName);
+            newDomain.GroupRoot.transform.SetParent(domainRoom.transform);
 
             return newDomain;
         }
@@ -441,6 +446,41 @@ namespace LuaScripting
             Members.Add(newMember);
             
             return Members.Count - 1;
+        }
+
+        /// <summary>
+        /// Instantiates a prefab from an AssetBundle within the group domain.
+        /// </summary>
+        /// <param name="objectName">The prefab's name inside the asset bundle.</param>
+        /// <param name="bundleName">The Asset Bundle's name.</param>
+        /// <returns>The new member's id or -1 if the prefab asset wasn't found.</returns>
+        public int AddMember(string objectName, string bundleName)
+        {
+            var go = AssetManager.LoadAsset<GameObject>(objectName, bundleName);
+
+            return go ? AddMemberFromPrefab(go) : -1;
+        }
+
+        /// <summary>
+        /// Instantiates a prefab within the group domain.
+        /// </summary>
+        /// <param name="prefab">The prefab game object.</param>
+        /// <returns>The new member's id or -1 if the prefab asset wasn't found.</returns>
+        public int AddMemberFromPrefab(GameObject prefab)
+        {
+            // Set the prefab inactive so that Instantiate function won't call Awake()/OnEnable()
+            prefab.SetActive(false);
+
+            var instantiatedGameObject = Object.Instantiate(prefab, DomainRoom.transform);
+            instantiatedGameObject.transform.SetParent(GroupRoot.transform);
+
+            var luaGroupObject = instantiatedGameObject.AddComponent<LuaGroupObject>();
+                
+            var newMemberId = AddMember(luaGroupObject);
+
+            instantiatedGameObject.SetActive(true);
+
+            return newMemberId;
         }
 
         /// <summary>

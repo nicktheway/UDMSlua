@@ -101,7 +101,7 @@ namespace UDMS
                 ToggleMainMenu();
             }
 
-            if (UI.activeSelf)
+            if (Input.GetKey(KeyCode.LeftAlt))
             {
                 MainMenuShortcutListeners();
             }

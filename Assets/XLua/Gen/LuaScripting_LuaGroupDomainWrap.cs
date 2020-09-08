@@ -21,11 +21,12 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaGroupDomain);
-			Utils.BeginObjectRegister(type, L, translator, 0, 24, 10, 9);
+			Utils.BeginObjectRegister(type, L, translator, 0, 25, 11, 10);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadScriptSymbols", _m_LoadScriptSymbols);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UnloadScriptSymbols", _m_UnloadScriptSymbols);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddMember", _m_AddMember);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddMemberFromPrefab", _m_AddMemberFromPrefab);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RemoveMember", _m_RemoveMember);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetMemberId", _m_GetMemberId);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitializeMembers", _m_InitializeMembers);
@@ -51,6 +52,7 @@ namespace XLua.CSObjectWrap
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "Dist", _g_get_Dist);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "Members", _g_get_Members);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "GroupRoot", _g_get_GroupRoot);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "LuaOnElementAnimatorIK", _g_get_LuaOnElementAnimatorIK);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "LuaOnElementAnimatorMove", _g_get_LuaOnElementAnimatorMove);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "LuaOnElementCollisionEnter", _g_get_LuaOnElementCollisionEnter);
@@ -61,6 +63,7 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "LuaOnElementTriggerStay", _g_get_LuaOnElementTriggerStay);
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "Members", _s_set_Members);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "GroupRoot", _s_set_GroupRoot);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "LuaOnElementAnimatorIK", _s_set_LuaOnElementAnimatorIK);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "LuaOnElementAnimatorMove", _s_set_LuaOnElementAnimatorMove);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "LuaOnElementCollisionEnter", _s_set_LuaOnElementCollisionEnter);
@@ -192,11 +195,56 @@ namespace XLua.CSObjectWrap
                 LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
             
             
-                
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(gen_param_count == 2&& translator.Assignable<LuaScripting.LuaGroupObject>(L, 2)) 
                 {
                     LuaScripting.LuaGroupObject _newMember = (LuaScripting.LuaGroupObject)translator.GetObject(L, 2, typeof(LuaScripting.LuaGroupObject));
                     
                         int gen_ret = gen_to_be_invoked.AddMember( _newMember );
+                        LuaAPI.xlua_pushinteger(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)) 
+                {
+                    string _objectName = LuaAPI.lua_tostring(L, 2);
+                    string _bundleName = LuaAPI.lua_tostring(L, 3);
+                    
+                        int gen_ret = gen_to_be_invoked.AddMember( _objectName, _bundleName );
+                        LuaAPI.xlua_pushinteger(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to LuaScripting.LuaGroupDomain.AddMember!");
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_AddMemberFromPrefab(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.GameObject _prefab = (UnityEngine.GameObject)translator.GetObject(L, 2, typeof(UnityEngine.GameObject));
+                    
+                        int gen_ret = gen_to_be_invoked.AddMemberFromPrefab( _prefab );
                         LuaAPI.xlua_pushinteger(L, gen_ret);
                     
                     
@@ -840,6 +888,20 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_GroupRoot(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+                translator.Push(L, gen_to_be_invoked.GroupRoot);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _g_get_LuaOnElementAnimatorIK(RealStatePtr L)
         {
 		    try {
@@ -961,6 +1023,21 @@ namespace XLua.CSObjectWrap
 			
                 LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
                 gen_to_be_invoked.Members = (System.Collections.Generic.List<LuaScripting.LuaGroupObject>)translator.GetObject(L, 2, typeof(System.Collections.Generic.List<LuaScripting.LuaGroupObject>));
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_GroupRoot(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.GroupRoot = (UnityEngine.GameObject)translator.GetObject(L, 2, typeof(UnityEngine.GameObject));
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

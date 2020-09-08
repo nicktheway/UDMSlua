@@ -35,7 +35,7 @@ end
 
 function M.triggerGlobalEffect(effectName)
 	if globalEffects[effectName] ~= nil then
-		globalEffects[effectName].enabled.overrideState = not globalEffects[effectName].enabled.overrideState
+		globalEffects[effectName].enabled:Override(not globalEffects[effectName].enabled.value)
 	else
 		globalEffects[effectName] = M.globalEffect(effectName)
 		globalEffects[effectName].enabled:Override(true)
@@ -44,7 +44,7 @@ end
 
 function M.disableAllGlobalEffects()
 	for k, v in pairs(globalEffects) do
-		v.enabled:Override(false)
+		v.enabled.value = false
 	end
 end
 
@@ -88,9 +88,8 @@ function M.setLUTEffectTexture(lutEffect, textureName)
 		print(lutEffect, ' is not a ', typeof(CS.PPEffects.SimpleLUT))
 		return
 	end
-	
-	lutEffect.LookupTexture:Override(true)
-	lutEffect.LookupTexture.value = CS.LuaScripting.AssetManager.LoadAsset(typeof(UE.Texture), textureName, 'textures/luts')
+	local texture = CS.LuaScripting.AssetManager.LoadAsset(typeof(UE.Texture), textureName, 'textures/luts')
+	lutEffect.LookupTexture:Override(texture)
 end
 
 function newEffect(effectName)

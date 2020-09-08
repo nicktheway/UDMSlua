@@ -273,11 +273,12 @@ namespace XLua.CSObjectWrap
                     string _groupName = LuaAPI.lua_tostring(L, 2);
                     string _groupScriptPath = LuaAPI.lua_tostring(L, 3);
                     
-                    gen_to_be_invoked.AddGroupDomain( _groupName, _groupScriptPath );
+                        LuaScripting.LuaGroupDomain gen_ret = gen_to_be_invoked.AddGroupDomain( _groupName, _groupScriptPath );
+                        translator.Push(L, gen_ret);
                     
                     
                     
-                    return 0;
+                    return 1;
                 }
                 
             } catch(System.Exception gen_e) {

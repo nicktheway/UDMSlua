@@ -204,6 +204,15 @@ ModelImporter:
     - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_RightShoulder/Neo_RightArm/Neo_RightForeArm/Neo_RightHand
     - Neo_Reference/Neo_Hips/Neo_LeftUpLeg/Neo_LeftLeg/Neo_LeftFoot
     - Neo_Reference/Neo_Hips/Neo_RightUpLeg/Neo_RightLeg/Neo_RightFoot
+    - Neo_Reference/Neo_Hips/Neo_LeftUpLeg
+    - Neo_Reference/Neo_Hips/Neo_RightUpLeg
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_LeftShoulder
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_RightShoulder
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_Neck
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_LeftShoulder/Neo_LeftArm/Neo_LeftForeArm
+    - Neo_Reference/Neo_Hips/Neo_Spine/Neo_Spine1/Neo_Spine2/Neo_RightShoulder/Neo_RightArm/Neo_RightForeArm
     extraUserProperties: []
     clipAnimations: []
     isReadable: 0

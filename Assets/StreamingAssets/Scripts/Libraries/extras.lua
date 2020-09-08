@@ -37,4 +37,15 @@ function M.printOnScreen(text, posX, posY, color)
 	end
 end
 
+function M.listenToGenericShortcuts()
+	if UE.Input.GetKey(UE.KeyCode.Comma) then
+		local vol = CS.UDMS.Globals.AudioSource.volume
+		CS.UDMS.Globals.AudioSource.volume = math.max(vol - UE.Time.deltaTime, 0)
+	elseif UE.Input.GetKey(UE.KeyCode.Period) then
+		local vol = CS.UDMS.Globals.AudioSource.volume
+		CS.UDMS.Globals.AudioSource.volume = math.min(vol + UE.Time.deltaTime, 1)
+	end
+end
+
+
 return M

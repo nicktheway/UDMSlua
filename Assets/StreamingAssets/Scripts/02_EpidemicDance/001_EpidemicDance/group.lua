@@ -5,12 +5,16 @@ local cos = UE.Mathf.Cos
 local floor = UE.Mathf.FloorToInt
 local rand = UE.Random.Range
 
+local extras = require('extras')
+local animas = require('animations')
+
 local anims = {}
 local statuses = {}
 local CRVTimes = {}
 
 local clip1 = 'Idle02'
-local clip2 = 'Jazz Dancing01'
+--local clip2 = 'Jazz Dancing01'
+local clip2 = animas[0]
 
 local Nagn = Members.Count
 
@@ -44,19 +48,24 @@ function individualPrepare(agentId)
     local transform = Members[agentId].transform
     
     anims[agentId]:Play(clip1, 0, 0)
-
+	local iks = agent:GetComponent(typeof(CS.UDMS.IKGameObjects))
+	print(iks.Hips, iks.Spine, iks.Head)
+	print(iks.LeftHand, iks.RightHand, iks.LeftArm, iks.RightArm)
+	print(iks.LeftLeg, iks.RightLeg, iks.LeftFoot, iks.RightFoot)
     if rand(0.0, 1.0) < p1 then
+		Members[agentId].State = 1
         statuses[agentId] = 'Infected'
         CRVTimes[agentId] = rand(0, 300)
         myAnim:CrossFade(clip2, NormTransDur)
     else
+		Members[agentId].State = 0
         statuses[agentId] = 'Healthy'
         CRVTimes[agentId] = 0
     end
 
     transform.position = UE.Vector3(agentId, 0, 0)
     transform.eulerAngles.y = 0
-
+	extras.attachTrailRenderer(agent.gameObject)
 end
 
 function individualMove(agentId)
@@ -69,12 +78,14 @@ function individualMove(agentId)
         for key, value in pairs(Group:GetMemberIdsInCircle(transform.position, Dinf)) do
             if statuses[value] == 'Infected' then
                 statuses[agentId] = 'Infected'
+				Members[agentId].State = 1
                 myAnim:CrossFade(clip2, NormTransDur)
             end
         end
     elseif statuses[agentId] == 'Infected' then
         if rand(0.0, 1.0) < Pheal then
             statuses[agentId] = 'Healthy'
+			Members[agentId].State = 0
             myAnim:CrossFade(clip1, NormTransDur)
         end
     end

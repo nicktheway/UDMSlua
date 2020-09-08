@@ -271,11 +271,17 @@ namespace LuaScripting
         /// </summary>
         /// <param name="groupName">The name of the group. Must be unique in the room.</param>
         /// <param name="groupScriptPath">The path of the script that will control the group.</param>
-        public void AddGroupDomain(string groupName, string groupScriptPath)
+        /// <returns>The created group domain.</returns>
+        public LuaGroupDomain AddGroupDomain(string groupName, string groupScriptPath)
         {
+            if (Groups.ContainsKey(groupName))
+            {
+                Debug.LogError($"A group with the name {groupName} already exists.");
+            }
+
             var newGroup = LuaGroupDomain.NewGroupDomain(groupName, groupScriptPath, this);
 
-            AddGroupDomain(newGroup);
+            return newGroup;
         }
 
 
@@ -529,29 +535,10 @@ namespace LuaScripting
             prefab.SetActive(false);
 
             var groupDomain = LuaGroupDomain.NewGroupDomain(groupName, scriptPath, this);
-            var members = new List<GameObject>(membersCount);
 
-            // Create a parent object for the group members and put it under the room.
-            var parent = new GameObject(groupName);
-            parent.transform.SetParent(transform);
-            
             for (var i = 0; i < membersCount; i++)
             {
-                // Instantiate.
-                var instantiatedGameObject = Instantiate(prefab, transform);
-                instantiatedGameObject.transform.SetParent(parent.transform);
-
-                var luaGroupObject = instantiatedGameObject.AddComponent<LuaGroupObject>();
-                
-                groupDomain.AddMember(luaGroupObject);
-
-                members.Add(instantiatedGameObject);
-            }
-
-            // After all the members have been instantiated activate them.
-            foreach (var member in members)
-            {
-                member.SetActive(true);
+                groupDomain.AddMemberFromPrefab(prefab);
             }
 
             groupDomain.DoScript();

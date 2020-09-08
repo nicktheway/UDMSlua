@@ -255,6 +255,15 @@ ModelImporter:
     - Reference/Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm/LeftForeArm/LeftHand
     - Reference/Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm
     - Reference/Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm/RightForeArm/RightHand
+    - Reference/Hips/RightUpLeg
+    - Reference/Hips/LeftUpLeg
+    - Reference/Hips/Spine/Spine1
+    - Reference/Hips/Spine/Spine1/Spine2
+    - Reference/Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder
+    - Reference/Hips/Spine/Spine1/Spine2/Spine3/RightShoulder
+    - Reference/Hips/Spine/Spine1/Spine2/Spine3/Neck
+    - Reference/Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm/LeftForeArm
+    - Reference/Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm/RightForeArm
     extraUserProperties: []
     clipAnimations: []
     isReadable: 1

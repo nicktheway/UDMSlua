@@ -27,6 +27,7 @@ function applySettings()
 	UE.QualitySettings.SetQualityLevel(qualityLevel)
 	
 	UE.QualitySettings.shadows = shadows
+	room:InstantiateCameraRig()
 end
 
 function setUp()
