@@ -48,9 +48,9 @@ function setUp()
 	end
 	
 	group:DoScript()
-	--[[
+	--
 	local lutEffect = effects.globalEffect('lut')
-	effects.setLUTEffectTexture(lutEffect, 'Action3D16')
+	effects.setLUTEffectTexture(lutEffect, require('luts')[146])
 	lutEffect.enabled:Override(true)
 	--]]
 end
