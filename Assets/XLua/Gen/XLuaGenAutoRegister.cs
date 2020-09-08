@@ -345,6 +345,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(LuaScripting.LuaCameraObject), LuaScriptingLuaCameraObjectWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(LuaScripting.GCA), LuaScriptingGCAWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(LuaScripting.ClassExtensions.CinemachineExtensions), LuaScriptingClassExtensionsCinemachineExtensionsWrap.__Register);
         
         

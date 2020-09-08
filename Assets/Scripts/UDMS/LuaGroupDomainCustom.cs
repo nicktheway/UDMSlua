@@ -1,10 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-
+using XLua;
 
 namespace LuaScripting
 {
+	[LuaCallCSharp]
+	public struct GCA
+	{
+		public int[] BirthConditions;
+		public int[] SurviveConditions;
+		public int NumberOfStates;
+		
+		public GCA(int[] birthConditions, int[] surviveConditions, int numberOfStates)
+		{
+			BirthConditions = birthConditions;
+			SurviveConditions = surviveConditions;
+			NumberOfStates = numberOfStates;
+		}
+	}
+	
     public partial class LuaGroupDomain : LuaDomain
     {
         private bool _distTableUpdated;
@@ -213,6 +228,43 @@ namespace LuaScripting
                 Members[i].SetNeighbours(neighbours[i]);
             }
         }
+		
+		public void GCAUpdate(GCA gca)
+		{
+			var states = new List<int>(Members.Count);
+
+			foreach (var member in Members)
+			{
+				states.Add(member.State);
+			}
+
+			foreach(var member in Members)
+			{
+				var activeNeigbours = 0;
+				if (member.State == 0)
+				{
+					foreach (var id in member.Neighbours)
+					{
+						if (states[id] != 0) 
+						{
+							activeNeigbours++;
+						}
+					}
+					for (var i = 0; i < gca.BirthConditions.Length; i++)
+					{
+						if (activeNeigbours == gca.BirthConditions[i]) 
+						{
+							member.State = 1;
+							break;
+						}
+					}
+				}
+				else 
+				{
+					member.State = (member.State + 1) % gca.NumberOfStates;
+				}
+			}						
+		}
 
         public void UpdateStates(string algorithm, string algorithmData)
         {
