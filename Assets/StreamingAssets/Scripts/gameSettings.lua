@@ -4,9 +4,9 @@ local UE = CS.UnityEngine
 -- vars --
 local qualityLevel = 5
 local volumeScale = 0.2
-local fullScreen = false
-local resolutionWidth = 640
-local resolutionHeight = 480
+local fullScreen = true
+local resolutionWidth = 1000
+local resolutionHeight = 600
 
 --[[ Shadows
  - UE.ShadowQuality.All

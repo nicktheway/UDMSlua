@@ -42,7 +42,7 @@ function setUp()
 	--local group = room:InstantiateGroup('NeoMan', 'models/main', 16, 'dancers', 'group.lua')
 	local group = room:AddGroupDomain('dancers', 'group.lua')
 	
-	for i=1,5 do 
+	for i=1,8 do 
 		group:AddMember('xbot', 'models/main')
 		group:AddMember('ybot', 'models/main')
 	end
