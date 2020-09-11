@@ -9,6 +9,8 @@ local Form = require('formations')
 local debug = require('debug')
 local extras = require('extras')
 local Clips = require('animations')
+local LFF = require('functions')
+local LF = LFF(Group)
 
 local anims = {}
 local transforms = {}
@@ -69,6 +71,9 @@ function start()
 	-- Group:ToGridFormation(10, UE.Vector3(-5, 0, 5), 1, 1)
 	-- Group:RegisterGridNeighbours(10)
 	Group:ToggleIndices(true)
+	LF.setPos(0, UE.Vector3(0, 2, 0))
+	LF.setRot(0, UE.Vector3(0, 90, 0))
+	LF.setAnim(0, clip1, 0.2)
 end
 
 
