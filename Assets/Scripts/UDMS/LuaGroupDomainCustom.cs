@@ -241,27 +241,39 @@ namespace LuaScripting
 			foreach(var member in Members)
 			{
 				var activeNeigbours = 0;
+
+                foreach (var id in member.Neighbours)
+                {
+                    if (states[id] != 0) 
+                    {
+                        activeNeigbours++;
+                    }
+                }
+
 				if (member.State == 0)
-				{
-					foreach (var id in member.Neighbours)
-					{
-						if (states[id] != 0) 
-						{
-							activeNeigbours++;
-						}
-					}
-					for (var i = 0; i < gca.BirthConditions.Length; i++)
-					{
-						if (activeNeigbours == gca.BirthConditions[i]) 
-						{
-							member.State = 1;
-							break;
-						}
-					}
-				}
-				else 
-				{
-					member.State = (member.State + 1) % gca.NumberOfStates;
+                {
+                    foreach (var t in gca.BirthConditions)
+                    {
+                        if (activeNeigbours == t) 
+                        {
+                            member.State = 1;
+                            break;
+                        }
+                    }
+                }
+				else
+                {
+                    var survive = false;
+                    foreach (var t in gca.SurviveConditions)
+                    {
+                        if (activeNeigbours == t)
+                        {
+                            survive = true;
+                            break;
+                        }
+                    }
+                    
+					member.State = survive ? member.State : (member.State + 1) % gca.NumberOfStates;
 				}
 			}						
 		}

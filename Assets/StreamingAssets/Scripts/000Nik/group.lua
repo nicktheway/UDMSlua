@@ -27,7 +27,7 @@ local v1, w1, a1 = 0.01, 3.14159/100, 1;
 local NormTransDur = 0.2
 local TIME = 0
 
-local gca = CS.LuaScripting.GCA({1,2}, {}, 4)
+local gca = CS.LuaScripting.GCA({1,2}, {2}, 2)
 
 local form1=Form.makeFormation("circle",Nagn,UE.Vector3(0,0,3),4,45)
 local form2=Form.makeFormation("ellipse",Nagn,UE.Vector3(0,0,0),5,2,60)
@@ -36,8 +36,8 @@ local form4=Form.makeFormation("grid",Nagn, 10, UE.Vector3(-4,0,3), 2, 1)
 local form5=Form.makeFormation("lissajous",Nagn,6,5,6,6,30)
 local form6=Form.makeFormation("nrose",Nagn,UE.Vector3(0,0,0),10,5,0)
 
-local nbs1 = Form.makeNbhd('rel1', Nagn, {-2, -1, 0, 1, 2},false)
-local nbs2 = Form.makeNbhd('fPath', Nagn, "nbs.txt")
+local nbs1 = Form.makeNbhd('rel1', Nagn, {-2, -1, 0, 1, 2},true)
+--local nbs2 = Form.makeNbhd('fPath', Nagn, "nbs.txt")
 --[[
 for k, v in pairs(nbs2) do
 	print(v)
@@ -47,8 +47,8 @@ for k, v in pairs(nbs2) do
 end
 --]]
 function start()
-	Group:SetPositions(form3)
-	Group:SetNeighbours(nbs2)
+	Group:SetPositions(form1)
+	Group:SetNeighbours(nbs1)
 	Group:SetState({0})
 
     for i=0,Nagn - 1 do
