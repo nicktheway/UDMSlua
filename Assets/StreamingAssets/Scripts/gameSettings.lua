@@ -2,7 +2,7 @@
 local UE = CS.UnityEngine
 
 -- vars --
-local qualityLevel = 5
+local qualityLevel = 2
 local volumeScale = 0.2
 local fullScreen = true
 local resolutionWidth = 1000
@@ -16,14 +16,14 @@ local resolutionHeight = 600
 local shadows = UE.ShadowQuality.All
 
 -- Set the <preferredRefreshRate> to 0 to use the highest supported refresh rate
-local preferredRefreshRate = 20
+local preferredRefreshRate = 0
 
 function applySettings()
 	-- Sound
 	Audio.volume = volumeScale
 	
 	-- Frame Rate
-	UE.Application.targetFrameRate = 30
+	UE.Application.targetFrameRate = 60
 	UE.QualitySettings.vSyncCount = 0
 	
 	-- Graphics

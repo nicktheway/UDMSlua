@@ -4,7 +4,7 @@ local effects = require('effects')
 local extras = require('extras')
 
 -- vars --
-local qualityLevel = 5
+local qualityLevel = 2
 local fullScreen = true
 local resolutionWidth = 1000
 local resolutionHeight = 600
@@ -21,13 +21,13 @@ scene = 'RoomA'
 local shadows = UE.ShadowQuality.All
 
 -- Set the <preferredRefreshRate> to 0 to use the highest supported refresh rate
-local preferredRefreshRate = 20
+local preferredRefreshRate = 0
 
 function applySettings()
 	-- Graphics
 	UE.Screen.SetResolution(resolutionWidth, resolutionHeight, fullScreen, preferredRefreshRate)
 	UE.QualitySettings.SetQualityLevel(qualityLevel)
-	UE.Application.targetFrameRate = 30
+	UE.Application.targetFrameRate = 60
 	UE.QualitySettings.vSyncCount = 0
 	
 	UE.QualitySettings.shadows = shadows
@@ -39,15 +39,18 @@ function setUp()
 	--UE.SceneManager:LoadScene(scene, UE.LoadSceneMode.Additive)
 	--UE.SceneManagement.MoveGameObjectToScene	
 	room:InstantiateCameraRig()
-	--local group = room:InstantiateGroup('NeoMan', 'models/main', 16, 'dancers', 'group.lua')
+	local group = room:InstantiateGroup('NeoMan', 'models/main', 961, 'dancers', 'group.lua')
+	--[[
 	local group = room:AddGroupDomain('dancers', 'group.lua')
 	
-	for i=1,5 do 
-		group:AddMember('xbot', 'models/main')
-		group:AddMember('ybot', 'models/main')
+	for i=1,25 do 
+		group:AddMember('NeoMan', 'models/main')
+		if i==25 then break end
+		group:AddMember('NeoMan', 'models/main')
 	end
 	
 	group:DoScript()
+	--]]
 	--
 	local lutEffect = effects.globalEffect('lut')
 	effects.setLUTEffectTexture(lutEffect, require('luts')[146])

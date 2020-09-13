@@ -11,7 +11,10 @@ function M.makeNbhd(nbhdType, N, ...)
 		local wrap=select(2,...)
 		return M.relativeNeighbours(N, relArray, wrap)
 	elseif nbhdType=="rel2" then
-
+		local n1=select(1,...)
+		local relArray=select(2,...)
+		local wrap=select(3,...)
+		return M.relativeGridNeighbours(N, n1, relArray, wrap)
 	elseif nbhdType=="fPath" then
 		local fpath=select(1,...)
 		return M.fpathNeighbours(N,fpath)
@@ -23,7 +26,7 @@ end
 
 function M.fpathNeighbours(N, fpath)
 	local file = io.open(fpath, 'r')
-	print(fpath, file)
+	--print(fpath, file)
 	if file ~= nil then
 		local nbrs = {}
 		local counter = 1
@@ -45,6 +48,44 @@ function M.fpathNeighbours(N, fpath)
 	else
 		error('file not found')
 	end
+end
+
+function M.relativeGridNeighbours(N, NC, relArray2, wrap)
+	local nbrs = {}
+
+
+	local NR = math.ceil(N/NC)
+	local K = #relArray2
+	
+	for n = 0, N - 1 do
+		local nc = n % NC
+		local nr = math.floor(n / NC)
+		nbrs[n+1] = {}
+		local nbCounter = 1
+		for k = 1, K do
+			local ax = nc + relArray2[k][1]
+			local ay = nr + relArray2[k][2]
+			
+			if wrap then
+				ax = ax % NC
+				ay = ay % NR
+				local m = ay * NC + ax
+				if m < N then
+					nbrs[n+1][nbCounter] = m
+					nbCounter = nbCounter + 1
+				end
+			else
+				local m = ay * NC + ax
+				if ax > -1 and ax < NC and ay > -1 and ay < NR and m < N then
+					nbrs[n+1][nbCounter] = m
+					nbCounter = nbCounter + 1
+				end
+			end
+		end
+	end
+
+	
+	return nbrs
 end
 
 function M.relativeNeighbours(n, relArray, wrap)
