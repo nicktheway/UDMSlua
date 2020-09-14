@@ -142,4 +142,17 @@
 		
 	</assembly>
 
+	<assembly fullname="UnityEngine.AIModule">
+	    <type fullname="UnityEngine.AI.NavMeshAgent" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="NavMeshComponents">
+	    <type fullname="UnityEngine.AI.NavMeshSurface" preserve="all"/>
+		<type fullname="UnityEngine.AI.NavMeshLink" preserve="all"/>
+		<type fullname="UnityEngine.AI.NavMeshModifier" preserve="all"/>
+		<type fullname="UnityEngine.AI.NavMeshModifierVolume" preserve="all"/>
+		
+	</assembly>
+
 </linker>

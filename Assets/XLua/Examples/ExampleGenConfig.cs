@@ -105,7 +105,14 @@ public static class ExampleGenConfig
                 typeof(DG.Tweening.TweenExtensions),
                 typeof(DG.Tweening.TweenSettingsExtensions),
                 typeof(DG.Tweening.ShortcutExtensions),
-            };
+
+                // Navigation
+                typeof(UnityEngine.AI.NavMeshAgent),
+                typeof(UnityEngine.AI.NavMeshSurface),
+                typeof(UnityEngine.AI.NavMeshLink),
+                typeof(UnityEngine.AI.NavMeshModifier),
+                typeof(UnityEngine.AI.NavMeshModifierVolume),
+    };
 
     //C#静态调用Lua的配置（包括事件的原型），仅可以配delegate，interface
     [CSharpCallLua]

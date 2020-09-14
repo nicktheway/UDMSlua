@@ -16,6 +16,7 @@ local LF = LFF(Group)
 local anims = {}
 local transforms = {}
 local renderers = {}
+local agents = {}
 
 local Nagn = Members.Count
 
@@ -50,13 +51,21 @@ function start()
 	--]]
 	local ground = Room:GetObject('Ground')
 	ground.transform.localScale = UE.Vector3(100, 1, 100)
+	local surface = ground:AddComponent(typeof(UE.AI.NavMeshSurface))
+	local obstacle = Room:InstantiateObject('cube')
+	obstacle.transform.localScale = UE.Vector3(50, 1, 1)
+	obstacle.transform.position = UE.Vector3(3, 0.5, 1)
+	surface:BuildNavMesh()
 	
     for i=0,Nagn - 1 do
         anims[i] = Members[i]:GetComponent(typeof(UE.Animator))
 		renderers[i] = Members[i]:GetComponentsInChildren(typeof(UE.Renderer))
 		transforms[i] = Members[i].transform
 		Members[i].ColorState = false
+		agents[i] = Members[i].gameObject:AddComponent(typeof(UE.AI.NavMeshAgent))
 		--Members[i].transform:LookAt(UE.Vector3(0,1,0))
+		agents[i].destination = UE.Vector3(-10, 0, -10*i)
+		agents[i].isStopped = false
     end
 	
 	--Group:ToggleIndices(true)

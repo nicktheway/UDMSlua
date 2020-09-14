@@ -263,6 +263,21 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(DG.Tweening.ShortcutExtensions), DGTweeningShortcutExtensionsWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(UnityEngine.AI.NavMeshAgent), UnityEngineAINavMeshAgentWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(UnityEngine.AI.NavMeshSurface), UnityEngineAINavMeshSurfaceWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(UnityEngine.AI.NavMeshLink), UnityEngineAINavMeshLinkWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(UnityEngine.AI.NavMeshModifier), UnityEngineAINavMeshModifierWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(UnityEngine.AI.NavMeshModifierVolume), UnityEngineAINavMeshModifierVolumeWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(Tutorial.BaseClass), TutorialBaseClassWrap.__Register);
         
         
@@ -316,6 +331,10 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(XLuaTest.FooExtension), XLuaTestFooExtensionWrap.__Register);
         
+        }
+        
+        static void wrapInit2(LuaEnv luaenv, ObjectTranslator translator)
+        {
         
             translator.DelayWrapLoader(typeof(LuaScripting.AssetManager), LuaScriptingAssetManagerWrap.__Register);
         
@@ -331,10 +350,6 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(LuaScripting.LuaGroupObject), LuaScriptingLuaGroupObjectWrap.__Register);
         
-        }
-        
-        static void wrapInit2(LuaEnv luaenv, ObjectTranslator translator)
-        {
         
             translator.DelayWrapLoader(typeof(LuaScripting.LuaIndividualObject), LuaScriptingLuaIndividualObjectWrap.__Register);
         
