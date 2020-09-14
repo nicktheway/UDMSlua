@@ -100,9 +100,6 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.Mathf), UnityEngineMathfWrap.__Register);
         
         
-            translator.DelayWrapLoader(typeof(UnityEngine.LayerMask), UnityEngineLayerMaskWrap.__Register);
-        
-        
             translator.DelayWrapLoader(typeof(System.Collections.Generic.List<int>), SystemCollectionsGenericList_1_SystemInt32_Wrap.__Register);
         
         
@@ -174,13 +171,13 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(PPEffects.SimpleLUT), PPEffectsSimpleLUTWrap.__Register);
         
+        
+            translator.DelayWrapLoader(typeof(PPEffects.SimpleMotionBlur), PPEffectsSimpleMotionBlurWrap.__Register);
+        
         }
         
         static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
         {
-        
-            translator.DelayWrapLoader(typeof(PPEffects.SimpleMotionBlur), PPEffectsSimpleMotionBlurWrap.__Register);
-        
         
             translator.DelayWrapLoader(typeof(PPEffects.Sobel), PPEffectsSobelWrap.__Register);
         
@@ -266,21 +263,6 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(DG.Tweening.ShortcutExtensions), DGTweeningShortcutExtensionsWrap.__Register);
         
         
-            translator.DelayWrapLoader(typeof(K_PathFinder.PathFinder), K_PathFinderPathFinderWrap.__Register);
-        
-        
-            translator.DelayWrapLoader(typeof(K_PathFinder.PathFinderScene), K_PathFinderPathFinderSceneWrap.__Register);
-        
-        
-            translator.DelayWrapLoader(typeof(K_PathFinder.PathFinderAgent), K_PathFinderPathFinderAgentWrap.__Register);
-        
-        
-            translator.DelayWrapLoader(typeof(K_PathFinder.AreaGameObject), K_PathFinderAreaGameObjectWrap.__Register);
-        
-        
-            translator.DelayWrapLoader(typeof(K_PathFinder.AgentProperties), K_PathFinderAgentPropertiesWrap.__Register);
-        
-        
             translator.DelayWrapLoader(typeof(Tutorial.BaseClass), TutorialBaseClassWrap.__Register);
         
         
@@ -331,10 +313,6 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(XLuaTest.Foo), XLuaTestFooWrap.__Register);
         
-        }
-        
-        static void wrapInit2(LuaEnv luaenv, ObjectTranslator translator)
-        {
         
             translator.DelayWrapLoader(typeof(XLuaTest.FooExtension), XLuaTestFooExtensionWrap.__Register);
         
@@ -353,6 +331,10 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(LuaScripting.LuaGroupObject), LuaScriptingLuaGroupObjectWrap.__Register);
         
+        }
+        
+        static void wrapInit2(LuaEnv luaenv, ObjectTranslator translator)
+        {
         
             translator.DelayWrapLoader(typeof(LuaScripting.LuaIndividualObject), LuaScriptingLuaIndividualObjectWrap.__Register);
         
