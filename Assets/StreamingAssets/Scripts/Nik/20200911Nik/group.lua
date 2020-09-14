@@ -1,6 +1,5 @@
 -- aliases --
 local UE = CS.UnityEngine
-local KPF = CS.K_PathFinder
 local sin = UE.Mathf.Sin
 local cos = UE.Mathf.Cos
 local floor = UE.Mathf.FloorToInt
@@ -37,20 +36,19 @@ local nbs2 = Form.makeNbhd('rel2', Nagn, nc, {{-1, 0}, {0, -1}, {0, 1}, {1, 0}, 
 --local nbs3 = Form.makeNbhd('fPath', Nagn, "nbs.txt")
 
 function start()
-	--
+	--[[
 	Group:SetPositions(form4)
 	Group:SetNeighbours(nbs2)
-	Group:SetState({1})
+	Group:SetState({10, 16, 23, 24, 25})
 	gca = CS.LuaScripting.GCA({3}, {2, 3}, 2)
-	--[[
+	--]]
 	Group:SetPositions(form4)
 	Group:SetNeighbours(nbs2)
 	Group:SetState({480})
 	gca = CS.LuaScripting.GCA({1}, {},4)
-	--]]
+
 	local ground = Room:GetObject('Ground')
 	ground.transform.localScale = UE.Vector3(100, 1, 100)
-	
     for i=0,Nagn - 1 do
         anims[i] = Members[i]:GetComponent(typeof(UE.Animator))
 		renderers[i] = Members[i]:GetComponentsInChildren(typeof(UE.Renderer))
@@ -71,10 +69,9 @@ end
 
 function update()
 	extras.printOnScreen(math.floor(1/UE.Time.deltaTime))
-	--
-
+	--[[
     for i=0,Nagn-1 do
-        individualMove(i)
+        --
 	end
 	--]]
     TIME = TIME + 1
@@ -133,9 +130,9 @@ function individualAnimate(agentId)
     if myState==2 then  myAnim:CrossFade(Clips[93], NormTransDur) end
     if myState==3 then  myAnim:CrossFade(Clips[94], NormTransDur) end
 end
-
-function individualMove(agentId)
-
+function individualMove(agentId, nclipId)
+    transform:Rotate(UE.Vector3(0, 1 + cos(w1 * TIME), 0))
+    transform:Translate(UE.Vector3.forward * v1)
 end
 --[[
 This turns on root motion
