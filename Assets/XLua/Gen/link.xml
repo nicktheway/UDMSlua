@@ -32,6 +32,7 @@
 		<type fullname="UnityEngine.Renderer" preserve="all"/>
 		<type fullname="UnityEngine.Light" preserve="all"/>
 		<type fullname="UnityEngine.Mathf" preserve="all"/>
+		<type fullname="UnityEngine.LayerMask" preserve="all"/>
 		<type fullname="UnityEngine.Debug" preserve="all"/>
 		<type fullname="UnityEngine.ScriptableObject" preserve="all"/>
 		<type fullname="UnityEngine.WaitForSeconds" preserve="all"/>
@@ -84,6 +85,11 @@
 		<type fullname="PPEffects.Wiggle" preserve="all"/>
 		<type fullname="UDMS.Globals" preserve="all"/>
 		<type fullname="UDMS.IKGameObjects" preserve="all"/>
+		<type fullname="K_PathFinder.PathFinder" preserve="all"/>
+		<type fullname="K_PathFinder.PathFinderScene" preserve="all"/>
+		<type fullname="K_PathFinder.PathFinderAgent" preserve="all"/>
+		<type fullname="K_PathFinder.AreaGameObject" preserve="all"/>
+		<type fullname="K_PathFinder.AgentProperties" preserve="all"/>
 		<type fullname="Tutorial.BaseClass" preserve="all"/>
 		<type fullname="Tutorial.TestEnum" preserve="all"/>
 		<type fullname="Tutorial.DerivedClass" preserve="all"/>

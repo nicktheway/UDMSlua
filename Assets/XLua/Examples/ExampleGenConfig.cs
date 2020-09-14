@@ -48,6 +48,7 @@ public static class ExampleGenConfig
                 typeof(Renderer),
                 typeof(Light),
                 typeof(Mathf),
+                typeof(LayerMask),
                 typeof(System.Collections.Generic.List<int>),
                 typeof(Action<string>),
                 typeof(UnityEngine.Debug),
@@ -105,6 +106,13 @@ public static class ExampleGenConfig
                 typeof(DG.Tweening.TweenExtensions),
                 typeof(DG.Tweening.TweenSettingsExtensions),
                 typeof(DG.Tweening.ShortcutExtensions),
+
+                // K_PathFinder
+                typeof(K_PathFinder.PathFinder),
+                typeof(K_PathFinder.PathFinderScene),
+                typeof(K_PathFinder.PathFinderAgent),
+                typeof(K_PathFinder.AreaGameObject),
+                typeof(K_PathFinder.AgentProperties),
             };
 
     //C#静态调用Lua的配置（包括事件的原型），仅可以配delegate，interface
