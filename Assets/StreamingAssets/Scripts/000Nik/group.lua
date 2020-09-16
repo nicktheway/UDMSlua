@@ -25,6 +25,9 @@ local TIME = 0
 local nc=31
 local gca
 
+local file = io.open('test.log', 'a')
+io.output(file)
+
 local form1=Form.makeFormation("circle",Nagn,UE.Vector3(0,0,3),4,45)
 local form2=Form.makeFormation("ellipse",Nagn,UE.Vector3(0,0,0),5,2,60)
 local form3=Form.makeFormation("line",Nagn,UE.Vector3(-4,0,-3),UE.Vector3(1,0,2))
@@ -96,10 +99,6 @@ function update()
 end
 
 function onGcaStep()
-	--[[
-	local file = io.open('test.log', 'a')
-	io.output(file)
-	--]]
 	local textToWrite = ""
 	for i=0,Nagn-1 do
 		renderers[i][0].material.color = stateToColor(Members[i].State)
@@ -107,10 +106,11 @@ function onGcaStep()
 		individualAnimate(i)
 	end
 	--extras.printOnScreen(textToWrite)
-	--[[
 	io.write(TIME.." "..textToWrite.."\n")
+end
+
+function onDestroy()
 	io.close(file)
-	-]]
 end
 
 function stateToColor(state)

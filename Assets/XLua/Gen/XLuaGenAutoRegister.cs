@@ -363,6 +363,12 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(LuaScripting.GCA), LuaScriptingGCAWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(LuaScripting.InfectionInfo), LuaScriptingInfectionInfoWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(LuaScripting.DistUpdateInfo), LuaScriptingDistUpdateInfoWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(LuaScripting.ClassExtensions.CinemachineExtensions), LuaScriptingClassExtensionsCinemachineExtensionsWrap.__Register);
         
         

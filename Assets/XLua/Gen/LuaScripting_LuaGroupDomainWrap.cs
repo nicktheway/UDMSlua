@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LuaScripting.LuaGroupDomain);
-			Utils.BeginObjectRegister(type, L, translator, 0, 26, 11, 10);
+			Utils.BeginObjectRegister(type, L, translator, 0, 29, 11, 10);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadScriptSymbols", _m_LoadScriptSymbols);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UnloadScriptSymbols", _m_UnloadScriptSymbols);
@@ -34,6 +34,7 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Dispose", _m_Dispose);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "BeforeUpdateActions", _m_BeforeUpdateActions);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AfterLateUpdateActions", _m_AfterLateUpdateActions);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UpdateDistanceTable", _m_UpdateDistanceTable);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetGroupCenter", _m_GetGroupCenter);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetHoodCenter", _m_GetHoodCenter);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetMemberIdsInCircle", _m_GetMemberIdsInCircle);
@@ -43,6 +44,8 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetPositions", _m_SetPositions);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetNeighbours", _m_SetNeighbours);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GCAUpdate", _m_GCAUpdate);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InfectionUpdate", _m_InfectionUpdate);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DistStateUpdate", _m_DistStateUpdate);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UpdateStates", _m_UpdateStates);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ToggleIndices", _m_ToggleIndices);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "HighlightNeigbours", _m_HighlightNeigbours);
@@ -453,6 +456,33 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_UpdateDistanceTable(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                    gen_to_be_invoked.UpdateDistanceTable(  );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _m_GetGroupCenter(RealStatePtr L)
         {
 		    try {
@@ -699,6 +729,62 @@ namespace XLua.CSObjectWrap
                     LuaScripting.GCA _gca;translator.Get(L, 2, out _gca);
                     
                     gen_to_be_invoked.GCAUpdate( _gca );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_InfectionUpdate(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    LuaScripting.InfectionInfo _infectionInfo;translator.Get(L, 2, out _infectionInfo);
+                    
+                    gen_to_be_invoked.InfectionUpdate( _infectionInfo );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DistStateUpdate(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                LuaScripting.LuaGroupDomain gen_to_be_invoked = (LuaScripting.LuaGroupDomain)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    LuaScripting.DistUpdateInfo _distUpdateInfo;translator.Get(L, 2, out _distUpdateInfo);
+                    
+                    gen_to_be_invoked.DistStateUpdate( _distUpdateInfo );
                     
                     
                     

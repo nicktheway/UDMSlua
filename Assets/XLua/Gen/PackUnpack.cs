@@ -724,5 +724,167 @@ namespace XLua
             return true;
         }
         
+		
+		public static void UnPack(ObjectTranslator translator, RealStatePtr L, int idx, out LuaScripting.InfectionInfo val)
+		{
+		    val = new LuaScripting.InfectionInfo();
+            int top = LuaAPI.lua_gettop(L);
+			
+			if (Utils.LoadField(L, idx, "InfectRate"))
+            {
+			    
+                translator.Get(L, top + 1, out val.InfectRate);
+				
+            }
+            LuaAPI.lua_pop(L, 1);
+			
+			if (Utils.LoadField(L, idx, "HealRate"))
+            {
+			    
+                translator.Get(L, top + 1, out val.HealRate);
+				
+            }
+            LuaAPI.lua_pop(L, 1);
+			
+		}
+		
+        public static bool Pack(IntPtr buff, int offset, LuaScripting.InfectionInfo field)
+        {
+            
+            if(!LuaAPI.xlua_pack_float2(buff, offset, field.InfectRate, field.HealRate))
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        public static bool UnPack(IntPtr buff, int offset, out LuaScripting.InfectionInfo field)
+        {
+            field = default(LuaScripting.InfectionInfo);
+            
+            float InfectRate = default(float);
+            float HealRate = default(float);
+            
+            if(!LuaAPI.xlua_unpack_float2(buff, offset, out InfectRate, out HealRate))
+            {
+                return false;
+            }
+            field.InfectRate = InfectRate;
+            field.HealRate = HealRate;
+            
+            
+            return true;
+        }
+        
+		
+		public static void UnPack(ObjectTranslator translator, RealStatePtr L, int idx, out LuaScripting.DistUpdateInfo val)
+		{
+		    val = new LuaScripting.DistUpdateInfo();
+            int top = LuaAPI.lua_gettop(L);
+			
+			if (Utils.LoadField(L, idx, "NumberOfStates"))
+            {
+			    
+                translator.Get(L, top + 1, out val.NumberOfStates);
+				
+            }
+            LuaAPI.lua_pop(L, 1);
+			
+			if (Utils.LoadField(L, idx, "Threshold"))
+            {
+			    
+                translator.Get(L, top + 1, out val.Threshold);
+				
+            }
+            LuaAPI.lua_pop(L, 1);
+			
+			if (Utils.LoadField(L, idx, "QuadraticCoefficient"))
+            {
+			    
+                translator.Get(L, top + 1, out val.QuadraticCoefficient);
+				
+            }
+            LuaAPI.lua_pop(L, 1);
+			
+			if (Utils.LoadField(L, idx, "LinearCoefficient"))
+            {
+			    
+                translator.Get(L, top + 1, out val.LinearCoefficient);
+				
+            }
+            LuaAPI.lua_pop(L, 1);
+			
+			if (Utils.LoadField(L, idx, "Constant"))
+            {
+			    
+                translator.Get(L, top + 1, out val.Constant);
+				
+            }
+            LuaAPI.lua_pop(L, 1);
+			
+		}
+		
+        public static bool Pack(IntPtr buff, int offset, LuaScripting.DistUpdateInfo field)
+        {
+            
+            if(!Pack(buff, offset, field.NumberOfStates))
+            {
+                return false;
+            }
+            
+            if(!Pack(buff, offset + 4, field.Threshold))
+            {
+                return false;
+            }
+            
+            if(!Pack(buff, offset + 8, field.QuadraticCoefficient))
+            {
+                return false;
+            }
+            
+            if(!Pack(buff, offset + 12, field.LinearCoefficient))
+            {
+                return false;
+            }
+            
+            if(!Pack(buff, offset + 16, field.Constant))
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        public static bool UnPack(IntPtr buff, int offset, out LuaScripting.DistUpdateInfo field)
+        {
+            field = default(LuaScripting.DistUpdateInfo);
+            
+            if(!UnPack(buff, offset, out field.NumberOfStates))
+            {
+                return false;
+            }
+            
+            if(!UnPack(buff, offset + 4, out field.Threshold))
+            {
+                return false;
+            }
+            
+            if(!UnPack(buff, offset + 8, out field.QuadraticCoefficient))
+            {
+                return false;
+            }
+            
+            if(!UnPack(buff, offset + 12, out field.LinearCoefficient))
+            {
+                return false;
+            }
+            
+            if(!UnPack(buff, offset + 16, out field.Constant))
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        
     }
 }

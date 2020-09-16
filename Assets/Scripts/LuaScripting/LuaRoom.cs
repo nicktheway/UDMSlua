@@ -152,6 +152,24 @@ namespace LuaScripting
             }
         }
 
+        private void OnDestroy()
+        {
+            foreach (var luaDomain in RegisteredDomains)
+            {
+                if (luaDomain is LuaGroupDomain)
+                    luaDomain.LuaOnDestroy?.Invoke();
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            foreach (var luaDomain in RegisteredDomains)
+            {
+                if (luaDomain is LuaGroupDomain)
+                    luaDomain.LuaOnApplicationQuit?.Invoke();
+            }
+        }
+
         private void Update()
         {
             // Run the OnUpdate function for every luaDomain in the room.

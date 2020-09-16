@@ -37,6 +37,8 @@ namespace XLua
 				translator.RegisterPushAndGetAndUpdate<XLuaTest.Pedding>(translator.PushXLuaTestPedding, translator.Get, translator.UpdateXLuaTestPedding);
 				translator.RegisterPushAndGetAndUpdate<XLuaTest.MyStruct>(translator.PushXLuaTestMyStruct, translator.Get, translator.UpdateXLuaTestMyStruct);
 				translator.RegisterPushAndGetAndUpdate<XLuaTest.PushAsTableStruct>(translator.PushXLuaTestPushAsTableStruct, translator.Get, translator.UpdateXLuaTestPushAsTableStruct);
+				translator.RegisterPushAndGetAndUpdate<LuaScripting.InfectionInfo>(translator.PushLuaScriptingInfectionInfo, translator.Get, translator.UpdateLuaScriptingInfectionInfo);
+				translator.RegisterPushAndGetAndUpdate<LuaScripting.DistUpdateInfo>(translator.PushLuaScriptingDistUpdateInfo, translator.Get, translator.UpdateLuaScriptingDistUpdateInfo);
 				translator.RegisterPushAndGetAndUpdate<DG.Tweening.AutoPlay>(translator.PushDGTweeningAutoPlay, translator.Get, translator.UpdateDGTweeningAutoPlay);
 				translator.RegisterPushAndGetAndUpdate<DG.Tweening.AxisConstraint>(translator.PushDGTweeningAxisConstraint, translator.Get, translator.UpdateDGTweeningAxisConstraint);
 				translator.RegisterPushAndGetAndUpdate<DG.Tweening.Ease>(translator.PushDGTweeningEase, translator.Get, translator.UpdateDGTweeningEase);
@@ -52,6 +54,7 @@ namespace XLua
 				translator.RegisterPushAndGetAndUpdate<XLuaTest.MyEnum>(translator.PushXLuaTestMyEnum, translator.Get, translator.UpdateXLuaTestMyEnum);
 				translator.RegisterPushAndGetAndUpdate<Tutorial.DerivedClass.TestEnumInner>(translator.PushTutorialDerivedClassTestEnumInner, translator.Get, translator.UpdateTutorialDerivedClassTestEnumInner);
 			
+				translator.RegisterCaster<LuaScripting.GCA>(translator.Get);
 			}
         }
         
@@ -775,6 +778,138 @@ namespace XLua
             {
 			    return;
 			}
+			
+            else
+            {
+                throw new Exception("try to update a data with lua type:" + LuaAPI.lua_type(L, index));
+            }
+        }
+        
+        int LuaScriptingInfectionInfo_TypeID = -1;
+        public void PushLuaScriptingInfectionInfo(RealStatePtr L, LuaScripting.InfectionInfo val)
+        {
+            if (LuaScriptingInfectionInfo_TypeID == -1)
+            {
+			    bool is_first;
+                LuaScriptingInfectionInfo_TypeID = getTypeId(L, typeof(LuaScripting.InfectionInfo), out is_first);
+				
+            }
+			
+            IntPtr buff = LuaAPI.xlua_pushstruct(L, 8, LuaScriptingInfectionInfo_TypeID);
+            if (!CopyByValue.Pack(buff, 0, val))
+            {
+                throw new Exception("pack fail fail for LuaScripting.InfectionInfo ,value="+val);
+            }
+			
+        }
+		
+        public void Get(RealStatePtr L, int index, out LuaScripting.InfectionInfo val)
+        {
+		    LuaTypes type = LuaAPI.lua_type(L, index);
+            if (type == LuaTypes.LUA_TUSERDATA )
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != LuaScriptingInfectionInfo_TypeID)
+				{
+				    throw new Exception("invalid userdata for LuaScripting.InfectionInfo");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);if (!CopyByValue.UnPack(buff, 0, out val))
+                {
+                    throw new Exception("unpack fail for LuaScripting.InfectionInfo");
+                }
+            }
+			else if (type ==LuaTypes.LUA_TTABLE)
+			{
+			    CopyByValue.UnPack(this, L, index, out val);
+			}
+            else
+            {
+                val = (LuaScripting.InfectionInfo)objectCasters.GetCaster(typeof(LuaScripting.InfectionInfo))(L, index, null);
+            }
+        }
+		
+        public void UpdateLuaScriptingInfectionInfo(RealStatePtr L, int index, LuaScripting.InfectionInfo val)
+        {
+		    
+            if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != LuaScriptingInfectionInfo_TypeID)
+				{
+				    throw new Exception("invalid userdata for LuaScripting.InfectionInfo");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+                if (!CopyByValue.Pack(buff, 0,  val))
+                {
+                    throw new Exception("pack fail for LuaScripting.InfectionInfo ,value="+val);
+                }
+            }
+			
+            else
+            {
+                throw new Exception("try to update a data with lua type:" + LuaAPI.lua_type(L, index));
+            }
+        }
+        
+        int LuaScriptingDistUpdateInfo_TypeID = -1;
+        public void PushLuaScriptingDistUpdateInfo(RealStatePtr L, LuaScripting.DistUpdateInfo val)
+        {
+            if (LuaScriptingDistUpdateInfo_TypeID == -1)
+            {
+			    bool is_first;
+                LuaScriptingDistUpdateInfo_TypeID = getTypeId(L, typeof(LuaScripting.DistUpdateInfo), out is_first);
+				
+            }
+			
+            IntPtr buff = LuaAPI.xlua_pushstruct(L, 20, LuaScriptingDistUpdateInfo_TypeID);
+            if (!CopyByValue.Pack(buff, 0, val))
+            {
+                throw new Exception("pack fail fail for LuaScripting.DistUpdateInfo ,value="+val);
+            }
+			
+        }
+		
+        public void Get(RealStatePtr L, int index, out LuaScripting.DistUpdateInfo val)
+        {
+		    LuaTypes type = LuaAPI.lua_type(L, index);
+            if (type == LuaTypes.LUA_TUSERDATA )
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != LuaScriptingDistUpdateInfo_TypeID)
+				{
+				    throw new Exception("invalid userdata for LuaScripting.DistUpdateInfo");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);if (!CopyByValue.UnPack(buff, 0, out val))
+                {
+                    throw new Exception("unpack fail for LuaScripting.DistUpdateInfo");
+                }
+            }
+			else if (type ==LuaTypes.LUA_TTABLE)
+			{
+			    CopyByValue.UnPack(this, L, index, out val);
+			}
+            else
+            {
+                val = (LuaScripting.DistUpdateInfo)objectCasters.GetCaster(typeof(LuaScripting.DistUpdateInfo))(L, index, null);
+            }
+        }
+		
+        public void UpdateLuaScriptingDistUpdateInfo(RealStatePtr L, int index, LuaScripting.DistUpdateInfo val)
+        {
+		    
+            if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != LuaScriptingDistUpdateInfo_TypeID)
+				{
+				    throw new Exception("invalid userdata for LuaScripting.DistUpdateInfo");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+                if (!CopyByValue.Pack(buff, 0,  val))
+                {
+                    throw new Exception("pack fail for LuaScripting.DistUpdateInfo ,value="+val);
+                }
+            }
 			
             else
             {
@@ -1961,6 +2096,43 @@ namespace XLua
         
 		// table cast optimze
 		
+		public void Get(RealStatePtr L, int index, out LuaScripting.GCA val)
+        {
+		    LuaTypes type = LuaAPI.lua_type(L, index);
+            if (type == LuaTypes.LUA_TUSERDATA )
+            {
+			    val = (LuaScripting.GCA)FastGetCSObj(L, index);
+            }
+			else if (type == LuaTypes.LUA_TTABLE)
+			{
+			    val = new LuaScripting.GCA();
+				int top = LuaAPI.lua_gettop(L);
+				
+				if (Utils.LoadField(L, index, "BirthConditions"))
+				{
+					Get(L, top + 1, out val.BirthConditions);
+				}
+				LuaAPI.lua_pop(L, 1);
+				
+				if (Utils.LoadField(L, index, "SurviveConditions"))
+				{
+					Get(L, top + 1, out val.SurviveConditions);
+				}
+				LuaAPI.lua_pop(L, 1);
+				
+				if (Utils.LoadField(L, index, "NumberOfStates"))
+				{
+					Get(L, top + 1, out val.NumberOfStates);
+				}
+				LuaAPI.lua_pop(L, 1);
+				
+			}
+            else
+            {
+                throw new Exception("can not cast " + LuaAPI.lua_type(L, index) + " to " + typeof(LuaScripting.GCA));
+            }
+        }
+		
         
     }
 	
@@ -2033,6 +2205,18 @@ namespace XLua
 			{
 			    XLuaTest.PushAsTableStruct[] array = obj as XLuaTest.PushAsTableStruct[];
 				translator.PushXLuaTestPushAsTableStruct(L, array[index]);
+				return true;
+			}
+			else if (type == typeof(LuaScripting.InfectionInfo[]))
+			{
+			    LuaScripting.InfectionInfo[] array = obj as LuaScripting.InfectionInfo[];
+				translator.PushLuaScriptingInfectionInfo(L, array[index]);
+				return true;
+			}
+			else if (type == typeof(LuaScripting.DistUpdateInfo[]))
+			{
+			    LuaScripting.DistUpdateInfo[] array = obj as LuaScripting.DistUpdateInfo[];
+				translator.PushLuaScriptingDistUpdateInfo(L, array[index]);
 				return true;
 			}
 			else if (type == typeof(DG.Tweening.AutoPlay[]))
@@ -2191,6 +2375,18 @@ namespace XLua
 				translator.Get(L, obj_idx, out array[array_idx]);
 				return true;
 			}
+			else if (type == typeof(LuaScripting.InfectionInfo[]))
+			{
+			    LuaScripting.InfectionInfo[] array = obj as LuaScripting.InfectionInfo[];
+				translator.Get(L, obj_idx, out array[array_idx]);
+				return true;
+			}
+			else if (type == typeof(LuaScripting.DistUpdateInfo[]))
+			{
+			    LuaScripting.DistUpdateInfo[] array = obj as LuaScripting.DistUpdateInfo[];
+				translator.Get(L, obj_idx, out array[array_idx]);
+				return true;
+			}
 			else if (type == typeof(DG.Tweening.AutoPlay[]))
 			{
 			    DG.Tweening.AutoPlay[] array = obj as DG.Tweening.AutoPlay[];
@@ -2272,6 +2468,12 @@ namespace XLua
 			else if (type == typeof(Tutorial.DerivedClass.TestEnumInner[]))
 			{
 			    Tutorial.DerivedClass.TestEnumInner[] array = obj as Tutorial.DerivedClass.TestEnumInner[];
+				translator.Get(L, obj_idx, out array[array_idx]);
+				return true;
+			}
+			else if (type == typeof(LuaScripting.GCA[]))
+			{
+			    LuaScripting.GCA[] array = obj as LuaScripting.GCA[];
 				translator.Get(L, obj_idx, out array[array_idx]);
 				return true;
 			}

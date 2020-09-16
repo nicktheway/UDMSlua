@@ -6,6 +6,7 @@ using XLua;
 namespace LuaScripting
 {
 	[LuaCallCSharp]
+    [GCOptimize]
 	public struct GCA
 	{
 		public int[] BirthConditions;
@@ -19,6 +20,40 @@ namespace LuaScripting
 			NumberOfStates = numberOfStates;
 		}
 	}
+
+    [LuaCallCSharp]
+    [GCOptimize]
+    public struct InfectionInfo
+    {
+        public float InfectRate;
+        public float HealRate;
+
+        public InfectionInfo(float infectRate, float healRate)
+        {
+            InfectRate = infectRate;
+            HealRate = healRate;
+        }
+    }
+
+    [LuaCallCSharp]
+    [GCOptimize]
+    public struct DistUpdateInfo
+    {
+        public int NumberOfStates;
+        public float Threshold;
+        public float QuadraticCoefficient;
+        public float LinearCoefficient;
+        public float Constant;
+
+        public DistUpdateInfo(int numberOfStates, float threshold, float quadraticCoefficient, float linearCoefficient, float constant)
+        {
+            NumberOfStates = numberOfStates;
+            Threshold = threshold;
+            QuadraticCoefficient = quadraticCoefficient;
+            LinearCoefficient = linearCoefficient;
+            Constant = constant;
+        }
+    }
 	
     public partial class LuaGroupDomain : LuaDomain
     {
@@ -51,7 +86,7 @@ namespace LuaScripting
             }
         }
 
-        private void UpdateDistanceTable()
+        public void UpdateDistanceTable()
         {
             var len = Members.Count;
             _dist = new float[len, len];
@@ -277,6 +312,58 @@ namespace LuaScripting
 				}
 			}						
 		}
+
+        public void InfectionUpdate(InfectionInfo infectionInfo)
+        {
+            var infected = 0;
+            foreach (var member in Members)
+            {
+                infected += member.State;
+            }
+
+            foreach (var member in Members)
+            {
+                if (member.State == 0)
+                {
+                    member.State = Random.value < infectionInfo.InfectRate * (1 - 1.0 / (infected + 1)) ? 1 : 0;
+                }
+                else
+                {
+                    member.State = Random.value < infectionInfo.HealRate * (1 - 1.0 / (infected + 1)) ? 0 : 1;
+                }
+            }
+        }
+
+        public void DistStateUpdate(DistUpdateInfo distUpdateInfo)
+        {
+            var states = new List<int>(Members.Count);
+
+            foreach (var member in Members)
+            {
+                states.Add(member.State);
+            }
+
+            for (var i = 0; i < Members.Count; i++)
+            {
+                var totalInf = 0;
+                for (var j = 0; j < Members.Count; j++)
+                {
+                    if (i != j && states[j] > 0)
+                    {
+                        totalInf += (distUpdateInfo.QuadraticCoefficient * _dist[i, j] * _dist[i, j] + distUpdateInfo.LinearCoefficient * _dist[i, j] + distUpdateInfo.Constant < 0) ? 1 : 0;
+                    }
+                }
+
+                if (Members[i].State == 0)
+                {
+                    Members[i].State = totalInf > distUpdateInfo.Threshold ? 1 : 0;
+                }
+                else
+                {
+                    Members[i].State = (Members[i].State + 1) % distUpdateInfo.NumberOfStates;
+                }
+            }
+        }
 
         public void UpdateStates(string algorithm, string algorithmData)
         {
