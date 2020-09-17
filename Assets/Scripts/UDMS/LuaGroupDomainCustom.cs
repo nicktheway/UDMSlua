@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using XLua;
@@ -12,12 +13,14 @@ namespace LuaScripting
 		public int[] BirthConditions;
 		public int[] SurviveConditions;
 		public int NumberOfStates;
+        public int Threshold;
 		
-		public GCA(int[] birthConditions, int[] surviveConditions, int numberOfStates)
+		public GCA(int[] birthConditions, int[] surviveConditions, int numberOfStates, int threshold = 0)
 		{
 			BirthConditions = birthConditions;
 			SurviveConditions = surviveConditions;
 			NumberOfStates = numberOfStates;
+            Threshold = threshold;
 		}
 	}
 
@@ -263,6 +266,55 @@ namespace LuaScripting
                 Members[i].SetNeighbours(neighbours[i]);
             }
         }
+
+        public void AdaptiveStateUpdate(GCA gca)
+        {
+            var states = new List<int>(Members.Count);
+
+            foreach (var member in Members)
+            {
+                states.Add(member.State);
+            }
+
+            foreach (var member in Members)
+            {
+                var activeNeigbours = 0;
+
+                foreach (var id in member.Neighbours)
+                {
+                    if (states[id] > gca.Threshold)
+                    {
+                        activeNeigbours++;
+                    }
+                }
+
+                if (member.State == 0)
+                {
+                    foreach (var t in gca.BirthConditions)
+                    {
+                        if (activeNeigbours == t)
+                        {
+                            member.State = 1;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    var survive = false;
+                    foreach (var t in gca.SurviveConditions)
+                    {
+                        if (activeNeigbours == t)
+                        {
+                            survive = true;
+                            break;
+                        }
+                    }
+
+                    member.State = survive ? Math.Min(member.State + 1, gca.NumberOfStates - 1) : Math.Max(member.State - 1, 0);
+                }
+            }
+        }
 		
 		public void GCAUpdate(GCA gca)
 		{
@@ -279,7 +331,7 @@ namespace LuaScripting
 
                 foreach (var id in member.Neighbours)
                 {
-                    if (states[id] != 0) 
+                    if (states[id] > gca.Threshold) 
                     {
                         activeNeigbours++;
                     }
@@ -325,11 +377,11 @@ namespace LuaScripting
             {
                 if (member.State == 0)
                 {
-                    member.State = Random.value < infectionInfo.InfectRate * (1 - 1.0 / (infected + 1)) ? 1 : 0;
+                    member.State = UnityEngine.Random.value < infectionInfo.InfectRate * (1 - 1.0 / (infected + 1)) ? 1 : 0;
                 }
                 else
                 {
-                    member.State = Random.value < infectionInfo.HealRate * (1 - 1.0 / (infected + 1)) ? 0 : 1;
+                    member.State = UnityEngine.Random.value < infectionInfo.HealRate * (1 - 1.0 / (infected + 1)) ? 0 : 1;
                 }
             }
         }

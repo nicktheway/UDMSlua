@@ -2126,6 +2126,12 @@ namespace XLua
 				}
 				LuaAPI.lua_pop(L, 1);
 				
+				if (Utils.LoadField(L, index, "Threshold"))
+				{
+					Get(L, top + 1, out val.Threshold);
+				}
+				LuaAPI.lua_pop(L, 1);
+				
 			}
             else
             {
