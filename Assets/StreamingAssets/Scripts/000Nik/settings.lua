@@ -1,7 +1,7 @@
 -- aliases --
 local UE = CS.UnityEngine
 local effects = require('effects')
-local extras = require('extras')
+local UT = require('utils')
 
 -- vars --
 local qualityLevel = 2
@@ -62,7 +62,7 @@ end
 
 function update()
     effects.checkGlobalEffectInputs()
-	extras.listenToGenericShortcuts()
+	UT.listenToGenericShortcuts()
 end
 
 -- Everytime the script is reloaded the settings are applied.
