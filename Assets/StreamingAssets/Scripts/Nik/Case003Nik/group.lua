@@ -30,10 +30,9 @@ function start()
 
 	Group:SetPositions(form1)
 	Group:SetNeighbours(nbs1)
-	local numberOfStates = 5
-	local threshold = 1
-	Members[0].State = threshold + 1
-	gca = CS.LuaScripting.GCA({0, 2}, {0, 2}, numberOfStates, threshold)
+	Members[0].State = 1
+	local numberOfStates = 2
+	gca = CS.LuaScripting.GCA({1, 2, 3}, {}, numberOfStates)
 	
     for i=0,Nagn - 1 do
 		LF.setColor(i,UE.Color.red)
@@ -50,7 +49,7 @@ function update()
     TIME = TIME + 1
 	
 	if TIME % 50 == 0 then
-		Group:AdaptiveStateUpdate(gca)
+		Group:GCAUpdate(gca)
 		onGcaStep()
 	end
 end
