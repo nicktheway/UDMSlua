@@ -31,6 +31,7 @@ namespace UDMS
         public List<LuaDomain> SelectedObjects = new List<LuaDomain>();
         public GameObject UI;
         public GameObject HelpPanel;
+        public GameObject FrontScreenEnv;
 
         public static readonly string MusicBasePath = Application.streamingAssetsPath + "/Music";
 
@@ -72,25 +73,10 @@ namespace UDMS
 
         private void Start()
         {
-            DebugLogConsole.AddCommand("reload", "Reloads the active scenario.", ReloadRoom);
-            DebugLogConsole.AddCommand("reloaddomain", "Reloads the scripts of the selected LuaDomains.", ReloadScriptsOnSelectedDomains);
-            DebugLogConsole.AddCommand("room", "Opens panel for selecting a new room/scenario.", ChooseRoom);
-            DebugLogConsole.AddCommand("song", "Opens a file panel for selecting a new song to play.", ChooseSong);
-            DebugLogConsole.AddCommand("domains", "Prints a list of the room's domains.", PrintRoomDomains);
-            DebugLogConsole.AddCommand("objects", "Prints a list of the room's registered objects.", PrintRoomObjects);
-            DebugLogConsole.AddCommand("selected", "Prints a list of the currently selected domains.", PrintSelected);
-            DebugLogConsole.AddCommand<char, string>("select", "Select a domain of the room by its type and name to perform actions on it. First argument should be the type: 'g' for groups and 'i' for individual domains. Second argument should be the domain's name.", SelectDomain);
-            DebugLogConsole.AddCommand<char, string>("deselect", "Deselect a domain of the room by its type and name. First argument should be the type: 'g' for groups and 'i' for individual domains. Second argument should be the domain's name.", DeselectDomain);
-            DebugLogConsole.AddCommand<string>("run", "Executes lua code inside the selected domain(s).", ExecuteLuaString);
-            DebugLogConsole.AddCommand("script", "Opens panel for selecting a new script for the selected domains.", ChangeScriptForSelectedDomains);
-            DebugLogConsole.AddCommand("combine", "Opens panel for selecting a combinations of scripts for the selected domains.", CombineScriptsForSelectedDomains);
-            DebugLogConsole.AddCommand("delete", "Deletes the selected domains.", DeleteSelectedDomains);
-            DebugLogConsole.AddCommand<string>("grandpa", "Instantiates a new grandpa individual object inside the room.", InstantiateGrandpa);
-            DebugLogConsole.AddCommand("menu", "Toggles the main menu.", ToggleMainMenu);
-            DebugLogConsole.AddCommand("globalsettings", "Reloads gameSettings.lua which is the global settings script.", ApplyGameSettings);
-            DebugLogConsole.AddCommand("basedir", "Opens the base scripting directory inside the OS' file manager.", OpenScenarioBaseDirectory);
-            DebugLogConsole.AddCommand("musicdir", "Opens the music's base directory inside the OS' file manager.", OpenMusicBaseDirectory);
-            DebugLogConsole.AddCommand("ENVDISPOSE", "Disposes the Lua Environment. Not recommended.", DisposeLuaEnvironment);
+            RegisterCommands();
+
+            FrontScreenEnv.transform.GetChild(0).GetComponent<Animator>().Play("Armada To Esquiva");
+            PlaySong("PercStudio/Silamalon.ogg");
         }
 
         private void Update()
@@ -105,6 +91,28 @@ namespace UDMS
             {
                 MainMenuShortcutListeners();
             }
+        }
+
+        private void RegisterCommands()
+        {
+            DebugLogConsole.AddCommand("reload", "Reloads the active scenario.", ReloadRoom);
+            DebugLogConsole.AddCommand("reloaddomain", "Reloads the scripts of the selected LuaDomains.", ReloadScriptsOnSelectedDomains);
+            DebugLogConsole.AddCommand("room", "Opens panel for selecting a new room/scenario.", ChooseRoom);
+            DebugLogConsole.AddCommand("song", "Opens a file panel for selecting a new song to play.", ChooseSong);
+            DebugLogConsole.AddCommand("domains", "Prints a list of the room's domains.", PrintRoomDomains);
+            DebugLogConsole.AddCommand("objects", "Prints a list of the room's registered objects.", PrintRoomObjects);
+            DebugLogConsole.AddCommand("selected", "Prints a list of the currently selected domains.", PrintSelected);
+            DebugLogConsole.AddCommand<char, string>("select", "Select a domain of the room by its type and name to perform actions on it. First argument should be the type: 'g' for groups and 'i' for individual domains. Second argument should be the domain's name.", SelectDomain);
+            DebugLogConsole.AddCommand<char, string>("deselect", "Deselect a domain of the room by its type and name. First argument should be the type: 'g' for groups and 'i' for individual domains. Second argument should be the domain's name.", DeselectDomain);
+            DebugLogConsole.AddCommand<string>("run", "Executes lua code inside the selected domain(s).", ExecuteLuaString);
+            DebugLogConsole.AddCommand("script", "Opens panel for selecting a new script for the selected domains.", ChangeScriptForSelectedDomains);
+            DebugLogConsole.AddCommand("combine", "Opens panel for selecting a combinations of scripts for the selected domains.", CombineScriptsForSelectedDomains);
+            DebugLogConsole.AddCommand("delete", "Deletes the selected domains.", DeleteSelectedDomains);
+            DebugLogConsole.AddCommand("menu", "Toggles the main menu.", ToggleMainMenu);
+            DebugLogConsole.AddCommand("globalsettings", "Reloads gameSettings.lua which is the global settings script.", ApplyGameSettings);
+            DebugLogConsole.AddCommand("basedir", "Opens the base scripting directory inside the OS' file manager.", OpenScenarioBaseDirectory);
+            DebugLogConsole.AddCommand("musicdir", "Opens the music's base directory inside the OS' file manager.", OpenMusicBaseDirectory);
+            DebugLogConsole.AddCommand("ENVDISPOSE", "Disposes the Lua Environment. Not recommended.", DisposeLuaEnvironment);
         }
 
         private void MouseSelectListen()
@@ -177,11 +185,6 @@ namespace UDMS
             if (Input.GetKeyDown(KeyCode.M))
             {
                 ToggleMainMenu();
-            }
-
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                InstantiateGrandpa("AutoGrandpa");
             }
 
             if (Input.GetKeyDown(KeyCode.K))
@@ -461,6 +464,12 @@ namespace UDMS
             }
         }
 
+        public void CloseMainMenu()
+        {
+            UI.SetActive(false);
+            HelpPanel.SetActive(false);
+        }
+
         public void TogglePanel(string panel)
         {
             if (panel == "help")
@@ -469,6 +478,7 @@ namespace UDMS
             }
         }
 
+        [System.Obsolete]
         public void InstantiateGrandpa(string domainName)
         {
             ActiveLuaRoom.InstantiateIndividualGameObject("grandpa Variant", "models/lpfamily", domainName, "agent_alone.lua");
@@ -555,6 +565,8 @@ namespace UDMS
 
         private void OnPreviousSceneUnloaded(Scene scene)
         {
+            FrontScreenEnv.SetActive(false);
+            CloseMainMenu();
             ResetScreenText();
             var roomObject = new GameObject("LuaRoom");
             roomObject.SetActive(false);

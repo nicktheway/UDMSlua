@@ -39,8 +39,6 @@ namespace LuaScripting
         /// </summary>
         public List<SimpleRoomGameObject> Objects = new List<SimpleRoomGameObject>();
 
-        public GameObject UI;
-
         private LuaRoom _luaRoom;
 
         /// <summary>
@@ -51,14 +49,6 @@ namespace LuaScripting
         private void Awake()
         {
             DeActivate();
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                UI.SetActive(!UI.activeSelf);
-            }
         }
 
         /// <summary>
