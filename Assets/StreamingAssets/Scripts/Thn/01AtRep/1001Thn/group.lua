@@ -29,7 +29,7 @@ function start()
 	Ground=LFO.makeObject(Room,'Ground','Ground',"plane",UE.Vector3(0, -0.1, 0))
 	LFO.setPos(Ground,UE.Vector3(0,-0.2,0))
 	LFO.setScale(Ground,UE.Vector3(50,1,50))
-	LFO.textureObj(Ground,'checker',50,50)
+	LFO.textureObj(Ground,'textures/ground','checker',50,50)
 
 	-- OBJECTS
 	cube1=LFO.makeObject(Room,"Cube1","Cube1","cube",UE.Vector3(0, -0.1, 0))
@@ -40,7 +40,7 @@ function start()
 	sphere1=LFO.makeObject(Room,"Sphere1","Sphere1","sphere",UE.Vector3(0, -0.1, 0))
 	LFO.setPos(sphere1,UE.Vector3(-5,-0.2,-5))
 	LFO.setScale(sphere1,UE.Vector3(0.5,2,0.5))
-	LFO.textureObj(sphere1,'lgreen_grid',0.5,0.5)
+	LFO.textureObj(sphere1,'textures/ground','lgreen_grid',0.5,0.5)
 
 	empty1=LFO.makeObject(Room,"Empty1","Empty1",nil,UE.Vector3(0, -0.1, 0))
 	LFO.setPos(sphere1,UE.Vector3(5,-0.2,-5))

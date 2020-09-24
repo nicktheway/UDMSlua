@@ -46,6 +46,7 @@ public class SceneViewCamera : MonoBehaviour
             var go = new GameObject("Cam Target");
             go.transform.position = transform.position + (transform.forward * Distance);
             Target = go.transform;
+            Target.SetParent(transform.parent);
         }
 
         Distance = Vector3.Distance(transform.position, Target.position);
@@ -125,5 +126,13 @@ public class SceneViewCamera : MonoBehaviour
         if (angle > 360)
             angle -= 360;
         return Mathf.Clamp(angle, min, max);
+    }
+
+    private void OnDestroy()
+    {
+        if (Target)
+        {
+            Object.Destroy(Target);
+        }
     }
 }

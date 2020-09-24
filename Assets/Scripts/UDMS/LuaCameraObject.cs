@@ -94,6 +94,11 @@ namespace LuaScripting
             AutoDolly = _autoDolly;
             FOV = _fov;
             PathPosition = _pathPosition;
+            var sceneViewCamera = Cameras[0].GetComponent<SceneViewCamera>();
+            if (sceneViewCamera)
+            {
+                sceneViewCamera.Target = _followTarget;
+            }
             base.Awake();
         }
 

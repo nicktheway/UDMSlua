@@ -1,6 +1,7 @@
 -- aliases --
 local UE = CS.UnityEngine
 local VFX = require('effects')
+local UT = require('utils')
 
 -- vars --
 local Nagn=6
@@ -26,6 +27,7 @@ end
 
 function update()
     VFX.checkGlobalEffectInputs()
+	UT.listenToGenericShortcuts()
 end
 
 -- Everytime the script is reloaded the settings are applied.

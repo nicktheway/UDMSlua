@@ -9,6 +9,11 @@ function groupff()
 	local objfuns = {}
 	
 --------------------------------------------------------------------------------
+--- TOARRANGE
+	function objfuns.setParent(go,parentgo)
+		go.transform:SetParent(parentgo.transform)
+	end
+--------------------------------------------------------------------------------
 --- LIGHTS
 
 	function objfuns.lgtAttach(go,typ)
@@ -21,8 +26,8 @@ function groupff()
 	end
 
 	function objfuns.lgtMake(room,key,name,typ,pos,rot)
-		local go = room:InstantiateAndRegisterObject(key,typ,nil,true)
-		local light=go:AddComponent(typeof(UE.Light))
+		local go = room:InstantiateAndRegisterObject(key,"light",nil,true)
+		local light=go:GetComponent(typeof(UE.Light))
 		light.renderMode=UE.LightRenderMode.ForcePixel
 		if typ=="spot" then light.type=UE.LightType.Spot 
 		elseif typ=="directional" then light.type=UE.LightType.Directional 
@@ -221,8 +226,8 @@ function groupff()
 		end
 	end
 	
-	function objfuns.textureObj(go,texturename,sx,sz)
-		local texture = CS.LuaScripting.AssetManager.LoadAsset(typeof(UE.Texture), texturename, 'textures/ground')
+	function objfuns.textureObj(go,assetpath,texturename,sx,sz)
+		local texture = CS.LuaScripting.AssetManager.LoadAsset(typeof(UE.Texture),texturename,assetpath)
 		go:GetComponent(typeof(UE.Renderer)).material.mainTexture = texture
 		go:GetComponent(typeof(UE.Renderer)).material.mainTextureScale = UE.Vector2(sx, sz)
 	end
