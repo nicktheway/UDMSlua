@@ -1,19 +1,28 @@
 ManifestFileVersion: 0
-CRC: 1004197738
+CRC: 3437206786
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: models/main
-      Dependencies: {}
-    Info_1:
-      Name: etc/camerarig
-      Dependencies: {}
-    Info_2:
-      Name: shaders
-      Dependencies: {}
-    Info_3:
       Name: textures/luts
       Dependencies: {}
-    Info_4:
+    Info_1:
+      Name: shaders
+      Dependencies: {}
+    Info_2:
       Name: textures/ground
+      Dependencies: {}
+    Info_3:
+      Name: models/main
+      Dependencies: {}
+    Info_4:
+      Name: etc/camerarig
+      Dependencies: {}
+    Info_5:
+      Name: textures/scifi
+      Dependencies: {}
+    Info_6:
+      Name: textures/various
+      Dependencies: {}
+    Info_7:
+      Name: textures/dungeon
       Dependencies: {}

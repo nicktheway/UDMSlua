@@ -5,8 +5,11 @@ function setUpDefaultCamera(luaCamera)
 	
 	M.mainCamera = UE.Camera.main
 	M.cinemachineBrain = UE.Camera.main:GetComponent(typeof(CS.Cinemachine.CinemachineBrain))
-	M.targetGroup = nil
-	M.targetId = -1
+	
+	-- Private properties, use the provided setters/getters for modifying/accessing
+	local targetGroup = nil
+	local targetId = -1
+	local previousTargetId = -1
 	
 	function M.stateInit(state)
 		if state == nil then state = luaCamera.State end
@@ -36,8 +39,8 @@ function setUpDefaultCamera(luaCamera)
 	function M.stateUpdate(state)
 		if state == nil then state = luaCamera.State end
 	
-		if state==1 then 
-			
+		if state==1 then
+			update1()
 		elseif state == 2 then
 			update2()
 		elseif state == 3 then
@@ -45,30 +48,27 @@ function setUpDefaultCamera(luaCamera)
 		elseif state == 4 then
 			
 		elseif state == 5 then
-			cinemachineBrain.enabled = false
 			--update2()
 		elseif state == 6 then
-			cinemachineBrain.enabled = false
 			--update2()
 		elseif state == 7 then
-			cinemachineBrain.enabled = false
 			--update2()
 		elseif state == 8 then
-			cinemachineBrain.enabled = false
 			--update2()
 		elseif state == 9 then
-			cinemachineBrain.enabled = false
 			--update2()
 		elseif state == 10 then
-			cinemachineBrain.enabled = false
 			--update2()
 		elseif state == 11 then
-			cinemachineBrain.enabled = false
 			--update2()
 		elseif state == 12 then
-			cinemachineBrain.enabled = false
 			--update2()
 		end
+	end
+	
+	function update1()
+		-- Mouse camera that uses cinemachine and moves around a target or (0, 0, 0)
+		cinemachineTargetUpdate()
 	end
 	
 	function update2()
@@ -102,13 +102,13 @@ function setUpDefaultCamera(luaCamera)
 		elseif UE.Input.GetKey(UE.KeyCode.PageDown) then
 			M.mainCamera.transform:Translate(-0.1*UE.Vector3.forward)
 		end
-		
+		mainCameraTargetUpdate()
 	end
 
 	function update3()
-		local group = M.targetGroup
-		if group and M.targetId ~= -1 then
-			M.mainCamera.transform.position=UE.Vector3(0,10,0)+group.Members[M.targetId].transform.position
+		local group = targetGroup
+		if group and targetId ~= -1 then
+			M.mainCamera.transform.position=UE.Vector3(0,10,0)+group.Members[targetId].transform.position
 		else
 			local a=M.mainCamera.transform.position
 			local b=M.mainCamera.transform.eulerAngles
@@ -138,6 +138,30 @@ function setUpDefaultCamera(luaCamera)
 
 	function update4()
 		luaCamera:SetFollowTarget(nil, UE.Vector3(10, 2.5,6)) 
+	end
+	
+	function M.targetUpdate()
+		if M.cinemachineBrain.enabled then
+			cinemachineTargetUpdate()
+		else
+			mainCameraTargetUpdate()
+		end
+	end
+	
+	function cinemachineTargetUpdate()
+		if targetId ~= previousTargetId then
+			if targetId ~= -1 then
+				luaCamera:SetLookAtTarget(targetGroup.Members[targetId].transform, UE.Vector3(0, 1, 0))
+			else
+				luaCamera:SetLookAtTarget(nil, UE.Vector3(0, 0, 0))
+			end
+		end
+	end
+	
+	function mainCameraTargetUpdate()
+		if targetId ~= -1 then
+			M.lookAt(targetGroup.Members[targetId].transform.position + UE.Vector3(0, 1, 0))
+		end
 	end
 	
 	function M.updateStateFromKeyboard()
@@ -173,13 +197,13 @@ function setUpDefaultCamera(luaCamera)
 
 	function M.updateTargetFromKeyboard(targetsCount)
 		if targetsCount == nil then
-			if M.targetGroup == nil then
+			if targetGroup == nil then
 				targetsCount = 0
 			else
-				targetsCount = M.targetGroup.Members.Count
+				targetsCount = targetGroup.Members.Count
 			end
 		end
-		local target = M.targetId
+		local target = targetId
 		if UE.Input.GetKey(UE.KeyCode.LeftShift) then
 			if UE.Input.GetKeyUp(UE.KeyCode.Alpha1) then target = 0
 			elseif UE.Input.GetKeyUp(UE.KeyCode.Alpha2) then target = 1
@@ -195,9 +219,9 @@ function setUpDefaultCamera(luaCamera)
 		end
 		
 		if target < targetsCount then 
-			M.targetId = target 
-		else 
-			M.targetId = -1 
+			M.setTarget(target) 
+		elseif targetId ~= -1 then
+			M.setTarget(-1) 
 		end
 	end
 	
@@ -206,26 +230,94 @@ function setUpDefaultCamera(luaCamera)
 	end
 	
 	function M.getTargetGroup()
-		return M.targetGroup
+		return targetGroup
 	end
 	
 	function M.getTarget()
-		return M.targetId
+		return targetId
 	end
 	
 	function M.setState(state)
 		luaCamera.State = state
 	end
 	
-	function M.setTargetGroup(targetGroup)
-		M.targetGroup = targetGroup
+	function M.setTargetGroup(newTargetGroup)
+		targetGroup = newTargetGroup
 	end
 	
-	function M.setTarget(targetId)
-		M.targetId = targetId
+	function M.setTarget(newTargetId)
+		previousTargetId = targetId
+		targetId = newTargetId
+	end
+	
+	function M.setFOV(fov)
+		luaCamera.FOV = fov
+	end
+	
+	function M.getFOV()
+		return luaCamera.FOV
+	end
+	
+	function M.setPos(pos)
+		M.mainCamera.transform.position = pos
+	end
+	
+	function M.getPos()
+		return M.mainCamera.transform.position
+	end
+	
+	function M.setPosX(posX)
+		M.mainCamera.transform.position.x = posX
+	end
+	
+	function M.getPosX()
+		return M.mainCamera.transform.position.x
+	end
+	
+	function M.setRot(eulerAng)
+		M.mainCamera.transform.eulerAngles = eulerAng
+	end
+	
+	function M.getRot()
+		return M.mainCamera.transform.eulerAngles
+	end
+	
+	function M.setRotX(rotX)
+		M.mainCamera.transform.eulerAngles.x = rotX
+	end
+	
+	function M.getRotX()
+		return M.mainCamera.transform.eulerAngles.x
+	end
+	
+	function M.moveFwd(dist)
+		M.mainCamera.transform:Translate(dist*UE.Vector3.forward)
+	end
+	
+	function M.moveUp(dist)
+		M.mainCamera.transform:Translate(dist*UE.Vector3.up)
+	end
+	
+	function M.moveRight(dist)
+		M.mainCamera.transform:Translate(dist*UE.Vector3.right)
+	end
+	
+	function M.moveInDir(dir, dist)
+		M.mainCamera.transform:Translate(dist*dir)
+	end
+	
+	function M.turnToDir(dir, speed)
+		local targetRot = UE.Quaternion.LookRotation(dir)
+		M.mainCamera.transform.rotation = UE.Quaternion.Slerp(M.mainCamera.transform.rotation, targetRot, speed * UE.Time.deltaTime);
+	end
+	
+	function M.lookAt(target)
+		M.mainCamera.transform:LookAt(target)
 	end
 	
 	return M
 end
 
 return setUpDefaultCamera
+
+--- When changing states SOMETIMES we want to inherit previous position and rotation

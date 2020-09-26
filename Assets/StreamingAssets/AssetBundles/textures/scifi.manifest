@@ -1,0 +1,40 @@
+ManifestFileVersion: 0
+CRC: 3045784649
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 12cc8300562f4166ada62a081be24208
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7859cd501ea75098bcf7e53f1b477c26
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/Textures/SciFi/FloorTech08.jpg
+- Assets/Data/Textures/SciFi/Wall03.jpg
+- Assets/Data/Textures/SciFi/FloorTech02b.jpg
+- Assets/Data/Textures/SciFi/FloorTech07.jpg
+- Assets/Data/Textures/SciFi/Wall02b.jpg
+- Assets/Data/Textures/SciFi/Wall01.jpg
+- Assets/Data/Textures/SciFi/FloorTech01c.jpg
+- Assets/Data/Textures/SciFi/Wall01c.jpg
+- Assets/Data/Textures/SciFi/FloorTech03.jpg
+- Assets/Data/Textures/SciFi/FloorTech05b.jpg
+- Assets/Data/Textures/SciFi/FloorTech02c.jpg
+- Assets/Data/Textures/SciFi/FloorTech05.jpg
+- Assets/Data/Textures/SciFi/Wall01b.jpg
+- Assets/Data/Textures/SciFi/FloorTech06.jpg
+- Assets/Data/Textures/SciFi/FloorTech01b.jpg
+- Assets/Data/Textures/SciFi/FloorTech04b.jpg
+- Assets/Data/Textures/SciFi/FloorTech01.jpg
+- Assets/Data/Textures/SciFi/FloorTech05d.jpg
+- Assets/Data/Textures/SciFi/FloorTech02.jpg
+- Assets/Data/Textures/SciFi/FloorTech05e.jpg
+- Assets/Data/Textures/SciFi/FloorTech05c.tga
+- Assets/Data/Textures/SciFi/FloorTiles.jpg
+- Assets/Data/Textures/SciFi/Wall02c.jpg
+- Assets/Data/Textures/SciFi/Wall02.jpg
+- Assets/Data/Textures/SciFi/FloorTech04.jpg
+Dependencies: []

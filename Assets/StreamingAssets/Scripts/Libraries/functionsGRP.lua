@@ -296,6 +296,13 @@ function groupff(group)
 		else anims[i]:CrossFade(anim,transDur) end
 	end
 	
+	function groupFuns.aniCrossFadeDiff(i,anim,transDur,rel)
+		local currentAnim = groupFuns.aniGetClipName(i)
+		if currentAnim ~= "" and currentAnim ~= anim then
+			groupFuns.aniCrossFade(i,anim,transDur,rel)
+		end
+	end
+
 	function groupFuns.aniGetAnimator(i)
 		return anims[i]
 	end
@@ -308,7 +315,14 @@ function groupff(group)
 
 	function groupFuns.aniGetClipName(i)
 		local currentClipInfo = anims[i]:GetCurrentAnimatorClipInfo(0)
-		return currentClipInfo[0].clip.name
+		--return currentClipInfo[0].clip.name
+		--
+		if currentClipInfo.Length>0 then 
+			return currentClipInfo[0].clip.name
+		else 
+			return "" 
+		end
+		--]]
 	end
 	
 
@@ -833,10 +847,10 @@ function groupff(group)
 	end
 
 	--?????????????????????????????????????????
-	function groupFuns.turnToAngle(i,targAng,dAng)
+	function groupFuns.turnToAngle1(i,targAng,dAng)
 	-- Rotates calling Agent by dAng (in degrees) towards making his y Euler angle targAng.
-		if(group.Members[i].transform.eulerAngles.y>targAng) then group.Members[i].transform:Rotate(-dAng*Vector3(0,1,0)) end
-		if(group.Members[i].transform.eulerAngles.y<targAng) then group.Members[i].transform:Rotate( dAng*Vector3(0,1,0)) end
+		if(group.Members[i].transform.eulerAngles.y>targAng) then group.Members[i].transform:Rotate(-dAng*UE.Vector3(0,1,0)) end
+		if(group.Members[i].transform.eulerAngles.y<targAng) then group.Members[i].transform:Rotate( dAng*UE.Vector3(0,1,0)) end
 	end
 
 	function groupFuns.turnToDir(i,dir,speed)

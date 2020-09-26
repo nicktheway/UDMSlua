@@ -77,6 +77,7 @@ namespace LuaScripting
         private bool _autoDolly = true;
 
         private CinemachineTrackedDolly _trackedDolly;
+        private SceneViewCamera _sceneViewCamera;
 
         private Transform _followTarget;
         private Transform _lookAtTarget;
@@ -94,10 +95,10 @@ namespace LuaScripting
             AutoDolly = _autoDolly;
             FOV = _fov;
             PathPosition = _pathPosition;
-            var sceneViewCamera = Cameras[0].GetComponent<SceneViewCamera>();
-            if (sceneViewCamera)
+            _sceneViewCamera = Cameras[0].GetComponent<SceneViewCamera>();
+            if (_sceneViewCamera)
             {
-                sceneViewCamera.Target = _followTarget;
+                _sceneViewCamera.Target = _lookAtTarget;
             }
             base.Awake();
         }

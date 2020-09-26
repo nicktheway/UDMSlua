@@ -2,6 +2,7 @@
 local UE = CS.UnityEngine
 local effects = require('effects')
 local UT = require('utils')
+local LFO = require('functionsOBJ')()
 
 -- vars --
 local qualityLevel = 2
@@ -54,7 +55,7 @@ function setUp()
 	--
 	local lutEffect = effects.globalEffect('lut')
 	effects.setLUTEffectTexture(lutEffect, require('luts')[146])
-	lutEffect.enabled:Override(true)
+	lutEffect.enabled:Override(false)
 	--]]
 end
 

@@ -7,6 +7,8 @@ local UT = require('utils')
 local Clips = require('animations')
 local LFF = require('functionsGRP')
 local LF = LFF(Group)
+local LF1 = require('functionsOBJ')
+local LFO = LF1(Group)
 
 
 local Nagn = Members.Count
@@ -24,6 +26,9 @@ local nbs1  = Form.makeNbhd('rel1', Nagn, {-3, -2, -1, 0, 1}, true)
 
 
 function start()
+	local ground = Room:GetObject('Ground')
+	LFO.textureObj(ground, 'textures/various', 'grass_02', 5, 5)
+
 	Group:SetPositions(form1)
 	Group:SetNeighbours(nbs1)
 	Group:SetState({4})

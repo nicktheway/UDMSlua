@@ -70,7 +70,7 @@ public class SceneViewCamera : MonoBehaviour
     {
         if (!CinemachineCore.Instance.IsLive(_vcam))
         {
-//            _vcam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 2;
+            return;
         }
 
         // If Control and Alt and Middle button? ZOOM!
