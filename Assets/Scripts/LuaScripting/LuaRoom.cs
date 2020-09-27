@@ -127,7 +127,7 @@ namespace LuaScripting
         private void LoadRoomSettings()
         {
             RoomSettings = LuaDomain.NewLuaDomain("RoomSettings", Path.Combine(RoomScriptPath, "settings.lua"), this, false);
-            RoomSettings.LuaEnvironment.Set("room", this);
+            RoomSettings.LuaEnvironment.Set("Room", this);
             RoomSettings.LuaEnvironment.Set("setMusic", PlayMusicGlobal);
             RoomSettings.DoScript();
 
