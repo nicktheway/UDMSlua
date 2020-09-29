@@ -176,9 +176,9 @@ function setUpDefaultCamera(luaCamera)
 		end
 		-- Set the dolly path to the new circular one.
 		M.setDollyPath('state11')
-		local path = M.getDollyPath('state11')
 		-- Initialize position.
 		--[[
+		local path = M.getDollyPath('state11')
 		local closestPointPathUnits = path:FindClosestPoint(M.getPos())
 		local closestPoint = path:FromPathNativeUnits(closestPointPathUnits, CS.Cinemachine.CinemachinePathBase.PositionUnits.Distance)
 		print(closestPointPathUnits, ':', closestPoint)
