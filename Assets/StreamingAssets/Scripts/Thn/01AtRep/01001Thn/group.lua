@@ -5,9 +5,7 @@ local UT = require('utils')
 local Clips = require('animations')
 local LF1 = require('functionsGRP')
 local LFG = LF1(Group)
-local LF2 = require('functionsOBJ')
-local LFO = LF2()
-local Form = require('formations')
+local LFO = require('functionsOBJ')
 local debug = require('debug')
 
 -- variables

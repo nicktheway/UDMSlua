@@ -119,6 +119,31 @@ function M.RotateVector(V1,a)
 	return UE.Quaternion.Euler(0,a,0)*V1
 end
 
+
+function M.unpackVector3(vector3)
+	return vector3.x, vector3.y, vector3.z
+end
+
+function M.unpackVector2(vector2)
+	return vector2.x, vector2.y
+end
+
+function M.arrayToVector3(array)
+	return UE.Vector3(array[1] or 0, array[2] or 0, array[3] or 0)
+end
+
+function M.arrayToVector2(array)
+	return UE.Vector2(array[1] or 0, array[2] or 0)
+end
+
+function M.vector3ToArray(vector3)
+	return {vector3.x, vector3.y, vector3.z}
+end
+
+function M.vector2ToArray(vector2)
+	return {vector2.x, vector2.y}
+end
+
 --------------------------------------------------------------------------------
 
 --[[

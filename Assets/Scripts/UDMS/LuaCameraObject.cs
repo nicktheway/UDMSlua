@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using XLua;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace LuaScripting
 {
@@ -9,7 +11,6 @@ namespace LuaScripting
     public class LuaCameraObject : LuaIndividualObject
     {
         public CinemachineVirtualCamera[] Cameras;
-        public CinemachineSmoothPath[] DollyPaths;
         public float FOV {get => _fov; set { SetFov(value); }}
 
         public float PathPosition { get => _pathPosition; set { SetPathPosition(value); }}
@@ -47,29 +48,18 @@ namespace LuaScripting
         }}
 
         public string DollyPath { get => _dollyPath;  set {
-            switch(value) {
-                case "circular": {
-                    _dollyPath = value;
-                    SetActiveDollyPath(0);
-                    break;
-                }
-                case "square": {
-                    _dollyPath = value;
-                    SetActiveDollyPath(1);
-                    break;
-                }
-                case "custom1": {
-                    _dollyPath = value;
-                    SetActiveDollyPath(2);
-                    break;
-                }
-                default: {
-                    _dollyPath = "circular";
-                    SetActiveDollyPath(0);
-                    break;
-                }
+            if (_registeredDollyPaths.ContainsKey(value))
+            {
+                _dollyPath = value;
+                SetActiveDollyPath(value);
+            }
+            else
+            {
+                _dollyPath = "circular";
+                SetActiveDollyPath("circular");
             }
         }}
+        private Dictionary<string, CinemachinePathBase> _registeredDollyPaths = new Dictionary<string, CinemachinePathBase>();
         private string _activeCamera = "explorer";
         private string _dollyPath = "circular";
         private float _fov = 40;
@@ -85,9 +75,15 @@ namespace LuaScripting
         protected override void Awake()
         {
             Cameras = GetComponentsInChildren<CinemachineVirtualCamera>();
-            DollyPaths = GetComponentsInChildren<CinemachineSmoothPath>();
+
+            // Dolly Paths and camera
+            var _dollyPaths = GetComponentsInChildren<CinemachinePathBase>();
+            _registeredDollyPaths.Add("circular", _dollyPaths[0]);
+            _registeredDollyPaths.Add("square", _dollyPaths[1]);
+            _registeredDollyPaths.Add("custom1", _dollyPaths[2]);
             _trackedDolly = Cameras[1].GetCinemachineComponent<CinemachineTrackedDolly>();
             Debug.Assert(_trackedDolly != null);
+
             _followTarget = transform.GetChild(2).GetChild(0);
             _lookAtTarget = transform.GetChild(2).GetChild(1);
             ActiveCamera = _activeCamera;
@@ -186,6 +182,98 @@ namespace LuaScripting
         }
 
         /// <summary>
+        /// Creates a new dolly path for the tracked camera. The path is smooth (first and second order continuity is guaranteed).
+        /// </summary>
+        /// <param name="pathKey">The key of the new dolly path in the paths dictionary.</param>
+        /// <param name="waypoints">The waypoints of the path.</param>
+        /// <param name="looped">Is the path looped? Defaults to true.</param>
+        /// <returns>The created cinemachine path component for the pathKey.</returns>
+        public CinemachinePathBase NewSmoothDollyPath(string pathKey, Vector3[] waypoints, bool looped = true)
+        {
+            if (_registeredDollyPaths.ContainsKey(pathKey))
+            {
+                Debug.LogError($"There is already a path registered with the key: {pathKey}. Returning that one.");
+                return _registeredDollyPaths[pathKey];
+            }
+
+            var cmWaypoints = new CinemachineSmoothPath.Waypoint[waypoints.Length];
+
+            for (var i = 0; i < cmWaypoints.Length; i++)
+            {
+                cmWaypoints[i] = new CinemachineSmoothPath.Waypoint() { position = waypoints[i], roll = 0 };
+            }
+
+            var pathObject = new GameObject();
+            pathObject.transform.SetParent(transform.GetChild(1));
+
+            var newPath = pathObject.AddComponent<CinemachineSmoothPath>();
+
+            newPath.m_Looped = looped;
+            newPath.m_Waypoints = cmWaypoints;
+
+            _registeredDollyPaths.Add(pathKey, newPath);
+
+            return newPath;
+        }
+
+        /// <summary>
+        /// Creates a new dolly path for the tracked camera. First and second order continuity of the path isn't guaranteed.
+        /// </summary>
+        /// <param name="pathKey">The key of the new dolly path in the paths dictionary.</param>
+        /// <param name="waypoints">The waypoints of the path.</param>
+        /// <param name="looped">Is the path looped? Defaults to true.</param>
+        /// <returns>The created cinemachine path component for the pathKey.</returns>
+        public CinemachinePathBase NewDollyPath(string pathKey, Vector3[] waypoints, bool looped = true)
+        {
+            if (_registeredDollyPaths.ContainsKey(pathKey))
+            {
+                Debug.LogError($"There is already a path registered with the key: {pathKey}. Returning that one.");
+                return _registeredDollyPaths[pathKey];
+            }
+
+            var cmWaypoints = new CinemachinePath.Waypoint[waypoints.Length];
+
+            for (var i = 0; i < cmWaypoints.Length; i++)
+            {
+                cmWaypoints[i] = new CinemachinePath.Waypoint() { position = waypoints[i], roll = 0 };
+            }
+
+            var pathObject = new GameObject();
+            pathObject.transform.SetParent(transform.GetChild(1));
+
+            var newPath = pathObject.AddComponent<CinemachinePath>();
+
+            newPath.m_Looped = looped;
+            newPath.m_Waypoints = cmWaypoints;
+
+            _registeredDollyPaths.Add(pathKey, newPath);
+
+            return newPath;
+        }
+
+        /// <summary>
+        /// Checks if a key is registered to a dolly path.
+        /// </summary>
+        /// <param name="pathKey">The path's key.</param>
+        /// <returns>true if it exists, false otherwise.</returns>
+        public bool DollyPathKeyExists(string pathKey)
+        {
+            return _registeredDollyPaths.ContainsKey(pathKey);
+        }
+
+        /// <summary>
+        /// Returns a cinemachine path from its key.
+        /// </summary>
+        /// <param name="pathKey">The key of the dolly path.</param>
+        /// <returns>The dolly path with that key or null if there is none.</returns>
+        public CinemachinePathBase GetDollyPath(string pathKey)
+        {
+            if (_registeredDollyPaths.ContainsKey(pathKey)) return _registeredDollyPaths[pathKey];
+
+            return null;
+        }
+
+        /// <summary>
         /// Increases the priority of the camera on specified index while decreasing the others.
         /// That camera will become the active one unless there are cameras with even higher priorities in the scene.
         /// </summary>
@@ -204,14 +292,14 @@ namespace LuaScripting
             Cameras[cameraId].Priority = 100;
         }
 
-        private void SetActiveDollyPath(int pathId)
+        private void SetActiveDollyPath(string pathKey)
         {
-            if (_trackedDolly == null || DollyPaths == null || Cameras == null || Cameras.Length == 0 || DollyPaths.Length == 0)
+            if (_trackedDolly == null || Cameras == null || Cameras.Length == 0 || !_registeredDollyPaths.ContainsKey(pathKey))
             {
                 return;
             }
             
-            _trackedDolly.m_Path = DollyPaths[pathId];
+            _trackedDolly.m_Path = _registeredDollyPaths[pathKey];
         }
 
         private void SetFov(float fov)
