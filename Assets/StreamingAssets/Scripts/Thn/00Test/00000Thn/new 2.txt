@@ -1,0 +1,34 @@
+	--[[
+	for i=1,Nagn do 
+		GRP.addMember('ybot', 'models/main')
+		--group:AddMember('ybot', 'models/main')
+	end
+	--]]
+	group:DoScript()
+	room:InstantiateCameraRig()
+	setMusic('Commer/Rapanagatun.ogg')
+
+	--
+	print(THN.roomGetGroups(Room))
+	print(THN.roomGetGroups(Room))
+	print(THN.roomGetObjects(Room))
+	print(THN.roomGetRegDomains(Room))
+	print(THN.roomGetRoomName(Room))
+	print(THN.roomGetSceneName(Room))
+	print(THN.roomGetScriptPath(Room))
+	print(THN.roomGetGroupDomain(Room,'colorfoul'))
+	print(THN.roomGetGroupDomainNames(Room)[0])
+	print(THN.roomGetGroupDomain(Room,'dancers'))
+	local sphere11=THN.roomMakeAndRegisterObject(Room,"ground", 'capsule', {typeof(UE.Light)}, true)
+	sphere11.name="mysphereso"
+	print(THN.roomGetObject(Room,"ground"))
+	local objectKeys = Room:GetObjectKeys()
+	print(objectKeys.Count)
+	print(THN.roomGetObjectKeys(Room).Count)
+	local objy1 = THN.roomMakeObject(Room,'cylinder',{},true)
+	THN.roomRegiObject(Room,"genie", objy1)
+	print(THN.roomGetObject(Room,"genie"))
+
+	THN.roomAddGroupDomain(Room,'colorfoul', 'group.lua')
+	newgrp=THN.roomMakeGroup(Room,'NeoMan', 'models/main', 5, 'groupnew', './group2.lua')
+	local objy2 = THN.roomMakeIndivObject(Room,'NeoMan', 'models/main', 'mannew', './group2.lua')

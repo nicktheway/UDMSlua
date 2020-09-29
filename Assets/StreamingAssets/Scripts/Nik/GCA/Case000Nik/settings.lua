@@ -39,10 +39,10 @@ function setUp()
 
 	--UE.SceneManager:LoadScene(scene, UE.LoadSceneMode.Additive)
 	--UE.SceneManagement.MoveGameObjectToScene	
-	room:InstantiateCameraRig()
-	local group = room:InstantiateGroup('NeoMan', 'models/main', 10, 'dancers', 'group.lua')
+	Room:InstantiateCameraRig()
+	local group = Room:InstantiateGroup('NeoMan', 'models/main', 10, 'dancers', 'group.lua')
 	--[[
-	local group = room:AddGroupDomain('dancers', 'group.lua')
+	local group = Room:AddGroupDomain('dancers', 'group.lua')
 	
 	for i=1,25 do 
 		group:AddMember('NeoMan', 'models/main')

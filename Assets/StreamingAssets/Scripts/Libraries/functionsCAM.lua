@@ -26,6 +26,7 @@ function setUpDefaultCamera(luaCamera)
 			luaCamera.ActiveCamera = "locked"
 			luaCamera:SetFollowTarget(nil, UE.Vector3(10,4,-10))
 		elseif state == 5 then
+			M.cinemachineBrain.enabled = false
 		elseif state == 6 then
 		elseif state == 7 then
 		elseif state == 8 then
@@ -36,42 +37,30 @@ function setUpDefaultCamera(luaCamera)
 		end
 	end
 	
-	function M.stateUpdate(state)
+	function M.stateUpdate(TIME, state)
 		if state == nil then state = luaCamera.State end
 	
-		if state==1 then
-			update1()
-		elseif state == 2 then
-			update2()
-		elseif state == 3 then
-			update3()
+		if state==1 then update1(TIME)
+		elseif state == 2 then update2(TIME)
+		elseif state == 3 then update3(TIME)
 		elseif state == 4 then
-			
-		elseif state == 5 then
-			--update2()
+		elseif state == 5 then update5(TIME)
 		elseif state == 6 then
-			--update2()
 		elseif state == 7 then
-			--update2()
 		elseif state == 8 then
-			--update2()
 		elseif state == 9 then
-			--update2()
 		elseif state == 10 then
-			--update2()
 		elseif state == 11 then
-			--update2()
 		elseif state == 12 then
-			--update2()
 		end
 	end
 	
-	function update1()
+	function update1(TIME)
 		-- Mouse camera that uses cinemachine and moves around a target or (0, 0, 0)
 		cinemachineTargetUpdate()
 	end
 	
-	function update2()
+	function update2(TIME)
 		local a = M.mainCamera.transform.position
 		local b = M.mainCamera.transform.eulerAngles
 		if UE.Input.GetKey(UE.KeyCode.UpArrow) then
@@ -105,7 +94,7 @@ function setUpDefaultCamera(luaCamera)
 		mainCameraTargetUpdate()
 	end
 
-	function update3()
+	function update3(TIME)
 		local group = targetGroup
 		if group and targetId ~= -1 then
 			M.mainCamera.transform.position=UE.Vector3(0,10,0)+group.Members[targetId].transform.position
@@ -136,8 +125,21 @@ function setUpDefaultCamera(luaCamera)
 		M.mainCamera.transform.eulerAngles=UE.Vector3(90,0,0)
 	end
 
-	function update4()
-		luaCamera:SetFollowTarget(nil, UE.Vector3(10, 2.5,6)) 
+	function update4(TIME)
+		--luaCamera:SetFollowTarget(nil, UE.Vector3(10, 2.5,6)) 
+	end
+	
+	function update5(TIME)
+		if TIME==1 then 
+			M.setTarget(0)
+		elseif TIME==101 then 
+			M.setTarget(1)
+		elseif TIME==201 then 
+			M.setTarget(2)
+		end
+		local pos1=require('functionsOBJ').getPos(targetGroup.Members[targetId])
+		local pos2=UE.Vector3(5*math.cos(0.015*TIME),4,5*math.sin(0.01*TIME)) 
+		M.setPos(pos1+pos2)			
 	end
 	
 	function M.targetUpdate()
@@ -166,30 +168,18 @@ function setUpDefaultCamera(luaCamera)
 	
 	function M.updateStateFromKeyboard()
 		local state = luaCamera.State
-		if UE.Input.GetKeyUp(UE.KeyCode.F1) then 		-- free camera with mouse
-			state=1
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F2) then 	-- free camera with KB and side view
-			state=2
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F3) then 	-- free camera with KB and topdown view
-			state=3 
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F4) then 	-- fixed camera with side view, follow agent
-			state=4 
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F5) then 
-			state=5 
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F6) then 
-			state=6 
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F7) then 
-			state=7 
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F8) then 
-			state=8
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F9) then 
-			state=9 
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F10) then 
-			state=10
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F11) then 
-			state=11 
-		elseif UE.Input.GetKeyUp(UE.KeyCode.F12) then 
-			state=12 
+		if UE.Input.GetKeyUp(UE.KeyCode.F1) then state=1 -- free camera with mouse
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F2) then state=2 -- free camera with KB and side view
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F3) then state=3 -- free camera with KB and topdown view
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F4) then state=4 -- fixed camera with side view, follow agent
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F5) then state=5
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F6) then state=6
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F7) then state=7
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F8) then state=8
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F9) then state=9
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F10) then state=10   
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F11) then state=11  
+		elseif UE.Input.GetKeyUp(UE.KeyCode.F12) then state=12  
 		end
 		
 		luaCamera.State = state
@@ -229,6 +219,10 @@ function setUpDefaultCamera(luaCamera)
 		return luaCamera.State
 	end
 	
+	function M.getOldState()
+		return luaCamera.Old
+	end
+	
 	function M.getTargetGroup()
 		return targetGroup
 	end
@@ -241,8 +235,8 @@ function setUpDefaultCamera(luaCamera)
 		luaCamera.State = state
 	end
 	
-	function M.setTargetGroup(newTargetGroup)
-		targetGroup = newTargetGroup
+	function M.setTargetGroup(room, groupName)
+		targetGroup = room:GetGroupDomain(groupName)
 	end
 	
 	function M.setTarget(newTargetId)

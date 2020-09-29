@@ -1,6 +1,6 @@
 local M = {}
 
-function M.getName(room)
+function M.getRoomName(room)
 	return room.RoomName
 end
 
@@ -13,6 +13,10 @@ function M.getSceneName(room)
 end
 
 function M.useCameraScript(room)
+	return room:InstantiateCameraRig()
+end
+
+function M.addCamera(room)
 	return room:InstantiateCameraRig()
 end
 
@@ -47,7 +51,7 @@ function M.addGroup(room, assetBundle, prefabName, instanceCount, groupName, scr
 	room:InstantiateGroup(prefabName, assetBundle, instanceCount, groupName, scriptPath)
 end
 
-function M.getAllDomains(room)
+function M.getDomains(room)
 	-- Returns a dictionary of the groups and individual domains in the room
 	-- (basically all the script associated objects) key: domainName, value: domain
 	return room.RegisteredDomains
@@ -66,7 +70,7 @@ function M.addIndividualObject(room, assetBundle, prefabName, objectName, script
 	room:InstantiateIndividualGameObject(prefabName, assetBundle, groupName, scriptPath)
 end
 
-function M.getAllObjects(room)
+function M.getObjects(room)
 	-- Returns a dictionary of the registered objects in the room
 	-- key: objectKey, value: gameObject
 	return room.Objects
@@ -80,12 +84,18 @@ function M.getObjectKeys(room)
 	return room:GetObjectKeys()
 end
 
-function M.addRegisteredObject(room, objectKey, objectType)
-	return room:InstantiateAndRegisterObject(objectKey, objectType)
+function M.addRegisteredObject(room, objectKey, objectType, components, activateObject)
+	if components == nil then components = {} end
+	if activateObject == nil then activateObject  = true end
+	return room:InstantiateAndRegisterObject(objectKey,objectType,components,activateObject)
+	--type: camera, cube, cylinder, light, plane, quad, sphere, vcamera:
 end
 
-function M.addObject(room, objectType)
-	return room:InstantiateObject(objectType)
+function M.addObject(room, objectType,components,activateObject)
+	if components == nil then components = {} end
+	if activateObject == nil then activateObject  = true end
+	return room:InstantiateObject(objectType,components,activateObject)
+	--type: camera, cube, cylinder, light, plane, quad, sphere, vcamera:
 end
 
 function M.registerObject(room, objectKey, object)
