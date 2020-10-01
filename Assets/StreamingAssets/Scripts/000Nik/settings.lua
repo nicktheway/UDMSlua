@@ -50,6 +50,11 @@ function setUp()
 	
 	LFR.runGroupScript(Room, 'dancers')
 	
+	
+	-- EFFECTS --
+	-- Clear any previous
+	effects.disableAllGlobalEffects()
+	
 	local lutEffect = effects.getEffect('lut')
 	effects.setLUTEffectTexture(lutEffect, require('luts')[146])
 	effects.enableEffect(lutEffect, false)

@@ -54,6 +54,7 @@ public static class ExampleGenConfig
                 typeof(UnityWebRequest),
                 typeof(UnityEngine.ScriptableObject),
                 typeof(UnityEngine.Rendering.PostProcessing.Vignette),
+                typeof(UnityEngine.Rendering.PostProcessing.MotionBlur),
                 typeof(UnityEngine.Rendering.PostProcessing.Bloom),
                 typeof(UnityEngine.Rendering.PostProcessing.ColorGrading),
                 typeof(UnityEngine.Rendering.PostProcessing.PostProcessManager),

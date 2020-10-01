@@ -32,6 +32,12 @@ function M.isEnabled(effect)
 	return effect.enabled.value
 end
 
+function M.disableAllGlobalEffects()
+	for k, v in pairs(globalEffects) do
+		v.enabled.value = false
+	end
+end
+
 function M.setLUTEffectTexture(lutEffect, textureName)
 	if lutEffect:GetType() ~= typeof(CS.PPEffects.SimpleLUT) then
 		print(lutEffect, ' is not a ', typeof(CS.PPEffects.SimpleLUT))
@@ -80,12 +86,6 @@ function M.triggerGlobalEffect(effectName)
 	end
 end
 
-function M.disableAllGlobalEffects()
-	for k, v in pairs(globalEffects) do
-		v.enabled.value = false
-	end
-end
-
 function M.globalEffect(effectName)
 	local effectType = effectNameToType(effectName)
 	if effectType == nil then
@@ -94,19 +94,24 @@ function M.globalEffect(effectName)
 	
 	local glVolume = CS.UDMS.Globals.EffectsVolume
 	
+	local effect
+	
 	if glVolume.profile:HasSettings(effectType) then
 		for i = 0, glVolume.profile.settings.Count - 1 do
 			if glVolume.profile.settings[i]:GetType() == effectType then
-				return glVolume.profile.settings[i]
+				effect = glVolume.profile.settings[i]
 			end
 		end
 	else
-		local effect = newEffect(effectName)
+		effect = newEffect(effectName)
 		glVolume.profile:AddSettings(effect)
-		return effect
 	end
 	
-	return null
+	if effect ~= nil and globalEffects[effectName] == nil then
+		globalEffects[effectName] = effect
+	end
+	
+	return effect
 end
 
 function M.quickEffect(effectName)
@@ -178,6 +183,14 @@ function effectNameToType(effectName)
 		return typeof(CS.PPEffects.Wiggle)
 	elseif effectName == 'lut' then
 		return typeof(CS.PPEffects.SimpleLUT)
+	elseif effectName == 'bloom' then
+		return typeof(CS.UnityEngine.Rendering.PostProcessing.Bloom)
+	elseif effectName == 'colorgrading' then
+		return typeof(CS.UnityEngine.Rendering.PostProcessing.ColorGrading)
+	elseif effectName == 'vignette' then
+		return typeof(CS.UnityEngine.Rendering.PostProcessing.Vignette)
+	elseif effectName == 'motionblur' then
+		return typeof(CS.UnityEngine.Rendering.PostProcessing.MotionBlur)
 	else
 		print('No effect type registered for name: ', effectName)
 		return nil
