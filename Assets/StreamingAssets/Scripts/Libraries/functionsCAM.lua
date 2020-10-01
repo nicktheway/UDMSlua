@@ -174,16 +174,23 @@ function setUpDefaultCamera(luaCamera)
 			local points = {UE.Vector3(1, yPos, 1), UE.Vector3(-1, yPos, 1), UE.Vector3(-1, yPos, -1), UE.Vector3(1, yPos, -1)}
 			M.newSmoothDollyPath('state11', points)
 		end
-		-- Set the dolly path to the new circular one.
-		M.setDollyPath('state11')
-		-- Initialize position.
+		
+		-- Get closest position on the new dolly path.
 		--[[
 		local path = M.getDollyPath('state11')
 		local closestPointPathUnits = path:FindClosestPoint(M.getPos())
 		local closestPoint = path:FromPathNativeUnits(closestPointPathUnits, CS.Cinemachine.CinemachinePathBase.PositionUnits.Distance)
 		print(closestPointPathUnits, ':', closestPoint)
+		--]]
+		
+		-- Set the dolly path to the new circular one.
+		M.setDollyPath('state11')
+		
+		-- Initialize position.
+		--[[
 		M.setPosOnPath(closestPoint)
 		--]]
+		
 		-- Don't auto position the camera on the path based on the target.
 		-- We will move the camera on the path manually.
 		M.setAutoDolly(false)

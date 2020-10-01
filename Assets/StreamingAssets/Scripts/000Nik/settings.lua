@@ -21,6 +21,11 @@ local shadows = UE.ShadowQuality.All
 -- Set the <preferredRefreshRate> to 0 to use the highest supported refresh rate
 local preferredRefreshRate = 0
 
+-- effects
+local timer = 0
+local wiggleEffect
+local scannerEffect
+
 function applySettings()
 	-- Graphics
 	UE.Screen.SetResolution(resolutionWidth, resolutionHeight, fullScreen, preferredRefreshRate)
@@ -45,9 +50,18 @@ function setUp()
 	
 	LFR.runGroupScript(Room, 'dancers')
 	
-	local lutEffect = effects.globalEffect('lut')
+	local lutEffect = effects.getEffect('lut')
 	effects.setLUTEffectTexture(lutEffect, require('luts')[146])
-	lutEffect.enabled:Override(false)
+	effects.enableEffect(lutEffect, false)
+	effects.setProperty(lutEffect.Hue, 360)
+	effects.setProperty(lutEffect.TintColor, UE.Color.red)
+	
+	wiggleEffect = effects.getEffect('wiggle')
+	effects.enableEffect(wiggleEffect)
+	effects.setProperty(wiggleEffect.DistortionX, 5.0)
+	
+	scannerEffect = effects.getEffect('scanner')
+	effects.enableEffect(scannerEffect)
 	--]]
 end
 
@@ -56,6 +70,10 @@ end
 function update()
     effects.checkGlobalEffectInputs()
 	UT.listenToGenericShortcuts()
+	
+	timer = timer + UE.Time.deltaTime / 5.0
+	effects.setProperty(wiggleEffect.Timer, timer)
+	effects.setProperty(scannerEffect.Timer, timer)
 end
 
 -- Everytime the script is reloaded the settings are applied.

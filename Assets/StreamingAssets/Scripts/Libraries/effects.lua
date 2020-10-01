@@ -7,6 +7,40 @@ local M = {}
 local pp_layer = UE.LayerMask.NameToLayer('PostProcessing')
 local globalEffects = {}
 
+
+-------------------------------------------------------------------------------
+------------------------------ COMMON FUNCTIONS -------------------------------
+-------------------------------------------------------------------------------
+function M.getEffect(effectName)
+	return M.globalEffect(effectName)
+end
+
+function M.enableEffect(effect, value)
+	if value ~= false then value = true end
+	effect.enabled:Override(value)
+end
+
+function M.setProperty(effectProperty, value)
+	effectProperty:Override(value)
+end
+
+function M.getProperty(effectProperty)
+	return effectProperty.value
+end
+
+function M.isEnabled(effect)
+	return effect.enabled.value
+end
+
+function M.setLUTEffectTexture(lutEffect, textureName)
+	if lutEffect:GetType() ~= typeof(CS.PPEffects.SimpleLUT) then
+		print(lutEffect, ' is not a ', typeof(CS.PPEffects.SimpleLUT))
+		return
+	end
+	local texture = CS.LuaScripting.AssetManager.LoadAsset(typeof(UE.Texture), textureName, 'textures/luts')
+	lutEffect.LookupTexture:Override(texture)
+end
+
 function M.checkGlobalEffectInputs()
 	if UE.Input.GetKey(UE.KeyCode.RightShift) then
 		if UE.Input.GetKeyDown(UE.KeyCode.Alpha1) then
@@ -32,6 +66,10 @@ function M.checkGlobalEffectInputs()
 		end
 	end
 end
+
+-------------------------------------------------------------------------------
+------------------------------ ADVANCED FUNCTIONS -----------------------------
+-------------------------------------------------------------------------------
 
 function M.triggerGlobalEffect(effectName)
 	if globalEffects[effectName] ~= nil then
@@ -81,15 +119,6 @@ function M.quickEffect(effectName)
 	local volume = PP.PostProcessManager.instance:QuickVolume(pp_layer, 100.0, effect)
 	volume.weight = 1
 	return effect
-end
-
-function M.setLUTEffectTexture(lutEffect, textureName)
-	if lutEffect:GetType() ~= typeof(CS.PPEffects.SimpleLUT) then
-		print(lutEffect, ' is not a ', typeof(CS.PPEffects.SimpleLUT))
-		return
-	end
-	local texture = CS.LuaScripting.AssetManager.LoadAsset(typeof(UE.Texture), textureName, 'textures/luts')
-	lutEffect.LookupTexture:Override(texture)
 end
 
 function newEffect(effectName)
