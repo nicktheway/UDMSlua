@@ -6,6 +6,34 @@ local trailShader = nil
 
 --------------------------------------------------------------------------------
 
+function M.makeTransFun(ss,N)
+	local Sin={}
+	local Sout={}
+	local J=2^N
+	for j=1,J do
+		Sin[j]=M.byte2bin(j-1,N)
+		Sout[j]=M.byte2bin(ss[j],N)
+	end
+	return Sin, Sout
+end
+function M.byte2bin(n,N)
+	local t = {}
+	for i=N-1,0,-1 do
+		t[#t+1] = math.floor(n / 2^i)
+		n = n % 2^i
+	end
+	return t
+end
+
+function M.byte2binString(n)
+	local t = {}
+	for i=7,0,-1 do
+		t[#t+1] = math.floor(n / 2^i)
+		n = n % 2^i
+	end
+	return table.concat(t)
+end
+
 
 function M.colMakeColorMap(colmap)
 	local cm = {}

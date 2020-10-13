@@ -8,6 +8,9 @@
 
 /Assets/AssetStoreTools*
 
+/Assets/StreamingAssets/Music/Commer*
+/Assets/StreamingAssets/Music/CommerMore*
+
 ## Builds
 Build.zip
 BuildMac.app.zip

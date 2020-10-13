@@ -16,9 +16,7 @@ function M.useCameraScript(room)
 	return room:InstantiateCameraRig()
 end
 
-function M.addCamera(room)
-	return room:InstantiateCameraRig()
-end
+M.addCamera = M.useCameraScript
 
 function M.getGroups(room)
 	-- Returns a dictionary of the groups in the room.
