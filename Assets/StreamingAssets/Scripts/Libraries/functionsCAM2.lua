@@ -1,16 +1,9 @@
 local UE = CS.UnityEngine
 local UT = require('utils')
 
-
 function setUpDefaultCamera(luaCamera)
 	local M = {}
-	local camOffSet=UE.Vector3(4,4,4)
-	local camTargPos=UE.Vector3(0,2,0)
-	local camPos=UE.Vector3(0,3,0)
-	local camRot=UE.Vector3(89.8,0,0)
-	local Nagn
-	local Hst=1.5
-	local Rst=1.5	
+	
 	M.mainCamera = UE.Camera.main
 	M.cinemachineBrain = UE.Camera.main:GetComponent(typeof(CS.Cinemachine.CinemachineBrain))
 	
@@ -23,12 +16,12 @@ function setUpDefaultCamera(luaCamera)
 	function M.stateInit(state)
 		if state == nil then state = luaCamera.State end
 		
-		if state == 1 then init01()	
-		elseif state == 2 then init02()
-		elseif state == 3 then init03()
-		elseif state == 4 then init04()
-		elseif state == 5 then init05()
-		elseif state == 6 then init06()
+		if state == 1 then init1()				-- free camera with mouse
+		elseif state == 2 then init2()			-- free camera with KB and side view
+		elseif state == 3 then init3()			-- free camera with KB and topdown view
+		elseif state == 4 then init4()			-- fixed camera with side view, follow agent
+		elseif state == 5 then init5()
+		elseif state == 6 then
 		elseif state == 7 then
 		elseif state == 8 then
 		elseif state == 9 then
@@ -44,12 +37,12 @@ function setUpDefaultCamera(luaCamera)
 			if luaCamera.State ~= luaCamera.StateOld then M.stateInit() end 
 		end
 	
-		if state==1 then update01(TIME)
-		elseif state == 2 then update02(TIME)
-		elseif state == 3 then update03(TIME)
-		elseif state == 4 then update04(TIME)
-		elseif state == 5 then update05(TIME)
-		elseif state == 6 then update06(TIME)
+		if state==1 then update1(TIME)
+		elseif state == 2 then update2(TIME)
+		elseif state == 3 then update3(TIME)
+		elseif state == 4 then
+		elseif state == 5 then update5(TIME)
+		elseif state == 6 then
 		elseif state == 7 then
 		elseif state == 8 then
 		elseif state == 9 then
@@ -62,140 +55,114 @@ function setUpDefaultCamera(luaCamera)
 	-------------------------------------------------------------------------------
 	----------------------------- State Functions ---------------------------------
 	-------------------------------------------------------------------------------
-	function init01()
+	function init1()
 		M.useCinemachine(true)
 		luaCamera.ActiveCamera = "explorer"
 	end
 	
-	function update01(TIME)
+	function update1(TIME)
 		-- Mouse camera that uses cinemachine and moves around a target or (0, 0, 0)
 		cinemachineTargetUpdate()
 	end
 	
-	function init02()
+	function init2()
 		M.useCinemachine(false)
 	end
 	
-	function update02(TIME)
-		if M.isCinemachineEnabled() then M.useCinemachine(false) end
+	function update2(TIME)
 		local a = M.mainCamera.transform.position
 		local b = M.mainCamera.transform.eulerAngles
-		if UE.Input.GetKey(UE.KeyCode.PageUp) 			then b.x = b.x+1
-		elseif UE.Input.GetKey(UE.KeyCode.PageDown) 	then b.x = b.x-1
-		elseif UE.Input.GetKey(UE.KeyCode.LeftArrow) 	then b.y = b.y-1
-		elseif UE.Input.GetKey(UE.KeyCode.RightArrow) 	then b.y = b.y+1
-		elseif UE.Input.GetKey(UE.KeyCode.Q) 			then a.y = a.y-0.1
-		elseif UE.Input.GetKey(UE.KeyCode.E) 			then a.y = a.y+0.1
-		elseif UE.Input.GetKey(UE.KeyCode.W) 			then a.z = a.z-0.1
-		elseif UE.Input.GetKey(UE.KeyCode.S) 			then a.z = a.z+0.1
-		elseif UE.Input.GetKey(UE.KeyCode.A) 			then a.x = a.x+0.1
-		elseif UE.Input.GetKey(UE.KeyCode.D) 			then a.x = a.x-0.1
+		if UE.Input.GetKey(UE.KeyCode.UpArrow) then
+			b.x = b.x+1
+		elseif UE.Input.GetKey(UE.KeyCode.DownArrow) then
+			b.x = b.x-1
+		elseif UE.Input.GetKey(UE.KeyCode.LeftArrow) then
+			b.y = b.y-1
+		elseif UE.Input.GetKey(UE.KeyCode.RightArrow) then
+			b.y = b.y+1
+		elseif UE.Input.GetKey(UE.KeyCode.Q) then
+			a.y = a.y-0.1
+		elseif UE.Input.GetKey(UE.KeyCode.E) then
+			a.y = a.y+0.1
+		elseif UE.Input.GetKey(UE.KeyCode.W) then
+			a.z = a.z-0.1
+		elseif UE.Input.GetKey(UE.KeyCode.S) then
+			a.z = a.z+0.1
+		elseif UE.Input.GetKey(UE.KeyCode.A) then
+			a.x = a.x+0.1
+		elseif UE.Input.GetKey(UE.KeyCode.D) then
+			a.x = a.x-0.1
 		end
 		M.mainCamera.transform.position = a
 		M.mainCamera.transform.eulerAngles = b
-		if UE.Input.GetKey(UE.KeyCode.UpArrow) then
+		if UE.Input.GetKey(UE.KeyCode.PageUp) then
 			M.mainCamera.transform:Translate( 0.1*UE.Vector3.forward)
-		elseif UE.Input.GetKey(UE.KeyCode.DownArrow) then
+		elseif UE.Input.GetKey(UE.KeyCode.PageDown) then
 			M.mainCamera.transform:Translate(-0.1*UE.Vector3.forward)
 		end
-		local i=M.getTarget()
-		if i ~= -1 then
-			M.lookAt(targetGroup.Members[i].transform.position + UE.Vector3(0,1.3,0))
-		end
+		mainCameraTargetUpdate()
 	end
-
-	function init03()
+	
+	function init3()
 		M.useCinemachine(false)
 	end
-
-	function update03(TIME)
-		if M.isCinemachineEnabled() then M.useCinemachine(false) end
-		local i=M.getTarget()
-		if i<0 or i>Nagn then camTargPos=UE.Vector3(0,2,0) 		
-		else  camTargPos=targetGroup.Members[i].transform.position
+	
+	function update3(TIME)
+		local group = targetGroup
+		if group and targetId ~= -1 then
+			M.mainCamera.transform.position=UE.Vector3(0,10,0)+group.Members[targetId].transform.position
+		else
+			local a=M.mainCamera.transform.position
+			local b=M.mainCamera.transform.eulerAngles
+			if UE.Input.GetKey(UE.KeyCode.Q) then
+				a.y=a.y-0.1
+			elseif UE.Input.GetKey(UE.KeyCode.E) then
+				a.y=a.y+0.1
+			elseif UE.Input.GetKey(UE.KeyCode.W) then
+				a.z=a.z-0.1
+			elseif UE.Input.GetKey(UE.KeyCode.S) then
+				a.z=a.z+0.1
+			elseif UE.Input.GetKey(UE.KeyCode.A) then
+				a.x=a.x+0.1
+			elseif UE.Input.GetKey(UE.KeyCode.D) then
+				a.x=a.x-0.1
+			end
+			M.mainCamera.transform.position=a
+			M.mainCamera.transform.eulerAngles=b
+			if UE.Input.GetKey(UE.KeyCode.PageUp) then
+				M.mainCamera.transform:Translate( 0.1*UE.Vector3.forward)
+			elseif UE.Input.GetKey(UE.KeyCode.PageDown) then
+				M.mainCamera.transform:Translate(-0.1*UE.Vector3.forward)
+			end
 		end
-		camOffSet.x=0
-		camOffSet.z=0
-		camOffSet.y=math.max(0.10,camOffSet.y);		
-		M.setPos(camTargPos+camOffSet)
-		M.lookAt(camTargPos+UE.Vector3(0,1.3,0))
-		if UE.Input.GetKey(UE.KeyCode.E) 		 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-		if UE.Input.GetKey(UE.KeyCode.Q)		  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-		if UE.Input.GetKey(UE.KeyCode.PageUp) 	 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-		if UE.Input.GetKey(UE.KeyCode.PageDown)  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-		if UE.Input.GetKey(UE.KeyCode.UpArrow) 	 	then camOffSet=camOffSet+0.05*M.mainCamera.transform.forward end 
-		if UE.Input.GetKey(UE.KeyCode.DownArrow) 	then camOffSet=camOffSet-0.05*M.mainCamera.transform.forward end 
+		M.mainCamera.transform.eulerAngles=UE.Vector3(90,0,0)
 	end
 
-	function init04()
+	function init4()
+		M.useCinemachine(true)
+		luaCamera.ActiveCamera = "locked"
+		luaCamera:SetFollowTarget(nil, UE.Vector3(10,4,-10))
+	end
+	
+	function update4(TIME)
+		--luaCamera:SetFollowTarget(nil, UE.Vector3(10, 2.5,6)) 
+	end
+	
+	function init5()
 		M.useCinemachine(false)
 	end
-
-	function update04(TIME)
-		if M.isCinemachineEnabled() then M.useCinemachine(false) end
-		local i=M.getTarget()
-		if i<0 or i>Nagn then camTargPos=UE.Vector3(0,2,0) 		
-		else  camTargPos=targetGroup.Members[i].transform.position
+	
+	function update5(TIME)
+		if TIME==1 then 
+			M.setTarget(0)
+		elseif TIME==101 then 
+			M.setTarget(1)
+		elseif TIME==201 then 
+			M.setTarget(2)
 		end
-		camOffSet.y=math.max(0.10,camOffSet.y);		
-		M.setPos(camTargPos+camOffSet)
-		--M.lookAt(camPos+UE.Vector3(0,1.3,0))
-		M.setRot(UE.Vector3(89.8,0,0))
-		if UE.Input.GetKey(UE.KeyCode.D) 		 	then camOffSet=camOffSet+UE.Vector3(0.05,0,0) end
-		if UE.Input.GetKey(UE.KeyCode.A)		  	then camOffSet=camOffSet-UE.Vector3(0.05,0,0) end 
-		if UE.Input.GetKey(UE.KeyCode.E) 		 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-		if UE.Input.GetKey(UE.KeyCode.Q)		  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-		if UE.Input.GetKey(UE.KeyCode.W) 		 	then camOffSet=camOffSet+UE.Vector3(0,0,0.05) end
-		if UE.Input.GetKey(UE.KeyCode.S)		  	then camOffSet=camOffSet-UE.Vector3(0,0,0.05) end 
-		if UE.Input.GetKey(UE.KeyCode.PageUp) 	 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-		if UE.Input.GetKey(UE.KeyCode.PageDown)  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-		if UE.Input.GetKey(UE.KeyCode.UpArrow) 	 	then camOffSet=camOffSet+0.05*M.mainCamera.transform.forward end 
-		if UE.Input.GetKey(UE.KeyCode.DownArrow) 	then camOffSet=camOffSet-0.05*M.mainCamera.transform.forward end 
-	end
-
-	function init05()
-		M.useCinemachine(false)
-	end
-
-	function update05(TIME)
-		if M.isCinemachineEnabled() then M.useCinemachine(false) end
-		local i=M.getTarget()
-		if i>0 and i<Nagn then 
-			camTargPos=targetGroup.Members[i].transform.position
-			M.setPos(camTargPos+camOffSet)
-			M.lookAt(camTargPos+UE.Vector3(0,1.3,0))
-			local b = M.mainCamera.transform.eulerAngles
-			if UE.Input.GetKey(UE.KeyCode.PageUp) 	 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-			if UE.Input.GetKey(UE.KeyCode.PageDown)  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-			if UE.Input.GetKey(UE.KeyCode.LeftArrow) 	then b.y=b.y+1 end
-			if UE.Input.GetKey(UE.KeyCode.RightArrow)	then b.y=b.y-1 end
-			if UE.Input.GetKey(UE.KeyCode.UpArrow) 	 	then camOffSet=camOffSet+0.05*M.mainCamera.transform.forward end 
-			if UE.Input.GetKey(UE.KeyCode.DownArrow) 	then camOffSet=camOffSet-0.05*M.mainCamera.transform.forward end 
-			camOffSet.x=math.max(0.40,camOffSet.x);		
-			camOffSet.y=math.max(0.10,camOffSet.y);		
-			camOffSet.z=math.max(0.40,camOffSet.z);
-			M.mainCamera.transform.eulerAngles = b
-		end
-	end
-
-	function init06()
-		M.useCinemachine(false)
-	end
-	function update06(TIME)
-		if M.isCinemachineEnabled() then M.useCinemachine(false) end
-		local i=M.getTarget()
-	--	if i<0 and i<Nagn then camTargPos=UE.Vector3(0,2,0) 		
-		if i>0 and i<Nagn then 
-			camTargPos=targetGroup.Members[i].transform.position
-			if UE.Input.GetKey(UE.KeyCode.PageUp) 	 then Hst=Hst+0.05 end
-			if UE.Input.GetKey(UE.KeyCode.PageDown)  then Hst=Hst-0.05 end
-			if UE.Input.GetKey(UE.KeyCode.UpArrow) 	 then Rst=Rst-0.25 end
-			if UE.Input.GetKey(UE.KeyCode.DownArrow) then Rst=Rst+0.25 end
-			Hst=math.max(Hst,0.10);
-			Rst=math.max(Rst,0.40);
-			M.setPos(camTargPos+UE.Vector3(Rst*math.cos(0.3*UE.Time.time),Hst,Rst*math.sin(0.3*UE.Time.time)))
-			M.lookAt(camTargPos+UE.Vector3(0,1.3,0))
-		end
+		local pos1=require('functionsOBJ').getPos(targetGroup.Members[targetId])
+		local pos2=UE.Vector3(5*math.cos(0.015*TIME),4,5*math.sin(0.01*TIME)) 
+		M.setPos(pos1+pos2)			
 	end
 	
 	function init11()
@@ -373,7 +340,6 @@ function setUpDefaultCamera(luaCamera)
 	
 	function M.setTargetGroup(room, groupName)
 		targetGroup = room:GetGroupDomain(groupName)
-		Nagn = targetGroup.Members.Count
 	end
 	
 	function M.getTargetGroup()

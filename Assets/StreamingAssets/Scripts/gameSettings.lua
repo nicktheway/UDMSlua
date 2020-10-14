@@ -2,11 +2,11 @@
 local UE = CS.UnityEngine
 
 -- vars --
-local qualityLevel = 2
+local qualityLevel = 4
 local volumeScale = 0.2
 local fullScreen = true
-local resolutionWidth = 1000
-local resolutionHeight = 600
+local resolutionWidth = 1440
+local resolutionHeight = 900
 
 --[[ Shadows
  - UE.ShadowQuality.All
@@ -14,22 +14,15 @@ local resolutionHeight = 600
  - UE.ShadowQuality.Disable
 ]]
 local shadows = UE.ShadowQuality.All
-
--- Set the <preferredRefreshRate> to 0 to use the highest supported refresh rate
 local preferredRefreshRate = 0
+-- Set the <preferredRefreshRate> to 0 to use the highest supported refresh rate
 
 function applySettings()
-	-- Sound
 	Audio.volume = volumeScale
-	
-	-- Frame Rate
 	UE.Application.targetFrameRate = 60
 	UE.QualitySettings.vSyncCount = 0
-	
-	-- Graphics
 	UE.Screen.SetResolution(resolutionWidth, resolutionHeight, fullScreen, preferredRefreshRate)
 	UE.QualitySettings.SetQualityLevel(qualityLevel)
-	
 	UE.QualitySettings.shadows = shadows
 end
 

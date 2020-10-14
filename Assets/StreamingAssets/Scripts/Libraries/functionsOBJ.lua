@@ -17,6 +17,7 @@ end
 --- LIGHTS
 
 function objfuns.lgtAttach(go,typ)
+--function objfuns.lgtAttach(go:GameObject,typ:String)
 	local light=go:AddComponent(typeof(UE.Light))
 	if typ=="spot" then light.type=UE.LightType.Spot 
 	elseif typ=="directional" then light.type=UE.LightType.Directional 

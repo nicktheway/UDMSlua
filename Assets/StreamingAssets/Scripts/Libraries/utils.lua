@@ -172,6 +172,18 @@ function M.vector2ToArray(vector2)
 	return {vector2.x, vector2.y}
 end
 
+function M.arrayMean(array, startId, endId)
+	local sum = 0
+	for i = startId, endId do
+		sum = sum + array[i]
+	end
+	return sum / (endId - startId + 1)
+end
+
+function M.newCSFloatArray(numberOfElements)
+	return CS.System.Array.CreateInstance(typeof(CS.System.Single), numberOfElements)
+end
+
 --------------------------------------------------------------------------------
 
 --[[

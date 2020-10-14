@@ -38,6 +38,12 @@ function M.disableAllGlobalEffects()
 	end
 end
 
+function M.clearAllGlobalEffects()
+	for k, v in pairs(globalEffects) do
+		v:SetAllOverridesTo(false, false)
+	end
+end
+
 function M.setLUTEffectTexture(lutEffect, textureName)
 	if lutEffect:GetType() ~= typeof(CS.PPEffects.SimpleLUT) then
 		print(lutEffect, ' is not a ', typeof(CS.PPEffects.SimpleLUT))
