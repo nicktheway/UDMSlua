@@ -25,8 +25,15 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room) --Room:InstantiateCameraRig()
+	setMusic('Commer/Frankum.ogg')
 	VFX.clearAllGlobalEffects()
-	setMusic('Commer/Didgeridoo.ogg')
+	local sobel = VFX.globalEffect('sobel')
+	sobel.enabled:Override(true)
+	sobel.Threshold:Override(true)
+	sobel.Threshold.value=15
+	sobel.ShowBackground:Override(true)
+	sobel.ShowBackground.value=true
+
 end
 
 -- Inside settings.lua

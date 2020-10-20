@@ -5,15 +5,13 @@ local UT = require('utils')
 local CAM = require('functionsCAM')(self)
 local RM = require('functionsROOM')
 
-local Nagn
 local TIME=0
 function start()
 	CAM.setState(1)
 	CAM.setTargetGroup(Room, 'dancers')
-	CAM.setPos(UE.Vector3(0,7,13))
+	CAM.setPos(UE.Vector3(4,3,-8))
 	groupDomain = RM.getGroup(Room, 'dancers')
-	Nagn = groupDomain.Members.Count
-	CAM.setTarget(0)
+	CAM.lookAt(groupDomain.Members[0].transform.position + UE.Vector3(0, 1, 0))
 	CAM.stateInit()
 end
 

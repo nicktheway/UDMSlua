@@ -1,11 +1,11 @@
 local UE = CS.UnityEngine
 local UT = require('utils')
+local UE = CS.UnityEngine
+local UT = require('utils')
 local CAM = require('functionsCAM')(self)
 local RM = require('functionsROOM')
 
-local groupDomain
 local TIME=0
-
 function start()
 	CAM.setState(1)
 	CAM.setTargetGroup(Room, 'dancers')
@@ -17,18 +17,15 @@ end
 
 function update()
 	TIME=TIME+1
-	CAM.updateStateFromKeyboard()	-- or: updateStateFromKeyboard(), user defined
+	CAM.updateStateFromKeyboard()
 	CAM.updateTargetFromKeyboard()
-	--if CAM.getState() ~= CAM.getOldState() then CAM.stateInit() end
 	CAM.targetUpdate()
-	CAM.stateUpdate(TIME)
-	--stateUpdate(TIME)
+	stateUpdate(TIME)
 	--UT.printOnScreen(self.State)
 end
 
 function updateStateFromKeyboard()
 	local state = CAM.getState()
-	--- whatever YOU want, for example -->
 	if UE.Input.GetKeyUp(UE.KeyCode.F1) then state=1
 	elseif UE.Input.GetKeyUp(UE.KeyCode.F2) then state=2
 	elseif UE.Input.GetKeyUp(UE.KeyCode.F3) then state=3

@@ -1,172 +1,48 @@
 local UE = CS.UnityEngine
 local UT = require('utils')
+local UE = CS.UnityEngine
+local UT = require('utils')
 local CAM = require('functionsCAM')(self)
 local RM = require('functionsROOM')
 
-local groupDomain
 local TIME=0
-local camOffSet=UE.Vector3(4,4,4)
-local camTargPos=UE.Vector3(0,2,0)
-local camPos=UE.Vector3(0,3,0)
-local camRot=UE.Vector3(89.8,0,0)
-local Members ={}
-local Nagn
-local Hst=1.5
-local Rst=1.5
-
 function start()
 	CAM.setState(1)
 	CAM.setTargetGroup(Room, 'dancers')
 	CAM.setPos(UE.Vector3(4,3,-8))
 	groupDomain = RM.getGroup(Room, 'dancers')
-	Members=groupDomain.Members
-	Nagn=groupDomain.Members.Count
 	CAM.lookAt(groupDomain.Members[0].transform.position + UE.Vector3(0, 1, 0))
 	CAM.stateInit()
 end
 
 function update()
 	TIME=TIME+1
-	CAM.updateStateFromKeyboard()	-- or: updateStateFromKeyboard(), user defined
+	CAM.updateStateFromKeyboard()
 	CAM.updateTargetFromKeyboard()
-	--if CAM.getState() ~= CAM.getOldState() then CAM.stateInit() end
 	CAM.targetUpdate()
-	CAM.stateUpdate(TIME)
-	--stateUpdate(TIME)
+	stateUpdate(TIME)
 	--UT.printOnScreen(self.State)
 end
 
 function updateStateFromKeyboard()
 	local state = CAM.getState()
-	--- whatever YOU want, for example -->
 	if UE.Input.GetKeyUp(UE.KeyCode.F1) then state=1
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F2) then state=12
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F3) then state=13
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F4) then state=14
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F5) then state=15
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F6) then state=16 
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F11) then state=21
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F12) then state=22
+	elseif UE.Input.GetKeyUp(UE.KeyCode.F2) then state=2
+	elseif UE.Input.GetKeyUp(UE.KeyCode.F3) then state=3
+	elseif UE.Input.GetKeyUp(UE.KeyCode.F4) then state=4
+	elseif UE.Input.GetKeyUp(UE.KeyCode.F6) then state=26
+	elseif UE.Input.GetKeyUp(UE.KeyCode.F7) then state=27 
+	elseif UE.Input.GetKeyUp(UE.KeyCode.F11) then state=11
+	elseif UE.Input.GetKeyUp(UE.KeyCode.F12) then state=12
 	end
 	CAM.setState(state)
-	print(state)
 end
 
 function stateUpdate(TIME)
 	local state = CAM.getState()
-	if state==1			then CAM.stateUpdate(TIME)
-	elseif state==12	then update12()
-	elseif state==13	then update13()
-	elseif state==14	then update14()
-	elseif state==15	then update15()
-	elseif state==16	then update16()
-	end
-end
-
-function update12()
-	if CAM.isCinemachineEnabled() then CAM.useCinemachine(false) end
-	local a = CAM.mainCamera.transform.position
-	local b = CAM.mainCamera.transform.eulerAngles
-	if UE.Input.GetKey(UE.KeyCode.PageUp) 			then b.x = b.x+1
-	elseif UE.Input.GetKey(UE.KeyCode.PageDown) 	then b.x = b.x-1
-	elseif UE.Input.GetKey(UE.KeyCode.LeftArrow) 	then b.y = b.y-1
-	elseif UE.Input.GetKey(UE.KeyCode.RightArrow) 	then b.y = b.y+1
-	elseif UE.Input.GetKey(UE.KeyCode.Q) 			then a.y = a.y-0.1
-	elseif UE.Input.GetKey(UE.KeyCode.E) 			then a.y = a.y+0.1
-	elseif UE.Input.GetKey(UE.KeyCode.W) 			then a.z = a.z-0.1
-	elseif UE.Input.GetKey(UE.KeyCode.S) 			then a.z = a.z+0.1
-	elseif UE.Input.GetKey(UE.KeyCode.A) 			then a.x = a.x+0.1
-	elseif UE.Input.GetKey(UE.KeyCode.D) 			then a.x = a.x-0.1
-	end
-	CAM.mainCamera.transform.position = a
-	CAM.mainCamera.transform.eulerAngles = b
-	if UE.Input.GetKey(UE.KeyCode.UpArrow) then
-		CAM.mainCamera.transform:Translate( 0.1*UE.Vector3.forward)
-	elseif UE.Input.GetKey(UE.KeyCode.DownArrow) then
-		CAM.mainCamera.transform:Translate(-0.1*UE.Vector3.forward)
-	end
-	local i=CAM.getTarget()
-	if i ~= -1 then
-		CAM.lookAt(Members[i].transform.position + UE.Vector3(0,1.3,0))
-	end
-end
-
-function update13()
-	if CAM.isCinemachineEnabled() then CAM.useCinemachine(false) end
-	local i=CAM.getTarget()
-	if i<0 or i>Nagn then camTargPos=UE.Vector3(0,2,0) 		
-	else  camTargPos=Members[i].transform.position
-	end
-	camOffSet.x=0
-	camOffSet.z=0
-	camOffSet.y=math.max(0.10,camOffSet.y);		
-	CAM.setPos(camTargPos+camOffSet)
-	CAM.lookAt(camTargPos+UE.Vector3(0,1.3,0))
-	if UE.Input.GetKey(UE.KeyCode.E) 		 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-	if UE.Input.GetKey(UE.KeyCode.Q)		  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-	if UE.Input.GetKey(UE.KeyCode.PageUp) 	 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-	if UE.Input.GetKey(UE.KeyCode.PageDown)  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-	if UE.Input.GetKey(UE.KeyCode.UpArrow) 	 	then camOffSet=camOffSet+0.05*CAM.mainCamera.transform.forward end 
-	if UE.Input.GetKey(UE.KeyCode.DownArrow) 	then camOffSet=camOffSet-0.05*CAM.mainCamera.transform.forward end 
-end
-
-function update14()
-	if CAM.isCinemachineEnabled() then CAM.useCinemachine(false) end
-	local i=CAM.getTarget()
-	if i<0 or i>Nagn then camTargPos=UE.Vector3(0,2,0) 		
-	else  camTargPos=Members[i].transform.position
-	end
-	camOffSet.y=math.max(0.10,camOffSet.y);		
-	CAM.setPos(camTargPos+camOffSet)
-	--CAM.lookAt(camPos+UE.Vector3(0,1.3,0))
-	CAM.setRot(UE.Vector3(89.8,0,0))
-	if UE.Input.GetKey(UE.KeyCode.D) 		 	then camOffSet=camOffSet+UE.Vector3(0.05,0,0) end
-	if UE.Input.GetKey(UE.KeyCode.A)		  	then camOffSet=camOffSet-UE.Vector3(0.05,0,0) end 
-	if UE.Input.GetKey(UE.KeyCode.E) 		 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-	if UE.Input.GetKey(UE.KeyCode.Q)		  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-	if UE.Input.GetKey(UE.KeyCode.W) 		 	then camOffSet=camOffSet+UE.Vector3(0,0,0.05) end
-	if UE.Input.GetKey(UE.KeyCode.S)		  	then camOffSet=camOffSet-UE.Vector3(0,0,0.05) end 
-	if UE.Input.GetKey(UE.KeyCode.PageUp) 	 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-	if UE.Input.GetKey(UE.KeyCode.PageDown)  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-	if UE.Input.GetKey(UE.KeyCode.UpArrow) 	 	then camOffSet=camOffSet+0.05*CAM.mainCamera.transform.forward end 
-	if UE.Input.GetKey(UE.KeyCode.DownArrow) 	then camOffSet=camOffSet-0.05*CAM.mainCamera.transform.forward end 
-end
-
-function update15()
-	if CAM.isCinemachineEnabled() then CAM.useCinemachine(false) end
-	local i=CAM.getTarget()
-	if i>0 and i<Nagn then 
-		camTargPos=Members[i].transform.position
-		CAM.setPos(camTargPos+camOffSet)
-		CAM.lookAt(camTargPos+UE.Vector3(0,1.3,0))
-		local b = CAM.mainCamera.transform.eulerAngles
-		if UE.Input.GetKey(UE.KeyCode.PageUp) 	 	then camOffSet=camOffSet+UE.Vector3(0,0.05,0) end
-		if UE.Input.GetKey(UE.KeyCode.PageDown)  	then camOffSet=camOffSet-UE.Vector3(0,0.05,0) end 
-		if UE.Input.GetKey(UE.KeyCode.LeftArrow) 	then b.y=b.y+1 end
-		if UE.Input.GetKey(UE.KeyCode.RightArrow)	then b.y=b.y-1 end
-		if UE.Input.GetKey(UE.KeyCode.UpArrow) 	 	then camOffSet=camOffSet+0.05*CAM.mainCamera.transform.forward end 
-		if UE.Input.GetKey(UE.KeyCode.DownArrow) 	then camOffSet=camOffSet-0.05*CAM.mainCamera.transform.forward end 
-		camOffSet.x=math.max(0.40,camOffSet.x);		
-		camOffSet.y=math.max(0.10,camOffSet.y);		
-		camOffSet.z=math.max(0.40,camOffSet.z);
-		CAM.mainCamera.transform.eulerAngles = b
-	end
-end
-
-function update16()
-	if CAM.isCinemachineEnabled() then CAM.useCinemachine(false) end
-	local i=CAM.getTarget()
---	if i<0 and i<Nagn then camTargPos=UE.Vector3(0,2,0) 		
-	if i>0 and i<Nagn then 
-		camTargPos=Members[i].transform.position
-		if UE.Input.GetKey(UE.KeyCode.PageUp) 	 then Hst=Hst+0.05 end
-		if UE.Input.GetKey(UE.KeyCode.PageDown)  then Hst=Hst-0.05 end
-		if UE.Input.GetKey(UE.KeyCode.UpArrow) 	 then Rst=Rst-0.25 end
-		if UE.Input.GetKey(UE.KeyCode.DownArrow) then Rst=Rst+0.25 end
-		Hst=math.max(Hst,0.10);
-		Rst=math.max(Rst,0.40);
-		CAM.setPos(camTargPos+UE.Vector3(Rst*math.cos(0.3*UE.Time.time),Hst,Rst*math.sin(0.3*UE.Time.time)))
-		CAM.lookAt(camTargPos+UE.Vector3(0,1.3,0))
+	if state<19		then CAM.stateUpdate(TIME)
+	elseif state==26	then update26()
+	elseif state==27	then update27()
 	end
 end
 

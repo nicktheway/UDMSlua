@@ -11,14 +11,17 @@ local LOG = require('logic');
 
 local Nagn = Members.Count
 local transDur = 0.1
-local TIME = 0
 local gca
 local nbrs1  = LFG.gcaMakeNbhd('rel1', Nagn, {-3, -2, -1, 0, 1}, true)
 local center0 = {}
 local center1 = {}
-local numStates = 5
 local lights = {}
+local numStates = 5
+local R0=7
+local R1=5
+local stateUpdateTime=50
 
+local TIME = 0
 function start()
 
 	-- GROUND
@@ -42,13 +45,13 @@ function start()
     for i=0,Nagn - 1 do
 		LFG.setColor(i,UE.Color.red)
 		--LFG.attachTrail(i, UE.Color.red, 10, 0.05)
-		LFG.trailAttach(i,UE.Vector3(0,1,0),UE.Color.red, 10, 0.05)
+		LFG.trailAttach(i,UE.Vector3(0,1,0),UE.Color.red, 5, 0.05)
 		LFG.trailSetStartWidth(i,0.01)
 		LFG.trailSetEndWidth(i,0.04)
 		LFG.trailSetStartColor(i,UE.Color.yellow)
 		LFG.trailSetEndColor(i,UE.Color.red)
-		center0[i]=7*UE.Vector3(math.cos(i*6.28/Nagn),0,math.sin(i*6.28/Nagn))
-		center1[i]=4*UE.Vector3(math.cos(i*6.28/Nagn),0,math.sin(i*6.28/Nagn))
+		center0[i]=R0*UE.Vector3(math.cos(i*6.28/Nagn),0,math.sin(i*6.28/Nagn))
+		center1[i]=R1*UE.Vector3(math.cos(i*6.28/Nagn),0,math.sin(i*6.28/Nagn))
 		LFG.setState(i,0)
 		LFG.setPos(i,center0[i])
 		LFG.aniCrossFade(i,CLP[121],transDur,true)
@@ -56,7 +59,7 @@ function start()
 	LFG.setState(0,1)
 	LFG.setState(5,1)
 	LFG.toggleIndices(true)
-	onGcaStep()
+	onGcaStart()
 end
 
 
@@ -64,28 +67,58 @@ function update()
     TIME = TIME + 1
 
 	-- STATES
-	if TIME % 60 == 0 then
+	if TIME % stateUpdateTime == 0 then
 		LFG.gcaUpdate(Group,gca,"type1")
 		onGcaStep()
 	end
 	
 	-- MOVES
 	for i = 0, Nagn-1 do
-		--print(i,LFG.dirOfAgent(i))
-		if LFG.getState(i)==0 then 
+		if LFG.getState(i)<=1 then 
 			--LFG.setDir(i,LFG.dirAgentToPnt(i,center0[i]))
 			--LFG.turnToPnt(i,center0[i],2)
-			LFG.turnToDir(i,LFG.dirAgentToPnt(i,center0[i]),2)
-			if LFG.distAgentToPnt(i,center0[i])>0.001 then LFG.moveFwd(i,0.05) end
+			if LFG.distAgentToPnt(i,center0[i])>0.1 then 
+				LFG.turnToDir(i,LFG.dirAgentToPnt(i,center0[i]),10)
+				LFG.moveFwd(i,0.05) 
+			else 
+				LFG.turnToDir(i,LFG.dirAgentToPnt(i,center1[i]),5) 
+			end
 		else 
 			--LFG.setDir(i,LFG.dirAgentToPnt(i,center1[i]))
 			--LFG.turnToPnt(i,center1[i],2)
-			LFG.turnToDir(i,LFG.dirAgentToPnt(i,center1[i]),2)
-			if LFG.distAgentToPnt(i,center1[i])>0.001 then LFG.moveFwd(i,0.05) end
+			LFG.turnToDir(i,LFG.dirAgentToPnt(i,center1[i]),10)
+			if LFG.distAgentToPnt(i,center1[i])>0.1 then LFG.moveFwd(i,0.05) end
 		end
 	end
 
 	-- ANIMATION
+	for i = 0, Nagn-1 do
+		col=LFG.getColor(i)
+		s=LFG.getState(i)
+		LFG.setColor(i,UE.Color.Lerp(col,stateToColor(s,colmap),0.05))
+		if LFG.getState(i)<=1 then 
+			if LFG.distAgentToPnt(i,center0[i])>0.1 then
+				--if LFG.aniGetClipName(i)~=CLP[177] then 
+					LFG.aniCrossFadeDiff(i,CLP[177],0.01,true)
+				--end
+			else
+				--if LFG.aniGetClipName(i)~=CLP[182] then 
+					LFG.aniCrossFadeDiff(i,CLP[182],0.01,true) 
+				--end
+			end
+		else
+			if LFG.distAgentToPnt(i,center1[i])>0.1 then
+				--if LFG.aniGetClipName(i)~=CLP[121] then 
+					LFG.aniCrossFadeDiff(i,CLP[121],0.01,true)
+				--end
+			else
+				--if LFG.aniGetClipName(i)~=CLP[109] then 
+					LFG.aniCrossFadeDiff(i,CLP[109],0.01,true) 
+				--end
+			end
+		end
+	end
+	--[[
 	for i = 0, Nagn-1 do
 		if LFG.getStateOld(i)~=LFG.getState(i) then
 			local s=LFG.getState(i)
@@ -93,6 +126,18 @@ function update()
 			if LFG.getState(i)==1 then LFG.aniCrossFade(i,CLP[121],transDur,true) end
 		end
 	end
+	--]]
+end
+
+function onGcaStart()
+	local textToWrite = ""
+	for i=0,Nagn-1 do
+		textToWrite = textToWrite..LFG.getState(i)
+		LFG.setColor(i,stateToColor(LFG.getState(i),colmap))
+	end
+	textToWrite = textToWrite..'\n'
+	--UT.printOnScreen(textToWrite)
+	UT.writeText(textToWrite, "test.log", 'w')
 end
 
 function onGcaStep()

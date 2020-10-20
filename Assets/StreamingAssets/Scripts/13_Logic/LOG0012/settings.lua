@@ -24,6 +24,7 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room) --Room:InstantiateCameraRig()
+	VFX.clearAllGlobalEffects()
 	setMusic('Commer/Frankum.ogg')
 end
 

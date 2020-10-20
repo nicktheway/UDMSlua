@@ -23,7 +23,7 @@ function setUp()
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room) --Room:InstantiateCameraRig()
 	setMusic('CommerMore/KarmaSalome.ogg')
-	VFX.disableAllGlobalEffects()
+	VFX.clearAllGlobalEffects()
 end
 
 -- Inside settings.lua
