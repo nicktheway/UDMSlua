@@ -367,10 +367,6 @@ function groupff(group)
 --------------------------------------------------------------------------------
 --- INVERSE KINEMATICS
 
-	function groupFuns.ikSetLookAtObject(i,go)
-		anims[i]:ikSetLookAtPosition(go.transform.position);
-	end
-
 	function groupFuns.ikSetLookAtAgent(i,j)
 		anims[i]:SetLookAtPosition(group.Members[j].transform.position);
 	end
@@ -383,45 +379,45 @@ function groupff(group)
 		anims[i]:SetLookAtWeight(ikWeight);
 	end
 
-	function groupFuns.ikSetPosObject(i,ikGoal,ikTarget)
-		if ikGoal=="LH" then anims[i]:SetIKPosition(UE.AvatarIKGoal.LeftHand,ikTarget.transform.position)
-		elseif ikGoal=="RH" then anims[i]:SetIKPosition(UE.AvatarIKGoal.RightHand,ikTarget.transform.position)
-		elseif ikGoal=="LF" then anims[i]:SetIKPosition(UE.AvatarIKGoal.LeftFoot,ikTarget.transform.position)
-		elseif ikGoal=="RF" then anims[i]:SetIKPosition(UE.AvatarIKGoal.RightFoot,ikTarget.transform.position)
+	function groupFuns.ikSetPosObject(i,ikGoal,go)
+		if ikGoal=="LH" then anims[i]:SetIKPosition(UE.AvatarIKGoal.LeftHand,go.transform.position)
+		elseif ikGoal=="RH" then anims[i]:SetIKPosition(UE.AvatarIKGoal.RightHand,go.transform.position)
+		elseif ikGoal=="LF" then anims[i]:SetIKPosition(UE.AvatarIKGoal.LeftFoot,go.transform.position)
+		elseif ikGoal=="RF" then anims[i]:SetIKPosition(UE.AvatarIKGoal.RightFoot,go.transform.position)
 		end
 	end
 
 	function groupFuns.ikSetPosVec(i,ikGoal,Pnt)
-		if ikGoal=="BD" then anims[i].bodyPosition=ikTarget
-		elseif ikGoal=="LH" then anims[i]:SetIKPosition(AvatarIKGoal.LeftHand,ikTarget)
-		elseif ikGoal=="RH" then anims[i]:SetIKPosition(AvatarIKGoal.RightHand,ikTarget)
-		elseif ikGoal=="LF" then anims[i]:SetIKPosition(AvatarIKGoal.LeftFoot,ikTarget)
-		elseif ikGoal=="RF" then anims[i]:SetIKPosition(AvatarIKGoal.RightFoot,ikTarget)
+		if ikGoal=="BD" then anims[i].bodyPosition=Pnt
+		elseif ikGoal=="LH" then anims[i]:SetIKPosition(UE.AvatarIKGoal.LeftHand,Pnt)
+		elseif ikGoal=="RH" then anims[i]:SetIKPosition(UE.AvatarIKGoal.RightHand,Pnt)
+		elseif ikGoal=="LF" then anims[i]:SetIKPosition(UE.AvatarIKGoal.LeftFoot,Pnt)
+		elseif ikGoal=="RF" then anims[i]:SetIKPosition(UE.AvatarIKGoal.RightFoot,Pnt)
 		end
 	end
 
 	function groupFuns.ikSetPosWeight(i,ikGoal,ikWeight)
-		if ikGoal=="LH" then anims[i]:SetIKPositionWeight(AvatarIKGoal.LeftHand,ikWeight)
-		elseif ikGoal=="RH" then anims[i]:SetIKPositionWeight(AvatarIKGoal.RightHand,ikWeight)
-		elseif ikGoal=="LF" then anims[i]:SetIKPositionWeight(AvatarIKGoal.LeftFoot,ikWeight)
-		elseif ikGoal=="RF" then anims[i]:SetIKPositionWeight(AvatarIKGoal.RightFoot,ikWeight)
+		if ikGoal=="LH" then anims[i]:SetIKPositionWeight(UE.AvatarIKGoal.LeftHand,ikWeight)
+		elseif ikGoal=="RH" then anims[i]:SetIKPositionWeight(UE.AvatarIKGoal.RightHand,ikWeight)
+		elseif ikGoal=="LF" then anims[i]:SetIKPositionWeight(UE.AvatarIKGoal.LeftFoot,ikWeight)
+		elseif ikGoal=="RF" then anims[i]:SetIKPositionWeight(UE.AvatarIKGoal.RightFoot,ikWeight)
 		end
 	end
 
-	function groupFuns.ikSetRot(i,ikGoal,ikTarget)
-		if ikGoal=="LH" then anims[i]:SetIKRotation(AvatarIKGoal.LeftHand,ikTarget.transform.rotation)
-		elseif ikGoal=="RH" then anims[i]:SetIKRotation(AvatarIKGoal.RightHand,ikTarget.transform.rotation)
-		elseif ikGoal=="LF" then anims[i]:SetIKRotation(AvatarIKGoal.LeftFoot,ikTarget.transform.rotation)
-		elseif ikGoal=="RF" then anims[i]:SetIKRotation(AvatarIKGoal.RightFoot,ikTarget.transform.rotation)
+	function groupFuns.ikSetRot(i,ikGoal,rot)
+		if ikGoal=="LH" then anims[i]:SetIKRotation(UE.AvatarIKGoal.LeftHand,UE.Quaternion.Euler(rot.x,rot.y,rot.z))
+		elseif ikGoal=="RH" then anims[i]:SetIKRotation(UE.AvatarIKGoal.RightHand,UE.Quaternion.Euler(rot.x,rot.y,rot.z))
+		elseif ikGoal=="LF" then anims[i]:SetIKRotation(UE.AvatarIKGoal.LeftFoot,UE.Quaternion.Euler(rot.x,rot.y,rot.z))
+		elseif ikGoal=="RF" then anims[i]:SetIKRotation(UE.AvatarIKGoal.RightFoot,UE.Quaternion.Euler(rot.x,rot.y,rot.z))
 		end
 	end
 
 	function groupFuns.ikSetRotWeight(i,ikGoal,ikWeight)
 	--Sets the ikGoal limb (options: "LH","RH","LF","RF") target rotation weight to be ikWeight.
-		if ikGoal=="LH" then anims[i]:SetIKRotationWeight(AvatarIKGoal.LeftHand,ikWeight)
-		elseif ikGoal=="RH" then anims[i]:SetIKRotationWeight(AvatarIKGoal.RightHand,ikWeight)
-		elseif ikGoal=="LF" then anims[i]:SetIKRotationWeight(AvatarIKGoal.LeftFoot,ikWeight)
-		elseif ikGoal=="RF" then anims[i]:SetIKRotationWeight(AvatarIKGoal.RightFoot,ikWeight)
+		if ikGoal=="LH" then anims[i]:SetIKRotationWeight(UE.AvatarIKGoal.LeftHand,ikWeight)
+		elseif ikGoal=="RH" then anims[i]:SetIKRotationWeight(UE.AvatarIKGoal.RightHand,ikWeight)
+		elseif ikGoal=="LF" then anims[i]:SetIKRotationWeight(UE.AvatarIKGoal.LeftFoot,ikWeight)
+		elseif ikGoal=="RF" then anims[i]:SetIKRotationWeight(UE.AvatarIKGoal.RightFoot,ikWeight)
 		end
 	end
 
@@ -739,8 +735,13 @@ function groupff(group)
 	end
 
 	function groupFuns.setColor(i,color,j)
-		if j==nil then j=0 end
-		renderers[i][j].material.color=color 
+		if j==nil then 
+			for k=0,renderers[i].Length-1 do
+				renderers[i][k].material.color=color 
+			end
+		else
+			renderers[i][j].material.color=color 
+		end
 	end
 
 	function groupFuns.setColorState(i,bool)

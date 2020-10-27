@@ -30,7 +30,7 @@ function start()
 	ground = RM.getObject(Room,'Ground')
 	LFO.setPos(Room:GetObject('Ground'),UE.Vector3(0,-0.1,0))
 	LFO.setScale(Room:GetObject('Ground'),UE.Vector3(40,0.1,40))
-	LFO.textureObj(ground,'textures/Ground','grid_1',50,50)
+	LFO.textureObj(ground,'textures/ground','grid_1',50,50)
 
 	-- AGENTS
 	LFG.grpSetFormation(form1)

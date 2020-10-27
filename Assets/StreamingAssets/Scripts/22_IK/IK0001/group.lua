@@ -37,7 +37,7 @@ function start()
 		LFG.setState(i,1)
 		LFG.setPos(i,UE.Vector3(0,0.05,0))
 		LFG.setRot(i,UE.Vector3(0,-180,0))
-		LFG.aniCrossFade(i,Clips[183],NormTransDur,true)
+		LFG.aniCrossFade(i,Clips[182],NormTransDur,true)
 		LFG.setColor(i,UE.Color.red,0)
 		LFG.setColor(i,UE.Color.red,1)
 		local rend=Group.Members[i]:GetComponentsInChildren(typeof(UE.Renderer))
@@ -68,8 +68,8 @@ function update()
     for i=0,Nagn-1 do
 		--print(Group.Members[i]:GetComponent(typeof(UE.Animator)).speed)
 		--Group.Members[i]:GetComponent(typeof(UE.Animator)):ApplyBuiltinRootMotion()
-		onElementAnimatorMove(i)
-		onElementAnimatorIK(0,i)
+		--onElementAnimatorMove(i)
+		--onElementAnimatorIK(0,i)
 	end
 end
 --------------------------------------------------------------------------------

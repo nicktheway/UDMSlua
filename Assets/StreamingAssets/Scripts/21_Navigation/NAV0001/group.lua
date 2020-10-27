@@ -30,14 +30,14 @@ function start()
 	--ground
 	local ground = ROOM.getObject(Room, 'Ground')
 	LFO.setScale(ground,UE.Vector3(20,1,20))
-	LFO.textureObj(ground,'textures/Ground','grid_1',50,50)
+	LFO.textureObj(ground,'textures/ground','grid_1',50,50)
 	surface = LFG.navAddSurface(ground)
 	
 	-- obstacles
 	for n=1,6 do
 		obstacles[n]=LFO.makeObject(Room,'cube'..tostring(n),'cube','cube',UE.Vector3(0,0,0))
 		LFO.setScale(obstacles[n],UE.Vector3(0.5, 4,20))
-		LFO.textureObj(obstacles[n],'textures/Ground','grid_2',40,40)
+		LFO.textureObj(obstacles[n],'textures/ground','grid_2',40,40)
 	end
 	LFO.setPos(obstacles[1],UE.Vector3(-10,0, 0))
 	LFO.setPos(obstacles[2],UE.Vector3( 10,0, 0))

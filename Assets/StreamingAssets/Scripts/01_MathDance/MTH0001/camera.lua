@@ -4,7 +4,6 @@ local UE = CS.UnityEngine
 local UT = require('utils')
 local CAM = require('functionsCAM')(self)
 local RM = require('functionsROOM')
-local VFX = require('effects')
 
 local TIME=0
 function start()
@@ -14,18 +13,6 @@ function start()
 	groupDomain = RM.getGroup(Room, 'dancers')
 	CAM.lookAt(groupDomain.Members[0].transform.position + UE.Vector3(0, 1, 0))
 	CAM.stateInit()
-
-	VFX.disableAllGlobalEffects()
-	lutEffect = VFX.getEffect('lut')
-	sobel = VFX.getEffect('sobel')
-	duotone= VFX.getEffect('duotone')
-	motionBlur = VFX.getEffect('simplemotionblur')
-	VFX.setProperty(motionBlur.BlurAmount,0.9)
-	VFX.setProperty(duotone.MinLimit,0.15)
-	VFX.setProperty(duotone.MaxLimit,0.85)
-	VFX.enableEffect(sobel, true)
-	VFX.enableEffect(duotone, true)
-	VFX.enableEffect(simplemotionblur, true)
 end
 
 function update()

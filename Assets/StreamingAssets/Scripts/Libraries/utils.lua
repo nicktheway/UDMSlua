@@ -180,6 +180,14 @@ function M.arrayMean(array, startId, endId)
 	return sum / (endId - startId + 1)
 end
 
+function M.arrayAbsMean(array, startId, endId)
+	local sum = 0
+	for i = startId, endId do
+		sum = sum + math.abs(array[i])
+	end
+	return sum / (endId - startId + 1)
+end
+
 function M.newCSFloatArray(numberOfElements)
 	return CS.System.Array.CreateInstance(typeof(CS.System.Single), numberOfElements)
 end

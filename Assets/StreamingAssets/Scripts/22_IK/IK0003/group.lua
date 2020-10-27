@@ -12,6 +12,7 @@ local debug = require('debug')
 local Nagn = Members.Count
 
 local lights = {}
+local ikGameObjects = {}
 
 local Ground
 local cube1
@@ -23,6 +24,7 @@ local NormTransDur = 0.35
 local TIME = 0
 
 local rend
+local V0, V1, V2L, V2R, V3, V4L, V4R, V5L, V5R, V6
 function start()
 	-- GROUND
 	Ground=LFO.makeObject(Room,'Ground','Ground',"plane",UE.Vector3(0, 0.0, 0))
@@ -36,10 +38,11 @@ function start()
 		LFG.setTurnToMoveDir(i,true)
 		LFG.setColorState(i,false)
 		LFG.setState(i,1)
+		ikGameObjects[i] = Members[i]:GetComponent(typeof(CS.UDMS.IKGameObjects))
 		if i==0 then
 			LFG.setPos(i,UE.Vector3(0,0.05,0))
 			LFG.setRot(i,UE.Vector3(0,-180,0))
-			LFG.aniCrossFade(i,Clips[183],NormTransDur,true)
+			LFG.aniCrossFade(i,Clips[181],NormTransDur,true)
 			LFG.setColor(i,UE.Color.red,0)
 			LFG.setColor(i,UE.Color.red,1)
 			rend=Group.Members[i]:GetComponentsInChildren(typeof(UE.Renderer))
@@ -76,19 +79,21 @@ end
 local d1=2
 local d2=5
 local lHnd, rHnd
-local V5L, V5R
 function update()
     TIME = TIME + 1
+	--lHnd=Group.Members[0].transform:Find("mixamorig:LeftHand");
+	--rHnd=Group.Members[0].transform:Find("mixamorig:RightHand");
+	--V5L=lHnd.transform.position
+	--V5R=rHnd.transform.position
+	V5L=ikGameObjects[0].LeftHand.transform.position
+	V5R=ikGameObjects[0].RightHand.transform.position
+	V6=ikGameObjects[1].LeftHand.transform.position
     for i=0,Nagn-1 do
 		--print(Group.Members[i]:GetComponent(typeof(UE.Animator)).speed)
 		--Group.Members[i]:GetComponent(typeof(UE.Animator)):ApplyBuiltinRootMotion()
-		onElementAnimatorMove(i)
-		onElementAnimatorIK(0,i)
+		--onElementAnimatorMove(i)
+		--onElementAnimatorIK(0,i)
 	end
-	lHnd=Group.Members[0].transform:Find("mixamorig:LeftHand");
-	rHnd=Group.Members[0].transform:Find("mixamorig:RightHand");
-	V5L=lHnd.transform.position
-	V5R=rHnd.transform.position
 end
 --------------------------------------------------------------------------------
 --[ Root motion is off :	LFG.ikSetLookAtPnt(i,UE.Vector3(1,1,1))
@@ -109,7 +114,6 @@ local w2=0.035
 local AC
 local iks
 local LFV1, RFV1
-local V0, V1, V2L, V2R, V3, V4L, V4R
 function onElementAnimatorIK(lrInd,i)
 	
 	if i==0 then
@@ -118,15 +122,24 @@ function onElementAnimatorIK(lrInd,i)
 		AC.bodyPosition = UE.Vector3(0,0.90+0.1*math.sin(0.05*TIME),0);
 
 		V0=UE.Vector3(0,1.5+0.25*math.cos(w2*TIME),1)
-		AC:SetLookAtWeight(LKTw)
-		AC:SetLookAtPosition(V0)
+		LFG.ikSetLookAtWeight(i,LKTw)
+		LFG.ikSetLookAtPnt(i,V6)
+		--LFG.ikSetRotWeight(i,"LF",10.0)
+		--LFG.ikSetRot(i,"LF",UE.Vector3(0,TIME,0))
+		--LFG.ikSetLookAtPnt(i,V0)
+		--AC:SetLookAtWeight(LKTw)
+		--AC:SetLookAtPosition(V0)
 
 		LFV1=UE.Vector3( 0.2,0.2,0.0)
 		RFV1=UE.Vector3(-0.2,0.2,0.0)
-		AC:SetIKPositionWeight(UE.AvatarIKGoal.LeftFoot,LHPw)
-		AC:SetIKPositionWeight(UE.AvatarIKGoal.RightFoot,RHPw)
-		AC:SetIKPosition(UE.AvatarIKGoal.LeftFoot,LFV1)
-		AC:SetIKPosition(UE.AvatarIKGoal.RightFoot,RFV1)
+		LFG.ikSetPosWeight(i,"LF",LHPw)
+		LFG.ikSetPosWeight(i,"RF",RHPw)
+		LFG.ikSetPosVec(i,"LF",LFV1)
+		LFG.ikSetPosVec(i,"RF",RFV1)
+		--AC:SetIKPositionWeight(UE.AvatarIKGoal.LeftFoot,LHPw)
+		--AC:SetIKPositionWeight(UE.AvatarIKGoal.RightFoot,RHPw)
+		--AC:SetIKPosition(UE.AvatarIKGoal.LeftFoot,LFV1)
+		--AC:SetIKPosition(UE.AvatarIKGoal.RightFoot,RFV1)
 
 		V1=LFG.getPos(i)
 		V2L=UE.Vector3( 0.5,1.0,-0.50) --UE.Vector3( 1,1+math.cos(ww*TIME),0) --UE.Vector3(-0.5,1.0,-0.50)
@@ -134,10 +147,14 @@ function onElementAnimatorIK(lrInd,i)
 		V3=R1*UE.Vector3(math.cos(w1*TIME),math.cos(w1*TIME),math.sin(w1*TIME))
 		V4L=V1+V2L+V3
 		V4R=V1+V2R+V3
-		AC:SetIKPositionWeight(UE.AvatarIKGoal.LeftHand,LHPw)
-		AC:SetIKPositionWeight(UE.AvatarIKGoal.RightHand,RHPw)
-		AC:SetIKPosition(UE.AvatarIKGoal.LeftHand,V4L)
-		AC:SetIKPosition(UE.AvatarIKGoal.RightHand,V4R)
+		LFG.ikSetPosWeight(i,"LH",LHPw)
+		LFG.ikSetPosWeight(i,"RH",RHPw)
+		LFG.ikSetPosVec(i,"LH",V4L)
+		LFG.ikSetPosVec(i,"RH",V4R)
+		--AC:SetIKPositionWeight(UE.AvatarIKGoal.LeftHand,LHPw)
+		--AC:SetIKPositionWeight(UE.AvatarIKGoal.RightHand,RHPw)
+		--AC:SetIKPosition(UE.AvatarIKGoal.LeftHand,V4L)
+		--AC:SetIKPosition(UE.AvatarIKGoal.RightHand,V4R)
 
 	elseif i==1 then
 
@@ -146,20 +163,32 @@ function onElementAnimatorIK(lrInd,i)
 		AC.bodyPosition = UE.Vector3(0,1.0+0.01*math.cos(0.05*TIME),-1);
 
 		V0=UE.Vector3(0,1.5+0.25*math.cos(w2*TIME),1)
-		AC:SetLookAtWeight(LKTw)
-		AC:SetLookAtPosition(V0)
+
+		LFG.ikSetLookAtWeight(i,LKTw)
+		LFG.ikSetLookAtPnt(i,V0)
+		--AC:SetLookAtWeight(LKTw)
+		--AC:SetLookAtPosition(V0)
 
 		LFV1=UE.Vector3(-0.2,0.2,-1)
 		RFV1=UE.Vector3( 0.2,0.2,-1)
-		AC:SetIKPositionWeight(UE.AvatarIKGoal.LeftFoot,LHPw)
-		AC:SetIKPositionWeight(UE.AvatarIKGoal.RightFoot,RHPw)
-		AC:SetIKPosition(UE.AvatarIKGoal.LeftFoot,LFV1)
-		AC:SetIKPosition(UE.AvatarIKGoal.RightFoot,RFV1)
+		LFG.ikSetPosWeight(i,"LF",LHPw)
+		LFG.ikSetPosWeight(i,"RF",RHPw)
+		LFG.ikSetPosVec(i,"LF",LFV1)
+		LFG.ikSetPosVec(i,"RF",RFV1)
+		--AC:SetIKPositionWeight(UE.AvatarIKGoal.LeftFoot,LHPw)
+		--AC:SetIKPositionWeight(UE.AvatarIKGoal.RightFoot,RHPw)
+		--AC:SetIKPosition(UE.AvatarIKGoal.LeftFoot,LFV1)
+		--AC:SetIKPosition(UE.AvatarIKGoal.RightFoot,RFV1)
 
-		AC:SetIKPositionWeight(UE.AvatarIKGoal.LeftHand,LHPw)
-		AC:SetIKPositionWeight(UE.AvatarIKGoal.RightHand,RHPw)
-		AC:SetIKPosition(UE.AvatarIKGoal.LeftHand,V5R)
-		AC:SetIKPosition(UE.AvatarIKGoal.RightHand,V5L)
+		LFG.ikSetPosWeight(i,"LH",LHPw)
+		LFG.ikSetPosWeight(i,"RH",RHPw)
+		
+		LFG.ikSetPosVec(i,"LH",V5R)
+		LFG.ikSetPosVec(i,"RH",V5L)
+		--AC:SetIKPositionWeight(UE.AvatarIKGoal.LeftHand,LHPw)
+		--AC:SetIKPositionWeight(UE.AvatarIKGoal.RightHand,RHPw)
+		--AC:SetIKPosition(UE.AvatarIKGoal.LeftHand,V5R)
+		--AC:SetIKPosition(UE.AvatarIKGoal.RightHand,V5L)
 		
 	
 		--[[

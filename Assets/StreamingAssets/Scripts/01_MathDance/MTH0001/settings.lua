@@ -4,10 +4,9 @@ local VFX = require('effects')
 local UT = require('utils')
 local RM = require('functionsROOM');
 
--- global vars, used in other scripts
-autoCamera = 0
-scene = 'RoomA'
-
+-- vars --
+local Nagn=8
+local group
 function applySettings()
 	UE.Screen.SetResolution(1440,900, true, 0)
 	UE.QualitySettings.SetQualityLevel(5)
@@ -16,18 +15,18 @@ function applySettings()
 	UE.QualitySettings.shadows = UE.ShadowQuality.All
 end
 
-local Nagn=10*10
-local group
 function setUp()
-	group = RM.addGroup(Room,'models/main','NeoMan',Nagn,'dancers','group.lua')
-	--group = RM.addGroup(Room,'models/main','xbot',Nagn,'dancers','group.lua')
+	group = RM.addEmptyGroup(Room,'dancers','group.lua')
+	for i=0,Nagn-1 do
+		RM.addGroupMember(Room,'dancers', 'models/main','NeoMan')
+		--RM.addGroupMember(Room,'dancers', 'models/main','xbot')
+	end
 	RM.runGroupScript(Room,'dancers')
-	RM.addCamera(Room) --Room:InstantiateCameraRig()
+	RM.addCamera(Room)
 	setMusic('Commer/InOurSleep.ogg')
 	VFX.clearAllGlobalEffects()
 end
 
--- Inside settings.lua
 function update()
     VFX.checkGlobalEffectInputs()
 	UT.listenToGenericShortcuts()
