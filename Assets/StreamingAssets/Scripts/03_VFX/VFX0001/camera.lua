@@ -1,74 +1,29 @@
 local UE = CS.UnityEngine
 local UT = require('utils')
+local UE = CS.UnityEngine
 local CAM = require('functionsCAM')(self)
+local RM = require('functionsROOM')
 
-local groupDomain
 local TIME=0
-
 function start()
-	CAM.setState(12)
-	groupDomain = Room:GetGroupDomain('dancers')
+	CAM.setState(1)
 	CAM.setTargetGroup(Room, 'dancers')
-	CAM.setPos(UE.Vector3(4, 3, -8))
+	CAM.setPos(UE.Vector3(4,3,-8))
+	groupDomain = RM.getGroup(Room, 'dancers')
 	CAM.lookAt(groupDomain.Members[0].transform.position + UE.Vector3(0, 1, 0))
-
 	CAM.stateInit()
 end
 
 function update()
 	TIME=TIME+1
-
 	CAM.updateStateFromKeyboard()
 	CAM.updateTargetFromKeyboard()
-	--updateStateFromKeyboard()
-	
-	CAM.stateUpdate(TIME)
 	CAM.targetUpdate()
-	--UT.printOnScreen(CAM.getState())
+	stateUpdate(TIME)
+	--UT.printOnScreen(self.State)
 end
 
-function myInit()
-	CAM.setActiveCamera('dolly')
-	CAM.setAutoDolly(false)
-	CAM.setDollyPath('haha')
+function stateUpdate(TIME)
+	local state = CAM.getState()
+	if state<19		then CAM.stateUpdate(TIME) end
 end
-
-function myUpdate()
-	CAM.setPathPos(UT.unpackVector3(groupDomain.Members[0].transform.position))
-	CAM.setPosOnPath(TIME*0.03)
-end
-
-function updateStateFromKeyboard()
-	local state = self.State
-	if UE.Input.GetKeyUp(UE.KeyCode.F1) then 		-- free camera with mouse
-		state=1
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F2) then 	-- free camera with KB and side view
-		state=2
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F3) then 	-- free camera with KB and topdown view
-		state=3 
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F4) then 	-- fixed camera with side view, follow agent
-		state=4 
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F5) then 
-		state=5 
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F6) then 
-		state=6 
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F7) then 
-		state=7 
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F8) then 
-		state=8
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F9) then 
-		state=9 
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F10) then 
-		state=10
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F11) then 
-		state=11 
-	elseif UE.Input.GetKeyUp(UE.KeyCode.F12) then 
-		state=12 
-	end
-	
-	self.State = state
-end
-
-
-
-

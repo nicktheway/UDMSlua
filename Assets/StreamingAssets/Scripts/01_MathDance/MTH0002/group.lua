@@ -1,5 +1,4 @@
 -- aliases --
---local LM=require("math")
 local UE = CS.UnityEngine
 local UT = require('utils')
 local Clips = require('animations')
@@ -60,7 +59,7 @@ end
 local a=4
 local b=2
 local wx=0.005
-local wz=0.015
+local wz=0.005 --0.015
 local xt
 local zt
 local xti
@@ -84,11 +83,6 @@ function onDestroy()
 	UT.closeFile(filePath)
 end
 --------------------------------------------------------------------------------
---[[ Root motion is off :
-local anims = {}
 function onElementAnimatorMove(i)
-    anims[i]:ApplyBuiltinRootMotion()
+	LFG.aniSetRootMotion(i,true)
 end
---]]
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------

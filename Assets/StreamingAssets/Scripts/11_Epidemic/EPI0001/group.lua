@@ -45,7 +45,7 @@ function start()
     for i=0,Nagn - 1 do
 		LFG.setColor(i,UE.Color.red)
 		--LFG.attachTrail(i, UE.Color.red, 10, 0.05)
-		LFG.trailAttach(i,UE.Vector3(0,1,0),UE.Color.red, 5, 0.05)
+		LFG.trailAttach(i,UE.Vector3(0,0.1,0),UE.Color.red, 5, 0.05)
 		LFG.trailSetStartWidth(i,0.01)
 		LFG.trailSetEndWidth(i,0.04)
 		LFG.trailSetStartColor(i,UE.Color.yellow)
@@ -75,8 +75,6 @@ function update()
 	-- MOVES
 	for i = 0, Nagn-1 do
 		if LFG.getState(i)<=1 then 
-			--LFG.setDir(i,LFG.dirAgentToPnt(i,center0[i]))
-			--LFG.turnToPnt(i,center0[i],2)
 			if LFG.distAgentToPnt(i,center0[i])>0.1 then 
 				LFG.turnToDir(i,LFG.dirAgentToPnt(i,center0[i]),10)
 				LFG.moveFwd(i,0.05) 
@@ -84,8 +82,6 @@ function update()
 				LFG.turnToDir(i,LFG.dirAgentToPnt(i,center1[i]),5) 
 			end
 		else 
-			--LFG.setDir(i,LFG.dirAgentToPnt(i,center1[i]))
-			--LFG.turnToPnt(i,center1[i],2)
 			LFG.turnToDir(i,LFG.dirAgentToPnt(i,center1[i]),10)
 			if LFG.distAgentToPnt(i,center1[i])>0.1 then LFG.moveFwd(i,0.05) end
 		end
@@ -98,35 +94,18 @@ function update()
 		LFG.setColor(i,UE.Color.Lerp(col,stateToColor(s,colmap),0.05))
 		if LFG.getState(i)<=1 then 
 			if LFG.distAgentToPnt(i,center0[i])>0.1 then
-				--if LFG.aniGetClipName(i)~=CLP[177] then 
-					LFG.aniCrossFadeDiff(i,CLP[177],0.01,true)
-				--end
+				LFG.aniCrossFadeDiff(i,CLP[177],0.01,true)
 			else
-				--if LFG.aniGetClipName(i)~=CLP[182] then 
-					LFG.aniCrossFadeDiff(i,CLP[182],0.01,true) 
-				--end
+				LFG.aniCrossFadeDiff(i,CLP[182],0.01,true) 
 			end
 		else
 			if LFG.distAgentToPnt(i,center1[i])>0.1 then
-				--if LFG.aniGetClipName(i)~=CLP[121] then 
-					LFG.aniCrossFadeDiff(i,CLP[121],0.01,true)
-				--end
+				LFG.aniCrossFadeDiff(i,CLP[121],0.01,true)
 			else
-				--if LFG.aniGetClipName(i)~=CLP[109] then 
-					LFG.aniCrossFadeDiff(i,CLP[109],0.01,true) 
-				--end
+				LFG.aniCrossFadeDiff(i,CLP[109],0.01,true) 
 			end
 		end
 	end
-	--[[
-	for i = 0, Nagn-1 do
-		if LFG.getStateOld(i)~=LFG.getState(i) then
-			local s=LFG.getState(i)
-			if LFG.getState(i)==0 then LFG.aniCrossFade(i,CLP[177],transDur,true) end
-			if LFG.getState(i)==1 then LFG.aniCrossFade(i,CLP[121],transDur,true) end
-		end
-	end
-	--]]
 end
 
 function onGcaStart()
@@ -170,10 +149,6 @@ function stateToColor(state)
 	return UE.Color.white
 end
 
---[[
-This turns on root motion
-function onElementAnimatorMove(agentId)
-    anims[agentId]:ApplyBuiltinRootMotion()
+function onElementAnimatorMove(i)
+	LFG.aniSetRootMotion(i,true)
 end
---]]
-

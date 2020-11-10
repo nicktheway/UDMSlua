@@ -35,11 +35,10 @@ function start()
 
 	-- GROUND
 	Ground=LFO.makeObject(Room,'Ground','Ground1',"plane",UE.Vector3(0, -0.1, 0))
-	--LFO.textureObj(Ground,'textures/SciFi','FloorTech02c',500,500)
 	LFO.setPos(Ground,UE.Vector3(0,-0.2,0))
 	LFO.setScale(Ground,UE.Vector3(40,1,40))
 	LFO.textureObj(Ground,'textures/ground','checkerboard_2',50,50)
-	--LFO.textureObj(Ground,'textures/ground','design_10',50,50)
+	--LFO.textureObj(Ground,'textures/SciFi','FloorTech02c',500,500)
 
 		-- AGENTS
 	LFG.toggleIndices(true)
@@ -157,3 +156,9 @@ function updateState14()
 		LFG.setState(n,math.floor(10*s[n]))
 	end
 end
+
+
+function onElementAnimatorMove(i)
+	LFG.aniSetRootMotion(i,true)
+end
+

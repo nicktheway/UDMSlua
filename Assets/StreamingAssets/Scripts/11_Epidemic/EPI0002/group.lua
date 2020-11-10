@@ -41,8 +41,7 @@ function start()
 	gca=LFG.gcaDefine({1, 2, 4}, {}, numStates)
     for i=0,Nagn - 1 do
 		LFG.setColor(i,UE.Color.red)
-		--LFG.attachTrail(i, UE.Color.red, 10, 0.05)
-		LFG.trailAttach(i,UE.Vector3(0,1,0),UE.Color.red, 10, 0.05)
+		LFG.trailAttach(i,UE.Vector3(0,0.1,0),UE.Color.red, 10, 0.05)
 		LFG.trailSetStartWidth(i,0.01)
 		LFG.trailSetEndWidth(i,0.04)
 		LFG.trailSetStartColor(i,UE.Color.yellow)
@@ -125,10 +124,7 @@ function stateToColor(state)
 	return UE.Color.white
 end
 
---[[
-This turns on root motion
-function onElementAnimatorMove(agentId)
-    anims[agentId]:ApplyBuiltinRootMotion()
+function onElementAnimatorMove(i)
+	LFG.aniSetRootMotion(i,true)
 end
---]]
 

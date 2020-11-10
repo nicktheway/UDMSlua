@@ -34,7 +34,7 @@ end
 
 function update()
 	TIME=TIME+1
-	print(TIME)
+	--print(TIME)
 	
 	CAM.updateStateFromKeyboard()	-- or: updateStateFromKeyboard(), user defined
 	CAM.updateTargetFromKeyboard()

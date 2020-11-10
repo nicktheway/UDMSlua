@@ -42,13 +42,6 @@ function start()
     end
 	--LFG.toggleIndices(true)
 
-	--[[
-	for i=nc/2-1,nc/2 do
-		for j=math.floor(nc/2)-1,math.floor(nc/2) do
-			LFG.setState(i*nc+j,3)
-		end
-	end
-	--]]
 	LFG.setState(math.floor(Nagn/2),3)
 
 	threshold = 2 --1,2,3
@@ -107,9 +100,6 @@ function onDestroy()
 	UT.closeAllFiles()
 end
 
---[[
-This turns on root motion
-function onElementAnimatorMove(agentId)
-    anims[agentId]:ApplyBuiltinRootMotion()
+function onElementAnimatorMove(i)
+	LFG.aniSetRootMotion(i,true)
 end
---]]

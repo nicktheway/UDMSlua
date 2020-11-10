@@ -18,8 +18,8 @@ end
 function setUp()
 	group = RM.addEmptyGroup(Room,'dancers','group.lua')
 	for i=0,Nagn-1 do
-		--RM.addGroupMember(Room,'dancers', 'models/main','NeoMan')
-		RM.addGroupMember(Room,'dancers', 'models/main','ybot')
+		RM.addGroupMember(Room,'dancers', 'models/main','NeoMan')
+		--RM.addGroupMember(Room,'dancers', 'models/main','ybot')
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room)

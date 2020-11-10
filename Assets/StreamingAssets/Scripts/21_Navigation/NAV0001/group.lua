@@ -63,7 +63,6 @@ function start()
 		LFG.navSetSpeed(i,8)
 		LFG.navActive(i, true)
 		LFG.setColor(i,UE.Color.red,1)
-		--LFG.attachTrail(i, UE.Color.green, 10, 0.02)
 		--LFG.trailAttach(i,UE.Vector3(0,0.4,0),UE.Color.green, 10, 0.02)
 		LFG.aniCrossFade(i,CLP[180],transDur,true)
     end
@@ -96,7 +95,6 @@ end
 --local d1
 function update()
     TIME = TIME + 1
-	print(TIME)
 	
 	-- REBAKE NAVMESH
 	if TIME%20 == 0 then
@@ -146,10 +144,6 @@ function onDestroy()
 	UT.closeAllFiles()
 end
 
---[[
-This turns on root motion
-function onElementAnimatorMove(agentId)
-    anims[agentId]:ApplyBuiltinRootMotion()
+function onElementAnimatorMove(i)
+	LFG.aniSetRootMotion(i,true)
 end
---]]
-

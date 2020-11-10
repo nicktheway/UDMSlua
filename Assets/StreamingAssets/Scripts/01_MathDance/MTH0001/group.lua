@@ -1,5 +1,4 @@
 -- aliases --
---local LM=require("math")
 local UE = CS.UnityEngine
 local UT = require('utils')
 local Clips = require('animations')
@@ -74,11 +73,6 @@ function update()
 	end
 end
 --------------------------------------------------------------------------------
---[[ Root motion is off :
-local anims = {}
 function onElementAnimatorMove(i)
-    anims[i]:ApplyBuiltinRootMotion()
+	LFG.aniSetRootMotion(i,true)
 end
---]]
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------

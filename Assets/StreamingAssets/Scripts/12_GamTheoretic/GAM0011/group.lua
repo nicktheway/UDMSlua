@@ -30,17 +30,6 @@ function start()
 	LFO.setScale(ground,UE.Vector3(40,1,40))
 	LFO.textureObj(ground,'textures/ground','grid_1',50,50)
 
-	--[[
-	-- LIGHTS
-	for i=0,1 do
-		lights[i]=LFO.lgtMake(Room,tostring(i),"Light1","spot",UE.Vector3(4*(-1)^i,4,13),UE.Vector3(90,0,0))
-		LFO.lgtSetRange(lights[i],30)
-		LFO.lgtSetIntensity(lights[i],3)
-		LFO.lgtSetSpotAngle(lights[i],115)
-		LFO.lgtSetColor(lights[i],UE.Color(1,1,1))
-	end
-	--]]
-
 	-- AGENTS
 	local form1 = treePos(Nagn, h, leaves)
 	local nbrs1  = treeNeighbours()
@@ -137,13 +126,6 @@ function treeNeighbours()
 	return nbrs
 end
 
---[[
-This turns on root motion
-function onElementAnimatorMove(agentId)
-    anims[agentId]:ApplyBuiltinRootMotion()
+function onElementAnimatorMove(i)
+	LFG.aniSetRootMotion(i,true)
 end
---]]
-
-
-
-

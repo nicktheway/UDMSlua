@@ -146,7 +146,7 @@ function setUpDefaultCamera(luaCamera)
 		if UE.Input.GetKey(UE.KeyCode.PageUp) 	 	then M.camOffSet=M.camOffSet+UE.Vector3(0,0.05,0) end
 		if UE.Input.GetKey(UE.KeyCode.PageDown)  	then M.camOffSet=M.camOffSet-UE.Vector3(0,0.05,0) end 
 		if UE.Input.GetKey(UE.KeyCode.UpArrow) 	 	then M.camOffSet=M.camOffSet+0.05*M.mainCamera.transform.forward end 
-		if UE.Input.GetKey(UE.KeyCode.DownArrow) 	then M.camOffSet=camOffSet-0.05*M.mainCamera.transform.forward end 
+		if UE.Input.GetKey(UE.KeyCode.DownArrow) 	then M.camOffSet=M.camOffSet-0.05*M.mainCamera.transform.forward end 
 	end
 
 	function init05()

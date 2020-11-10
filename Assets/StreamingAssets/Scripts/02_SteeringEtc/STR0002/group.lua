@@ -77,8 +77,6 @@ function update()
         -- MOVE
 		dir=LFG.dirToAgent(i,math.fmod(i+1,Nagn))
 		dir2=-dir
-		--dir2.x=dir.z
-		--dir2.z=dir.x
 		if LFG.getState(i)==1 then LFG.turnToDirSoft(i,dir,wr)
 		elseif LFG.getState(i)==2 then LFG.turnToDirSoft(i,(1-k)*dir+k*dir2,wr)  
 		end
@@ -94,11 +92,6 @@ function update()
 	end
 end
 --------------------------------------------------------------------------------
---[[ Root motion is off :
-local anims = {}
 function onElementAnimatorMove(i)
-    anims[i]:ApplyBuiltinRootMotion()
+	LFG.aniSetRootMotion(i,true)
 end
---]]
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------

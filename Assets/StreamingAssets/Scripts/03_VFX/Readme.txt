@@ -1,1 +1,3 @@
-to be ...
+This folder contains VFX  scenaria 
+
+VFX0001: 	Some VFX combinations

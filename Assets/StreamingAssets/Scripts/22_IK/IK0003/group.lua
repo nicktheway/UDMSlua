@@ -13,6 +13,7 @@ local Nagn = Members.Count
 
 local lights = {}
 local ikGameObjects = {}
+local anims = {}
 
 local Ground
 local cube1
@@ -34,29 +35,30 @@ function start()
 
 	-- AGENTS
 	LFG.toggleIndices(false)
+
     for i=0,Nagn - 1 do
 		LFG.setTurnToMoveDir(i,true)
 		LFG.setColorState(i,false)
 		LFG.setState(i,1)
+		anims[i] = Members[i]:GetComponent(typeof(UE.Animator))
 		ikGameObjects[i] = Members[i]:GetComponent(typeof(CS.UDMS.IKGameObjects))
 		if i==0 then
 			LFG.setPos(i,UE.Vector3(0,0.05,0))
 			LFG.setRot(i,UE.Vector3(0,-180,0))
-			LFG.aniCrossFade(i,Clips[181],NormTransDur,true)
-			LFG.setColor(i,UE.Color.red,0)
-			LFG.setColor(i,UE.Color.red,1)
+			LFG.aniCrossFade(i,Clips[121],NormTransDur,true)
+			LFG.setColor(i,UE.Color.green)
 			rend=Group.Members[i]:GetComponentsInChildren(typeof(UE.Renderer))
 			rend[0].material:SetFloat("_Metallic",0.85);
-			rend[1].material:SetFloat("_Metallic",0.85);
+			--rend[1].material:SetFloat("_Metallic",0.85);
 		elseif i==1 then
 			LFG.setPos(i,UE.Vector3(0,0.05,1))
 			LFG.setRot(i,UE.Vector3(0, 0,0))
-			LFG.aniCrossFade(i,Clips[183],NormTransDur,true)
-			LFG.setColor(i,UE.Color.blue,0)
-			LFG.setColor(i,UE.Color.blue,1)
+			LFG.aniCrossFade(i,Clips[4],NormTransDur,true)
+			LFG.setColor(i,UE.Color.cyan)
+			--LFG.setColor(i,UE.Color.blue,1)
 			rend=Group.Members[i]:GetComponentsInChildren(typeof(UE.Renderer))
 			rend[0].material:SetFloat("_Metallic",0.85);
-			rend[1].material:SetFloat("_Metallic",0.85);
+			--rend[1].material:SetFloat("_Metallic",0.85);
 		end
 		--[[
 		LFG.trailAttach(i,UE.Vector3(0,1,0),UE.Color.red,0,0.01)
@@ -99,8 +101,9 @@ end
 --[ Root motion is off :	LFG.ikSetLookAtPnt(i,UE.Vector3(1,1,1))
 --local anims = {}
 function onElementAnimatorMove(i)
-    LFG.aniSetRootMotion(i,true)
-	--Group.Members[i]:GetComponent(typeof(UE.Animator)):ApplyBuiltinRootMotion()
+    --LFG.aniSetRootMotion(i,true)
+	--if i==0 then Members[i]:GetComponent(typeof(UE.Animator)):ApplyBuiltinRootMotion() end
+	Members[i]:GetComponent(typeof(UE.Animator)):ApplyBuiltinRootMotion()
 	--LFG.ikSetLookAtPnt(i,UE.Vector3(1,1+math.cos(0.1*TIME),1))
 	--anims[i]:ApplyBuiltinRootMotion()
 end
@@ -117,6 +120,7 @@ local LFV1, RFV1
 function onElementAnimatorIK(lrInd,i)
 	
 	if i==0 then
+		--[[
 		AC=Group.Members[i]:GetComponent(typeof(UE.Animator))
 		AC.speed=0.7
 		AC.bodyPosition = UE.Vector3(0,0.90+0.1*math.sin(0.05*TIME),0);
@@ -155,7 +159,7 @@ function onElementAnimatorIK(lrInd,i)
 		--AC:SetIKPositionWeight(UE.AvatarIKGoal.RightHand,RHPw)
 		--AC:SetIKPosition(UE.AvatarIKGoal.LeftHand,V4L)
 		--AC:SetIKPosition(UE.AvatarIKGoal.RightHand,V4R)
-
+		--]]
 	elseif i==1 then
 
 		AC=Group.Members[i]:GetComponent(typeof(UE.Animator))
@@ -171,7 +175,7 @@ function onElementAnimatorIK(lrInd,i)
 
 		LFV1=UE.Vector3(-0.2,0.2,-1)
 		RFV1=UE.Vector3( 0.2,0.2,-1)
-		LFG.ikSetPosWeight(i,"LF",LHPw)
+		LFG.ikSetPosWeight(i,"LF",1000)
 		LFG.ikSetPosWeight(i,"RF",RHPw)
 		LFG.ikSetPosVec(i,"LF",LFV1)
 		LFG.ikSetPosVec(i,"RF",RFV1)

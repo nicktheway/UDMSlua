@@ -28,7 +28,6 @@ function start()
 
 	--GROUND
 	ground = ROOM.getObject(Room, 'Ground')
-	--LFO.setPos(Room:GetObject('Ground'),UE.Vector3(0,-0.6,0))
 	LFO.setScale(ground,UE.Vector3(40,1,40))
 	LFO.textureObj(ground,'textures/ground','grid_1',50,50)
 
@@ -41,7 +40,7 @@ function start()
 		LFG.setColor(i,UE.Color.red)
 		LFG.attachTrail(i, UE.Color.red, 10, 0.05)
     end
-	--
+
 	--LFG.toggleIndices(true)
 
 	for i=nc/2-1,nc/2 do
@@ -107,13 +106,6 @@ function onDestroy()
 	UT.closeAllFiles()
 end
 
---[[
-This turns on root motion
-function onElementAnimatorMove(agentId)
-    anims[agentId]:ApplyBuiltinRootMotion()
+function onElementAnimatorMove(i)
+	LFG.aniSetRootMotion(i,true)
 end
---]]
-
-
-
-

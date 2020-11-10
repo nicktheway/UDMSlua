@@ -5,7 +5,7 @@ local UT = require('utils')
 local RM = require('functionsROOM');
 
 -- vars --
-local Nagn=3
+local Nagn=8
 local group
 function applySettings()
 	UE.Screen.SetResolution(1440,900, true, 0)
@@ -23,7 +23,7 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room)
-	setMusic('Commer/InOurSleep.ogg')
+	setMusic('Commer/Rapanagatun.ogg') --InOurSleep.ogg')
 	VFX.clearAllGlobalEffects()
 end
 

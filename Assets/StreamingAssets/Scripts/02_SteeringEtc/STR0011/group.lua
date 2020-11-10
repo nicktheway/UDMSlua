@@ -1,5 +1,4 @@
 -- aliases --
---local LM=require("math")
 local UE = CS.UnityEngine
 local UT = require('utils')
 local Clips = require('animations')
@@ -41,17 +40,10 @@ function start()
 		LFG.setPos(i,UE.Vector3(sid*math.random(-10,10)/10,0,sid*math.random(-10,10)/10))
 		LFG.setRotY(i,math.random(-180,180))
 		LFG.aniCrossFade(i,Clips[121],NormTransDur,true)
-		--[[
-		LFG.trailAttach(i,UE.Vector3(0,1,0),UE.Color.red,0,0.01)
-		LFG.trailSetEndColor(i,UE.Color.blue)
-		LFG.trailSetEndWidth(i,0.05)
-		LFG.trailSetTime(i,5)
-		--]]
 	end
 
 	-- LIGHTS
 	for i=0,0 do
-		--lights[i]=LFO.lgtMake(Room,tostring(i),"Light1","spot",UE.Vector3(4*(-1)^i,4,0),UE.Vector3(90,0,0))
 		lights[i]=LFO.lgtMake(Room,tostring(i),"Light1","spot",UE.Vector3(0,6,0),UE.Vector3(90,0,0))	LFO.lgtSetRange(lights[i],60)
 		LFO.lgtSetIntensity(lights[i],2)
 		LFO.lgtSetRange(lights[i],20)
@@ -75,19 +67,6 @@ function update()
 	-- AGENTS
     for i=0,Nagn-1 do
 
-		--[[
-		if TIME%2==1 then
-			dir=LFG.dirMine(i)
-			if LFG.distToNearest(i)<d0 then
-				if LFG.distToNearest(i)>d1 then
-					dir=dir+LFG.dirOfNearest(i)
-				else
-					dir=dir-LFG.dirOfNearest(i)
-				end
-			end
-			print(i,pos)
-		end
-		--]]
 		dir=LFG.dirMine(i)
 		if LFG.distToNearest(i)<d0 then
 			if LFG.distToNearest(i)>d1 then
@@ -118,11 +97,6 @@ function update()
 	end
 end
 --------------------------------------------------------------------------------
---[[ Root motion is off :
-local anims = {}
 function onElementAnimatorMove(i)
-    anims[i]:ApplyBuiltinRootMotion()
+	LFG.aniSetRootMotion(i,true)
 end
---]]
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------

@@ -119,11 +119,6 @@ function MakeA(Nagn)
 end
 
 --------------------------------------------------------------
---[[
--- variables
-local Ground
-local cube1
-local sphere1
-local empty1
---]]
-
+function onElementAnimatorMove(i)
+	LFG.aniSetRootMotion(i,true)
+end
