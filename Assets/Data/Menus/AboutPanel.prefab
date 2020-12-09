@@ -170,9 +170,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: '<b>Version</b>
 
-    2020.1 (20201102)
+    2020.1 (20201208)
 
-    
+
 
     <b>Credits</b>
 
@@ -181,7 +181,7 @@ MonoBehaviour:
 
     Kehagias Athanasios
 
-    
+
 
     <b>External Tools</b>
 
@@ -202,15 +202,14 @@ MonoBehaviour:
     "><#5fafaf>[Unity
     Asset Store]</color></link>
 
-    
+
 
     <b>External Resources</b>
 
-    Mixamo
-    <link="https://www.mixamo.com"><#5fafaf>[website]</color></link>
+    Mixamo <link="https://www.mixamo.com"><#5fafaf>[website]</color></link>
 
-    MVN Live
-    Animation <link="https://assetstore.unity.com/packages/3d/animations/mvn-live-animation-11338"><#5fafaf>[Unity
+    MVN
+    Live Animation <link="https://assetstore.unity.com/packages/3d/animations/mvn-live-animation-11338"><#5fafaf>[Unity
     Asset Store]</color></link>
 
     keijiro/PuppetTest (Neoman model) <link="https://github.com/keijiro/PuppetTest"><#5fafaf>[github]</color></link>
@@ -231,7 +230,7 @@ MonoBehaviour:
     Cinematic Look LUT Library <link="https://assetstore.unity.com/packages/2d/textures-materials/cinematic-look-lut-library-69785"><#5fafaf>[Unity
     Asset Store]</color></link>
 
-    
+
 
 '
   m_isRightToLeft: 0

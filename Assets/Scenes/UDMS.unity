@@ -466,6 +466,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &626942237 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7196670564788151011, guid: 69bf9c380d92f4e1a9de503f4f9841c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2863765911050127446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &788579055 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 610931451177365222, guid: 6f28d74e1f1191540a34e48dc01e9f11,
@@ -475,6 +487,12 @@ GameObject:
 --- !u!1 &932401125 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2863765911445653427, guid: 69bf9c380d92f4e1a9de503f4f9841c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2863765911050127446}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1046936747 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3745749124875454528, guid: 69bf9c380d92f4e1a9de503f4f9841c0,
     type: 3}
   m_PrefabInstance: {fileID: 2863765911050127446}
   m_PrefabAsset: {fileID: 0}
@@ -546,7 +564,9 @@ MonoBehaviour:
   SelectedObjects: []
   UI: {fileID: 932401125}
   HelpPanel: {fileID: 1469412404}
+  AboutPanel: {fileID: 1046936747}
   FrontScreenEnv: {fileID: 788579055}
+  PDFDocsLinks: {fileID: 626942237}
   _effectsVolume: {fileID: 380116317}
   _consoleManager: {fileID: 296275821}
   _screenTextComponent: {fileID: 7466601243064063958}
@@ -1340,6 +1360,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973994104533120641, guid: 69bf9c380d92f4e1a9de503f4f9841c0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1510132063}
+    - target: {fileID: 1973994104533120641, guid: 69bf9c380d92f4e1a9de503f4f9841c0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TogglePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973994104533120641, guid: 69bf9c380d92f4e1a9de503f4f9841c0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973994104533120641, guid: 69bf9c380d92f4e1a9de503f4f9841c0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: about
       objectReference: {fileID: 0}
     - target: {fileID: 2809960038880746532, guid: 69bf9c380d92f4e1a9de503f4f9841c0,
         type: 3}
