@@ -277,8 +277,8 @@ namespace UDMS
         {
             var text = 
 $@"<b>Available PDFs</b>
-<link=""file://{Application.streamingAssetsPath}/UDMSlua_Help.pdf""><#4080F0><u>Quick Start Guide</u></color></link>
-<link=""file://{Application.streamingAssetsPath}/UDMSlua_QuickStart.pdf""><#4080F0><u>Full Documentation</u></color></link>
+<link=""file://{Application.streamingAssetsPath}/UDMSlua_QuickStart.pdf""><#4080F0><u>Quick Start Guide</u></color></link>
+<link=""file://{Application.streamingAssetsPath}/UDMSlua_Help.pdf""><#4080F0><u>Manual</u></color></link>
 ";
 
             PDFDocsLinks.text = text;
