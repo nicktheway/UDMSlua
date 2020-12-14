@@ -23,7 +23,7 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room)
-	setMusic('Commer/ArvoPart_Spiegel_im_Spiegel.ogg')
+	setMusic('MusicArchiveOrg/Italian_Village_Music_and_Dance_-_03_-_Tarantella_Lucana.ogg')
 	VFX.clearAllGlobalEffects()
 end
 

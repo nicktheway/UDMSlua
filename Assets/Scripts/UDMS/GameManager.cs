@@ -31,7 +31,9 @@ namespace UDMS
         public List<LuaDomain> SelectedObjects = new List<LuaDomain>();
         public GameObject UI;
         public GameObject HelpPanel;
+        public GameObject AboutPanel;
         public GameObject FrontScreenEnv;
+        public TextMeshProUGUI PDFDocsLinks;
 
         public static readonly string MusicBasePath = Application.streamingAssetsPath + "/Music";
 
@@ -67,6 +69,7 @@ namespace UDMS
             DontDestroyOnLoad(gameObject);
 
             InitializeGlobals();
+            LinkHelpDocs();
             PrepareGameSettingsSymbols();
             ApplyGameSettings();
         }
@@ -225,6 +228,10 @@ namespace UDMS
             }
             else if (Input.GetKeyUp(KeyCode.Alpha8))
             {
+                TogglePanel("about");
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha9))
+            {
                 QuitApplication();
             }
         }
@@ -264,6 +271,17 @@ namespace UDMS
         public void OpenMusicBaseDirectory()
         {
             Application.OpenURL("file://" + MusicBasePath);
+        }
+
+        private void LinkHelpDocs()
+        {
+            var text = 
+$@"<b>Available PDFs</b>
+<link=""file://{Application.streamingAssetsPath}/UDMSlua_QuickStart.pdf""><#4080F0><u>Quick Start Guide</u></color></link>
+<link=""file://{Application.streamingAssetsPath}/UDMSlua_Help.pdf""><#4080F0><u>Manual</u></color></link>
+";
+
+            PDFDocsLinks.text = text;
         }
 
         public void PrintSelected()
@@ -461,6 +479,7 @@ namespace UDMS
             if (!UI.activeSelf) 
             {
                 HelpPanel.SetActive(false);
+                AboutPanel.SetActive(false);
             }
         }
 
@@ -468,6 +487,7 @@ namespace UDMS
         {
             UI.SetActive(false);
             HelpPanel.SetActive(false);
+            AboutPanel.SetActive(false);
         }
 
         public void TogglePanel(string panel)
@@ -475,6 +495,12 @@ namespace UDMS
             if (panel == "help")
             {
                 HelpPanel.SetActive(!HelpPanel.activeSelf);
+                AboutPanel.SetActive(false);
+            }
+            else if (panel == "about")
+            {
+                AboutPanel.SetActive(!AboutPanel.activeSelf);
+                HelpPanel.SetActive(false);
             }
         }
 

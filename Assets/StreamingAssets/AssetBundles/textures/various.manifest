@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 85209358
+CRC: 310108293
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c5be502f969a3d8f7370d7cd58e8b179
+    Hash: 44d880fdff42553c1c791c0bce878ae9
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -14,17 +14,17 @@ ClassTypes:
 Assets:
 - Assets/Data/Textures/Various/snow_01.png
 - Assets/Data/Textures/Various/dirt_ice.png
-- Assets/Data/Textures/Various/roof_tile_02.png
+- Assets/Data/Textures/Various/Roof_tile_02.png
 - Assets/Data/Textures/Various/ice.png
 - Assets/Data/Textures/Various/grass_dry_01.png
-- Assets/Data/Textures/Various/dirt_01.png
+- Assets/Data/Textures/Various/Dirt_01.png
 - Assets/Data/Textures/Various/dirt_dry.png
-- Assets/Data/Textures/Various/sand_01.png
-- Assets/Data/Textures/Various/water.png
+- Assets/Data/Textures/Various/Sand_01.png
+- Assets/Data/Textures/Various/Water.png
 - Assets/Data/Textures/Various/grass_dry_02.png
-- Assets/Data/Textures/Various/floor_01.png
+- Assets/Data/Textures/Various/Floor_01.png
 - Assets/Data/Textures/Various/grass_01.png
 - Assets/Data/Textures/Various/grass_02.png
 - Assets/Data/Textures/Various/roof_tile_01.png
-- Assets/Data/Textures/Various/sand_02.png
+- Assets/Data/Textures/Various/Sand_02.png
 Dependencies: []

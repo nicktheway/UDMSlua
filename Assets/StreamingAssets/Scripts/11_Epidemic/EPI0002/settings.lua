@@ -25,7 +25,7 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room) --Room:InstantiateCameraRig()
-	setMusic('Commer/Frankum.ogg')
+	setMusic('PercStudio/Silamalon.ogg')
 	VFX.clearAllGlobalEffects()
 	local sobel = VFX.globalEffect('sobel')
 	sobel.enabled:Override(true)

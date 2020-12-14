@@ -23,7 +23,7 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room)
-	setMusic('Commer/ArvoPart_Spiegel_im_Spiegel.ogg')
+	setMusic('MusicArchiveOrg/Soularflair_-_20_-_Cue_1_-_Busy-Complicated-Percussion_only_Ludovicos_Technique.ogg')
 	VFX.clearAllGlobalEffects()
 end
 
