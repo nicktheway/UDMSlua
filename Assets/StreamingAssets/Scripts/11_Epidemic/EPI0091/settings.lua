@@ -26,7 +26,7 @@ function setUp()
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room) --Room:InstantiateCameraRig()
 	VFX.clearAllGlobalEffects()
-	setMusic('Commer/Didgeridoo.ogg')
+	setMusic('PercStudio/Silamalon.ogg')
 end
 
 -- Inside settings.lua

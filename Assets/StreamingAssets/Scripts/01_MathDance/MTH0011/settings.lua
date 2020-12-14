@@ -23,7 +23,7 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room)
-	setMusic('Commer/Rapanagatun.ogg') --InOurSleep.ogg')
+	setMusic('PercStudio/taamanoo.ogg')
 	VFX.clearAllGlobalEffects()
 end
 

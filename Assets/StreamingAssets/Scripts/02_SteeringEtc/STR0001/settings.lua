@@ -23,7 +23,7 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room)
-	setMusic('Commer/InOurSleep.ogg')
+	setMusic('MusicArchiveOrg/D_SMILEZ_-_07_-_Techno_Dance_Club.ogg')
 	VFX.clearAllGlobalEffects()
 end
 

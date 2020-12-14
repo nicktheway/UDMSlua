@@ -22,7 +22,7 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room) --Room:InstantiateCameraRig()
-	setMusic('Commer/Frankum.ogg')
+	setMusic('MusicArchiveOrg/Latch_Swing_-_03_-_Sweet_Georgia_Brown.ogg')
 	VFX.clearAllGlobalEffects()
 end
 

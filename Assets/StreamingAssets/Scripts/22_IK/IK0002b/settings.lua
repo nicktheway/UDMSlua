@@ -23,7 +23,7 @@ function setUp()
 	end
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room)
-	setMusic('Commer/ArvoPart_Spiegel_im_Spiegel.ogg')
+	setMusic('MusicArchiveOrg/Rakiya_-_04_-_Siki_Siki_Baba.ogg')
 	VFX.clearAllGlobalEffects()
 end
 

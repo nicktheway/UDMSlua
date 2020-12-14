@@ -22,7 +22,7 @@ function setUp()
 	group = RM.addGroup(Room,'models/main','NeoMan',Nagn,'dancers','group.lua')
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room) --Room:InstantiateCameraRig()
-	setMusic('Commer/InOurSleep.ogg')
+	setMusic('PercStudio/Silamalon.ogg')
 	VFX.clearAllGlobalEffects()
 end
 

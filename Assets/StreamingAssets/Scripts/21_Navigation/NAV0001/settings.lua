@@ -22,7 +22,7 @@ function setUp()
 	group = RM.addGroup(Room,'models/main','ybot',Nagn,'dancers','group.lua')
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room) --Room:InstantiateCameraRig()
-	setMusic('CommerMore/KarmaSalome.ogg')
+	setMusic('MusicArchiveOrg/Latch_Swing_-_01_-_Hungaria.ogg')
 	VFX.clearAllGlobalEffects()
 end
 

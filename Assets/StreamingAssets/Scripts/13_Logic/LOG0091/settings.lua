@@ -25,7 +25,7 @@ function setUp()
 	RM.runGroupScript(Room,'dancers')
 	RM.addCamera(Room) --Room:InstantiateCameraRig()
 	VFX.clearAllGlobalEffects()
-	setMusic('Commer/SoulMakossa.ogg')
+	setMusic('MusicArchiveOrg/Latch_Swing_-_03_-_Sweet_Georgia_Brown.ogg')
 end
 
 function update()
